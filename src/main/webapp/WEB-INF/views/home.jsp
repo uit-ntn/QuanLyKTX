@@ -7,6 +7,6 @@ pageEncoding="ISO-8859-1"%>
     <title>HomePage</title>
   </head>
   <body>
-    This is Home Page
+    @@
   </body>
 </html>
