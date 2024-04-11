@@ -18,14 +18,21 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // public User findByUsername(String username) {
-    // return userRepository.findByUsername(username); // Tìm user bằng username
-    // }
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username); // Tìm user bằng username
+    }
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email); // Tìm user bằng email
     }
 
+    public boolean authenticate(String email, String password) {
+        User user = findByEmail(email);
+        if (user != null && user.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
 
     // public User registerUser(String login, String userName, String email, String
     // password) {

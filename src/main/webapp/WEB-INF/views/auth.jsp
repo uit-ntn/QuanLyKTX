@@ -13,23 +13,6 @@ pageEncoding="ISO-8859-1"%>
     <title>Auth</title>
   </head>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    // $(document).ready(function () {
-    //   // Bắt sự kiện khi form submit
-    //   $("form").submit(function (event) {
-    //     // Ngăn chặn hành động mặc định của form
-    //     event.preventDefault();
-    //     alert("hello")
-    //     // // Kiểm tra xem các trường đã được điền đầy đủ hay chưa
-    //     // var username = $("#username").val();
-    //     // if (username == "") {
-    //     //   $("#username-error").text("Vui lòng nhập tên đăng nhập");
-    //     // } else {
-    //     //   $("#username-error").text("");
-    //     //   // Nếu tất cả các trường đã được điền đầy đủ, bạn có thể tiếp tục xử lý form ở đây
-    //     //   // Ví dụ: submit form, gọi API, vv.
-    //     // }
-    //   });
-    // });
     $(document).ready(function(){
         console.log("jQuery is working!");
     });
@@ -40,7 +23,6 @@ pageEncoding="ISO-8859-1"%>
         <div class="login__img">
           <!-- <img src="assets/img/img-login.svg" alt=""> -->
         </div>
-
         <div class="login__forms">
           <form
             method="POST"
@@ -166,6 +148,73 @@ pageEncoding="ISO-8859-1"%>
         </div>
       </div>
     </div>
+    <% if (request.getAttribute("emailExists") != null) { %>
+    <!-- Modal thông báo -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>This email Already exits, please login!</p>
+      </div>
+    </div>
+    <% } %> <% if (request.getAttribute("emailLoginExists") != null) { %>
+    <!-- Modal thông báo -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>This email is not exits, please create an account!</p>
+      </div>
+    </div>
+    <% } %>
+    <script>
+      // Lưu mã JavaScript để điều khiển modal ở đây
+
+      // Lấy modal
+      var modal = document.getElementById("myModal");
+
+      // Lấy nút đóng modal
+      var closeBtn = document.getElementsByClassName("close")[0];
+
+      // Khi người dùng click vào nút đóng modal, ẩn modal đi
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // Khi người dùng click bất kỳ đâu bên ngoài modal, ẩn modal đi
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      // // Hiển thị modal
+      modal.style.display = "block";
+      var emailExists = "${emailExists}";
+
+      // Kiểm tra emailExists, nếu là true thì hiển thị modal
+      if (emailExists === "true") {
+        modal.style.display = "block";
+      }
+
+      if (emailLoginExists === "true") {
+        modal.style.display = "block";
+      }
+
+      // JavaScript để đóng modal khi người dùng nhấn vào nút đóng
+      var modal = document.getElementById("myModal");
+      var span = document.getElementsByClassName("close")[0];
+
+      // Khi người dùng nhấn vào nút đóng, đóng modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // Khi người dùng nhấn vào bất kỳ đâu ngoài modal, đóng modal
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
   </body>
   <script>
     function validateForm() {
@@ -201,5 +250,45 @@ pageEncoding="ISO-8859-1"%>
       return isValid;
     }
   </script>
+
+  <style>
+    /* CSS cho modal */
+    .modal {
+      display: none; 
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgb(0, 0, 0); 
+      background-color: rgba(0, 0, 0, 0.4); 
+    }
+
+    /* CSS cho nội dung modal */
+    .modal-content {
+      background-color: #fefefe; 
+      margin: 15% auto; 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Chiều rộng của nội dung modal */
+    }
+
+    /* CSS cho nút đóng modal */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
   <script src="../../../resources/static/js/auth.js"></script>
 </html>

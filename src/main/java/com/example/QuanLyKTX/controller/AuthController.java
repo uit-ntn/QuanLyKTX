@@ -31,15 +31,14 @@ public class AuthController {
             @RequestParam("email") String email,
             @RequestParam("password") String password, Model model) {
         // Xử lý dữ liệu từ form ở đây (ví dụ: lưu vào cơ sở dữ liệu)
-        System.out.println("register request" + username + email + password);
+
         // User registeredUser = userService.registerUser("login",
         // username, email,
         // password);
-
         User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
-            model.addAttribute("errorMessage", "Email đã được đăng ký");
-            return "/error";
+            model.addAttribute("emailExists", true); // Thêm thuộc tính emailExists vào model
+            return "auth";
         }
 
         User user = new User();
@@ -55,9 +54,21 @@ public class AuthController {
     @PostMapping("/login")
     public String login(
             @RequestParam("email") String email,
-            @RequestParam("password") String password) {
+            @RequestParam("password") String password, Model model) {
         System.out.println("login request" + email + password);
-        return "/home";
+        User existingUser = userService.findByEmail(email);
+        if (existingUser == null) {
+            model.addAttribute("emailLoginExists", true); // Thêm thuộc tính emailExists vào model
+            return "auth";
+        } else {
+            if (userService.authenticate(email, password)) {
+                return "/home"; // Chuyển hướng sau khi đăng nhập thành công
+            } else {
+                model.addAttribute("error", "Invalid username or password"); // Thông báo lỗi nếu đăng nhập không thành
+                                                                             // công
+                return "login"; // Trả về lại trang đăng nhập
+            }
+        }
     }
 
     // @PostMapping("/login")
