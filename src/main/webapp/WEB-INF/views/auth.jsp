@@ -15,10 +15,6 @@ pageEncoding="ISO-8859-1"%>
   <body>
     <div class="login">
       <div class="login__content">
-        <div class="login__img">
-          <!-- <img src="assets/img/img-login.svg" alt=""> -->
-        </div>
-
         <div class="login__forms">
           <form
             method="POST"
