@@ -30,24 +30,18 @@ public class AuthController {
     public String signup(@RequestParam("username") String username,
             @RequestParam("email") String email,
             @RequestParam("password") String password, Model model) {
-        // Xử lý dữ liệu từ form ở đây (ví dụ: lưu vào cơ sở dữ liệu)
-
-        // User registeredUser = userService.registerUser("login",
-        // username, email,
-        // password);
         User existingUser = userService.findByEmail(email);
         if (existingUser != null) {
             model.addAttribute("emailExists", true); // Thêm thuộc tính emailExists vào model
             return "auth";
         }
-
         User user = new User();
-
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
         userService.save(user);
         // return registeredUser == null ? "error" : "redirect:/login";
+        model.addAttribute("createSuccess", true);
         return "/home"; // Chuyển hướng sau khi đăng ký thành công
     }
 
@@ -64,9 +58,9 @@ public class AuthController {
             if (userService.authenticate(email, password)) {
                 return "/home"; // Chuyển hướng sau khi đăng nhập thành công
             } else {
-                model.addAttribute("error", "Invalid username or password"); // Thông báo lỗi nếu đăng nhập không thành
-                                                                             // công
-                return "login"; // Trả về lại trang đăng nhập
+                model.addAttribute("invalidLogin", true); // Thông báo lỗi nếu đăng nhập không thành
+                // công
+                return "/auth"; // Trả về lại trang đăng nhập
             }
         }
     }
