@@ -19,5 +19,4 @@ public class QuanLyKyTucXaApplication{
 		SpringApplication.run(QuanLyKyTucXaApplication.class, args);
 		System.out.println("Hello Spring");
 	}
-
 }
