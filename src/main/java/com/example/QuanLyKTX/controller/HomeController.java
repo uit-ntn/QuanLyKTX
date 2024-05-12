@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     @GetMapping("/")
     public String home() {
-        return "home"; // Trả về tên của file JSP (không cần phần mở rộng .jsp)
+        return "index"; // Trả về tên của file JSP (không cần phần mở rộng .jsp)
     }
 }
