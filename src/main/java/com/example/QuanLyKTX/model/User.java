@@ -1,4 +1,4 @@
-package com.example.QuanLyKTX.model.entity;
+package com.example.QuanLyKTX.model;
 
 import jakarta.persistence.*;
 

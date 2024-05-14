@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.QuanLyKTX.model.entity.User;
+import com.example.QuanLyKTX.model.User;
 import com.example.QuanLyKTX.service.UserService;
 
 @Controller

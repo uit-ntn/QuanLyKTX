@@ -69,7 +69,7 @@ pageEncoding="ISO-8859-1"%>
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<span><img src="https://saigonhotel.com.vn/wp-content/uploads/2021/10/saigonhotel-logo.svg" alt="" style="width: 250px; margin-top: 30px;"></span>
+			<span><img src="../../../resources/static/img/logo.png" alt="" style="width: 40%; margin-top: 30px;"></span>
 			<!-- <span class="text">Resort Management</span> -->
 		</a>
 		<ul class="side-menu top">

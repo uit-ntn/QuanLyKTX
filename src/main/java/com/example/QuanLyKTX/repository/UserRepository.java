@@ -3,7 +3,7 @@ package com.example.QuanLyKTX.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.QuanLyKTX.model.entity.User;
+import com.example.QuanLyKTX.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
