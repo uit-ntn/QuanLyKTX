@@ -46,6 +46,7 @@ import com.example.QuanLyKTX.model.User;
 @RestController
 // @EntityScan("com.example.QuanLyKTX.model")
 // @ComponentScan(basePackages = {"com.example.QuanLyKTX.repository"})
+// @SpringBootApplication(scanBasePackages = "com.example.QuanLyKTX")
 public class QuanLyKyTucXaApplication{
 	public static void main(String[] args) {
 		SpringApplication.run(QuanLyKyTucXaApplication.class, args);
