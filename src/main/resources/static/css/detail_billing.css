@@ -1,0 +1,91 @@
+@font-face{
+    src: url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+    font-family: OpenSans;
+}
+body{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+header {
+    background-color: rgba(33,37,41,255);
+    color: #dee2e6;
+    padding: 20px;
+    text-align: center;
+}
+
+footer{
+    background-color: rgba(33,37,41,255);
+    padding: 20px;
+    text-align: center;
+    color: #dee2e6;
+}
+
+footer .footertext{
+    color: #dee2e6;
+    float: left;
+}
+
+#ftt{
+    color: white;
+}
+
+.navbar ul{
+    list-style-type: none;
+    background-color: rgb(54, 151, 236);
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.navbar a{
+    color: aliceblue;
+    text-decoration: none;
+    display: block;
+    padding: 15px;
+    text-align: center;
+}
+
+.navbar a:hover{
+    background-color: hsl(0, 1%, 68%);
+}
+
+.navbar li{
+    float: left;
+}
+
+section {
+    margin: 20px 0;
+}
+
+h2 {
+    color: #6c757d;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+table {
+    width: 25%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 3px solid black;
+    padding: 10px;
+    text-align: left;
+}
+
+#waytopay{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+}

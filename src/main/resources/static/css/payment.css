@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+body {
+  font-family: "OpenSans", sans-serif;
+}
+
+header {
+  background-color: rgba(33, 37, 41, 255);
+  color: #dee2e6;
+  padding: 20px;
+  text-align: center;
+}
+
+.navbar ul {
+  list-style-type: none;
+  background-color: rgb(54, 151, 236);
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+
+.navbar a {
+  color: aliceblue;
+  text-decoration: none;
+  display: block;
+  padding: 15px;
+  text-align: center;
+}
+
+.navbar a:hover {
+  background-color: hsl(0, 1%, 68%);
+}
+
+.navbar li {
+  float: left;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 3px solid black;
+  padding: 15px;
+  text-align: center;
+}
+.payment-header {
+  display: flex; /*flex box*/
+  justify-content: center
+}
+.payment-title-fix-img {
+  width: 80px;
+  height: 60px;
+  margin: 0 20px;
+}
+.payment-title-fix-img img {
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+footer {
+  background-color: rgba(33, 37, 41, 255);
+  padding: 20px;
+  text-align: center;
+  color: #dee2e6;
+}
+
+footer .footertext {
+  color: #dee2e6;
+  float: left;
+}
+
+#ftt {
+  color: white;
+}
