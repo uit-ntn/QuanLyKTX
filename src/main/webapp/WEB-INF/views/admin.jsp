@@ -14,6 +14,7 @@ pageEncoding="ISO-8859-1"%>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -23,6 +24,7 @@ pageEncoding="ISO-8859-1"%>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 	<script src="../../../assets/js/auth.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<!-- <script src="../../../resources/static/js/ad.js?version=51"></script> -->
 
 	<!-- End Of Boostrap  -->
 	<!-- Boxicons -->
@@ -79,10 +81,10 @@ pageEncoding="ISO-8859-1"%>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
-			<li class="menu-item" data-content="customer">
+			<li class="menu-item" data-content="student">
 				<a href="#">
 					<i class='bx bxs-user'></i>
-					<span class="text">Customer</span>
+					<span class="text">Student</span>
 				</a>
 			</li>
 			<li class="menu-item" data-content="room">
@@ -103,10 +105,10 @@ pageEncoding="ISO-8859-1"%>
 					<span class="text">Invoice</span>
 				</a>
 			</li>
-			<li class="menu-item" data-content="message">
+			<li class="menu-item" data-content="building">
 				<a href="#">
-					<i class='bx bxs-chat'></i>
-					<span class="text">Message</span>
+					<i class='bx bxs-buildings'></i>
+					<span class="text">Building</span>
 				</a>
 			</li>
 			<li class="menu-item" style="margin-top: 48px;" data-content="setting">
@@ -228,36 +230,37 @@ pageEncoding="ISO-8859-1"%>
 					</div>
 				</div>
 			</div>
-			<div id="customer" class="content-item">
+			<div id="student" class="content-item">
 				<div class="head-title">
 					<div class="left">
-						<h1>Customer Management</h1>
+						<h1>Student Management</h1>
 					</div>
-					<a href="#addCustomerModal" class="btn-download" data-toggle="modal">
+					<a href="#addStudentModal" class="btn-download" data-toggle="modal">
 						<i class="material-icons">&#xE147;</i>
-						<span>Add New Customer</span>
+						<span>Add New Student</span>
 					</a>
 				</div>
-				<div id=sort_customer_data>
+				<div id=sort_student_data>
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th><a class="column_sortcustomer" id="customerFirstName" data-order="desc" href="#">First Name<i class='bx bx-sort-alt-2'></i></a></th>
-								<th><a class="column_sortcustomer" id="customerLastName" data-order="desc" href="#">Last Name<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortstudent" id="customerFirstName" data-order="desc" href="#">Full Name<i class='bx bx-sort-alt-2'></i></a></th>
 								<th>Date of Birth</th>
 								<th>Email</th>
 								<th>Phone Number</th>
+								<th>Gender</th>
+								<th>School</th>
+								<th>MSSV</th>
+								<th>Room</th>
+								<th>Building</th>
 								<th>Address</th>
-								<th>Action</th>
 							</tr>
 						</thead>
-						<tbody id="customer_data">
+						<tbody id="student_data">
 							<!-- Data will be dynamically populated here -->
 						</tbody>
-
 					</table>
-					<p class="loading">Loading Data</p>
 				</div>
 			</div>
 			<div id="room" class="content-item">
@@ -275,9 +278,10 @@ pageEncoding="ISO-8859-1"%>
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th><a class="column_sortroom" id="roomName" data-order="desc" href="#">Room Name<i class='bx bx-sort-alt-2'></i></a></th>
-								<th><a class="column_sortroom" id="roomType" data-order="desc" href="#">Room Type<i class='bx bx-sort-alt-2'></i></a></th>
-								<th><a class="column_sortroom" id="roomRate" data-order="desc" href="#">Room Rate<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortroom" id="roomName" data-order="desc" href="#">Room Number<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortroom" id="roomType" data-order="desc" href="#">Capacity<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortroom" id="roomRate" data-order="desc" href="#">Floor<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortroom" id="roomRate" data-order="desc" href="#">Building<i class='bx bx-sort-alt-2'></i></a></th>
 								<th><a class="column_sortroom" id="roomStatus" data-order="desc" href="#">Room Status<i class='bx bx-sort-alt-2'></i></a></th>
 								<th>Action</th>
 							</tr>
@@ -298,16 +302,15 @@ pageEncoding="ISO-8859-1"%>
 					</a>
 				</div>
 				<div id="sort_booking_data">
-					<table class="table table-striped table-hover">
+					<table class="table table-striped table-hover" border="1" id="bookingTable">
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>First Name</th>
-								<th>Last Name</th>
+								<th>Fullname</th>
 								<th><a class="column_sortbooking" id="roomID" data-order="desc" href="#">Room ID<i class='bx bx-sort-alt-2'></i></a></th>
-								<th><a class="column_sortbooking" id="roomName" data-order="desc" href="#">Room Name<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="roomName" data-order="desc" href="#">Room Number<i class='bx bx-sort-alt-2'></i></a></th>
 								<th><a class="column_sortbooking" id="checkinDate" data-order="desc" href="#">Check In Date<i class='bx bx-sort-alt-2'></i></a></th>
-								<!-- <th><a class="column_sortbooking" id="checkOutDate" data-order="desc" href="#">Check Out Date<i class='bx bx-sort-alt-2'></i></a></th> -->
+								<th><a class="column_sortbooking" id="checkOutDate" data-order="desc" href="#">Check Out Date<i class='bx bx-sort-alt-2'></i></a></th>
 								<th><a class="column_sortbooking" id="paymentStatus" data-order="desc" href="#">Payment Status<i class='bx bx-sort-alt-2'></i></a></th>
 								<th>Action</th>
 							</tr>
@@ -336,9 +339,14 @@ pageEncoding="ISO-8859-1"%>
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th><a class="column_sortbooking" id="bookingID" data-order="desc" href="#">Booking ID<i class='bx bx-sort-alt-2'></i></a></th>
-								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Payment Date<i class='bx bx-sort-alt-2'></i></a></th>
-								<th><a class="column_sortbooking" id="ammount" data-order="desc" href="#">Ammount<i class='bx bx-sort-alt-2'></i></a></th>
+								
+								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Room ID<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Room<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Student<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Payment Status<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Issue Date<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Due Date<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortbooking" id="ammount" data-order="desc" href="#">Total Ammount<i class='bx bx-sort-alt-2'></i></a></th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -364,10 +372,10 @@ pageEncoding="ISO-8859-1"%>
                 </table> -->
 
 			</div>
-			<div id="message" class="content-item">
+			<div id="building" class="content-item">
 				<div class="head-title">
 					<div class="left">
-						<h1>Message Management</h1>
+						<h1>Building Management</h1>
 					</div>
 					<!-- <a href="#addBookingModal" class="btn-download" data-toggle="modal">
 						<i class="material-icons">&#xE147;</i>
@@ -379,14 +387,13 @@ pageEncoding="ISO-8859-1"%>
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>Sender</th>
-								<th>Subject</th>
-								<th>Content</th>
-								<th>Timestamp</th>
+								<th>Building Name</th>
+								<th>Building Type</th>
+								<th>Total Floors</th>
 								<th>Action</th>
 							</tr>
 						</thead>
-						<tbody id="message_data">
+						<tbody id="building_data">
 						</tbody>
 					</table>
 				</div>
@@ -593,7 +600,7 @@ pageEncoding="ISO-8859-1"%>
 	</section>
 	<!-- CONTENT -->
 	<!-- ADD Modal HTML -->
-	<div class="modal fade" id="addCustomerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal fade" id="addStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -1183,37 +1190,236 @@ pageEncoding="ISO-8859-1"%>
 	<!-- PRINT INVOICE MODAL END -->
 	<!-- HANDLE LISTDATA -->
 	<script>
-		var $j = jQuery.noConflict();
+		console.log("hello");
+		// var $j = jQuery.noConflict();
 
-		function fetchData(action, targetId) {
-			$j.get('../../models/Admin.php?action=' + action, function(data, status) {
-				$j(targetId).html(data);
-				$j('.loading').hide();
-			});
-		}
+		// function fetchData(action, targetId) {
+		// 	$j.get('../../models/Admin.php?action=' + action, function(data, status) {
+		// 		$j(targetId).html(data);
+		// 		$j('.loading').hide();
+		// 	});
+		// }
 
-		// Call the function for each data source
+		// // Call the function for each data source
 
-		fetchData('listcustomer', '#customer_data');
-		fetchData('listbooking', '#booking_data');
-		fetchData('listroom', '#room_data');
-		fetchData('listmessage', '#message_data');
-		fetchData('listinvoice', '#invoice_data');
+		// fetchData('listcustomer', '#customer_data');
+		// fetchData('listbooking', '#booking_data');
+		// fetchData('listroom', '#room_data');
+		// fetchData('listmessage', '#message_data');
+		// fetchData('listinvoice', '#invoice_data');
 
-		$j.get('../../models/Admin.php', {
-			action: 'dashboard'
-		}, function(data, status) {
-			var dashboardData = JSON.parse(data);
-			console.log(dashboardData);
+		// $j.get('../../models/Admin.php', {
+		// 	action: 'dashboard'
+		// }, function(data, status) {
+		// 	var dashboardData = JSON.parse(data);
+		// 	console.log(dashboardData);
 
-			$j('#db_revenue').text(dashboardData.TotalRevenue + " $");
-			$j('#db_booking').text(dashboardData.TotalBooking);
-			$j('#db_customer').text(dashboardData.TotalCustomer);
-			$j('#db_room').text(dashboardData.AvgRoom + " $");
-			$j('#db_meetingevn').text(dashboardData.AvgMeetingEvent + " $");
-			$j('#db_resandbar').text(dashboardData.AvgResBar + " $");
-			$j('#db_avgcustomer').text(dashboardData.AvgCustomer + " $");
-		})
+		// 	$j('#db_revenue').text(dashboardData.TotalRevenue + " $");
+		// 	$j('#db_booking').text(dashboardData.TotalBooking);
+		// 	$j('#db_customer').text(dashboardData.TotalCustomer);
+		// 	$j('#db_room').text(dashboardData.AvgRoom + " $");
+		// 	$j('#db_meetingevn').text(dashboardData.AvgMeetingEvent + " $");
+		// 	$j('#db_resandbar').text(dashboardData.AvgResBar + " $");
+		// 	$j('#db_avgcustomer').text(dashboardData.AvgCustomer + " $");
+		// })
+
+		$(document).ready(function () {
+            // Add event listeners for the sidebar menu
+            $("#sidebar .side-menu.top li a").on("click", function () {
+                $("#sidebar .side-menu.top li").removeClass("active");
+                $(this).parent().addClass("active");
+            });
+
+            // Toggle sidebar
+            $("#content nav .bx.bx-menu").on("click", function () {
+                $("#sidebar").toggleClass("hide");
+            });
+
+            const searchButton = $("#content nav form .form-input button");
+            const searchButtonIcon = $("#content nav form .form-input button .bx");
+            const searchForm = $("#content nav form");
+
+            searchButton.on("click", function (e) {
+                if (window.innerWidth < 576) {
+                    e.preventDefault();
+                    searchForm.toggleClass("show");
+                    if (searchForm.hasClass("show")) {
+                        searchButtonIcon.removeClass("bx-search").addClass("bx-x");
+                    } else {
+                        searchButtonIcon.removeClass("bx-x").addClass("bx-search");
+                    }
+                }
+            });
+
+            if (window.innerWidth < 768) {
+                $("#sidebar").addClass("hide");
+            } else if (window.innerWidth > 576) {
+                searchButtonIcon.removeClass("bx-x").addClass("bx-search");
+                searchForm.removeClass("show");
+            }
+
+            $(window).on("resize", function () {
+                if (this.innerWidth > 576) {
+                    searchButtonIcon.removeClass("bx-x").addClass("bx-search");
+                    searchForm.removeClass("show");
+                }
+            });
+
+            $("#switch-mode").on("change", function () {
+                if (this.checked) {
+                    $("body").addClass("dark");
+                } else {
+                    $("body").removeClass("dark");
+                }
+            });
+
+            $(".menu-item").on("click", function () {
+                const dataContent = $(this).attr("data-content");
+                $(".content-item").hide();
+                $("#" + dataContent).show();
+            });
+
+            $(".menu-item").on("click", function () {
+                $(".menu-item").removeClass("active");
+                $(".content-item").removeClass("active");
+
+                $(this).addClass("active");
+                $(".content-item").eq($(this).index()).addClass("active");
+            });
+
+            
+			// Load bookings data 
+            $.ajax({
+                type: "GET",
+                url: "/api/bookings",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#booking_data");
+                    $.each(data, function (index, booking) {
+                        var row = "<tr>";
+                        row += "<td>" + booking.bookingID + "</td>";
+                        row += "<td>" + booking.student.fullName + "</td>";
+                        row += "<td>" + booking.room.roomID + "</td>";
+                        row += "<td>" + booking.room.roomNumber + "</td>";
+                        row += "<td>" + new Date(booking.checkInDate).toLocaleDateString() + "</td>";
+                        row += "<td>" + new Date(booking.checkOutDate).toLocaleDateString() + "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+            
+			// Load students data 
+			$.ajax({
+                type: "GET",
+                url: "/api/students",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#student_data");
+                    $.each(data, function (index, student) {
+                        var row = "<tr>";
+                        row += "<td>" + student.studentID + "</td>";
+                        row += "<td>" + student.fullName + "</td>";
+                        row += "<td>" + new Date(student.dateOfBirth).toLocaleDateString() + "</td>";
+                        row += "<td>" + student.email + "</td>";
+                        row += "<td>" + student.phoneNumber + "</td>";
+                        row += "<td>" + student.gender + "</td>";
+                        row += "<td>" + student.school + "</td>";
+                        row += "<td>" + student.mssv + "</td>";
+                        row += "<td>" + student.room.roomNumber + "</td>";
+						row += "<td>" + student.room.building.buildingName + "</td>";
+						row += "<td>" + student.address + "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+            
+			// Load rooms data 
+			$.ajax({
+                type: "GET",
+                url: "/api/rooms",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#room_data");
+                    $.each(data, function (index, room) {
+                        var row = "<tr>";
+                        row += "<td>" + room.roomID + "</td>";
+                        row += "<td>" + room.roomNumber + "</td>";
+                        row += "<td>" + room.capacity + "</td>";
+                        row += "<td>" + room.floor + "</td>";
+                        row += "<td>" + room.building.buildingName + "</td>";
+                        row += "<td>" + room.status + "</td>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        
+			// Load invocies data 
+			$.ajax({
+                type: "GET",
+                url: "/api/invoices",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#invoice_data");
+                    $.each(data, function (index, invoice) {
+                        var row = "<tr>";
+                        row += "<td>" + invoice.invoiceID + "</td>";
+                        row += "<td>" + invoice.room.RoomID + "</td>";
+                        row += "<td>" + invoice.room.roomNumber + "</td>";
+                        row += "<td>" + invoice.student.fullName + "</td>";
+                        row += "<td>" + invoice.paymentStatus+ "</td>";
+                        row += "<td>" + new Date(invoice.dueDate).toLocaleDateString() + "</td>";
+                        row += "<td>" + new Date(invoice.issueDate).toLocaleDateString() + "</td>";
+                        row += "<td>" + invoice.totalAmount+ "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        
+			// Load building data
+			$.ajax({
+                type: "GET",
+                url: "/api/buildings",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#building_data");
+                    $.each(data, function (index, building) {
+                        var row = "<tr>";
+                        row += "<td>" + building.buildingID + "</td>";
+                        row += "<td>" + building.buildingName + "</td>";
+                        row += "<td>" + building.buildingType + "</td>";
+                        row += "<td>" + building.totalFloors + "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+		});
+
+		
+		
 	</script>
 	<!-- END HANDLE LISTDATA -->
 	<script>
@@ -1567,7 +1773,7 @@ pageEncoding="ISO-8859-1"%>
 				action: 'addCustomer'
 			}, function(data, status) {
 				// Handle the response from the server if needed
-				$jq('#addCustomerModal').hide();
+				$jq('#addStudentModal').hide();
 				$jq('.modal-backdrop').hide();
 				alertCustome("success", "The customer has been added successfully");
 				fetchData('listcustomer', '#customer_data');
@@ -1635,7 +1841,7 @@ pageEncoding="ISO-8859-1"%>
 			})
 		}
 		// Sorting
-		$jq(document).on('click', '.column_sortcustomer', function() {
+		$jq(document).on('click', '.column_sortstudent', function() {
 			var column_name = $jq(this).attr("id");
 			var order = $jq(this).data("order");
 			var parameters = "column_name=" + column_name + "&order=" + order;
@@ -1652,8 +1858,8 @@ pageEncoding="ISO-8859-1"%>
 			$jq.get('../../models/Admin.php?' + parameters, {
 				action: 'sortcustomer'
 			}, function(data, status) {
-				$jq('#sort_customer_data').html(data);
-				// $jq('.column_sortcustomer i').html(arrow);
+				$jq('#sort_studentata').html(data);
+				// $jq('.column_sortstudent i').html(arrow);
 			});
 		});
 		$jq(document).on('click', '.column_sortroom', function() {
@@ -1674,7 +1880,7 @@ pageEncoding="ISO-8859-1"%>
 				action: 'sortroom'
 			}, function(data, status) {
 				$jq('#sort_room_data').html(data);
-				// $jq('.column_sortcustomer i').html(arrow);
+				// $jq('.column_sortstudent i').html(arrow);
 			});
 		});
 		$jq(document).on('click', '.column_sortbooking', function() {
@@ -1695,7 +1901,7 @@ pageEncoding="ISO-8859-1"%>
 				action: 'sortbooking'
 			}, function(data, status) {
 				$jq('#sort_booking_data').html(data);
-				// $jq('.column_sortcustomer i').html(arrow);
+				// $jq('.column_sortstudent i').html(arrow);
 			});
 		});
 		$jq(document).on('click', '#searchBtn', function() {
@@ -1707,7 +1913,7 @@ pageEncoding="ISO-8859-1"%>
 				action: contentType
 			}, function(data, status) {
 				$jq('#' + contentType + '_data').html(data);
-				// $jq('.column_sortcustomer i').html(arrow);
+				// $jq('.column_sortstudent i').html(arrow);
 			});
 		});
 		// print 
@@ -1893,7 +2099,7 @@ pageEncoding="ISO-8859-1"%>
 			get_contacts();
 		}
 	</script>
+
 </body>
-<script src="../../../resources/static/js/ad.js?version=51"></script>
 
 </html>

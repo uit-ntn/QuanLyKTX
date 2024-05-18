@@ -1,8 +1,11 @@
 package com.example.QuanLyKTX.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.*;
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.service.BookingService;
@@ -40,6 +43,12 @@ public class BookingController {
         model.addAttribute("bookingsJson", json);
 
         return "booking"; // Trả về tên của file JSP hoặc HTML đại diện cho trang booking
+    }
+
+    @GetMapping(value = "/api/bookings", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
     }
 
 }
