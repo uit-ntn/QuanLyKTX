@@ -161,22 +161,6 @@
     justify-content: center;
   }
   /* SIDEBAR */
-  
-  /* #dashboard {
-    display: none;
-  }
-  
-  #dashboard.active {
-    display: none;
-  }
-  
-  #customer {
-    display: none;
-  }
-  
-  #customer.active {
-    display: block;
-  } */
   /* CONTENT */
   #content {
     position: relative;
@@ -522,7 +506,7 @@
   .btn-info,
   .btn-success,
   .btn-danger {
-    background-color: #93130a;
+    background-color: var(--blue);
     color: var(--grey);
     border: none;
   }

@@ -9,4 +9,5 @@ import com.example.QuanLyKTX.model.Invoice;
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     // JpaRepository đã cung cấp phương thức findAll(), không cần thêm gì ở đây
+    Long countByPaymentStatus(String status);
 }

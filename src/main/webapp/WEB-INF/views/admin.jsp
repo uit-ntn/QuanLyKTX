@@ -10,10 +10,7 @@ pageEncoding="ISO-8859-1"%>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
@@ -22,15 +19,13 @@ pageEncoding="ISO-8859-1"%>
 	<script src="https://unpkg.com/phosphor-icons"></script>
 	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-	<script src="../../../assets/js/auth.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 	<!-- <script src="../../../resources/static/js/ad.js?version=51"></script> -->
-
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<!-- End Of Boostrap  -->
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!--My custom css -->
-	<link rel="stylesheet" href="../../../assets/css/ad-customer.css">
     <link
       rel="stylesheet"
       type="text/css"
@@ -62,6 +57,18 @@ pageEncoding="ISO-8859-1"%>
 
 		.modal-lg {
 			max-width: 800px !important;
+		}
+
+		.error {
+			color: red;
+			font-size: 0.9em;
+			display: none; /* Hidden by default */
+		}
+		.payment-status-icon {
+			position: absolute;
+			width: 25%;
+			bottom: 0px;
+			right: 30px;
 		}
 	</style>
 </head>
@@ -147,7 +154,7 @@ pageEncoding="ISO-8859-1"%>
 				<span class="num">8</span>
 			</a>
 			<a href="#" class="profile">
-				<img src="../../../assets/img/user.jpg" alt="avatar">
+				<!-- <img src="../../../assets/img/user.jpg" alt="avatar"> -->
 			</a>
 		</nav>
 		<!-- NAVBAR -->
@@ -177,24 +184,24 @@ pageEncoding="ISO-8859-1"%>
 					<ul class="main__body__box-info">
 						<li>
 							<i class='bx bxs-wallet'></i>
-							<h5 id="db_revenue">$823</h5>
-							<p>Revenue</p>
+							<h5 id="db_invoice">$823</h5>
+							<p>Unpaid Invocie</p>
 						</li>
 						<li>
 							<i class='bx bxs-calendar-check'></i>
-							<h5 id="db_booking">23</h5>
+							<h5 id="db_booking"></h5>
 							<p>Booking</p>
 						</li>
 						<li>
 							<i class="ph-users-fill"></i>
-							<h5 id="db_customer">55</h5>
-							<p>Customers</p>
+							<h5 id="db_student"></h5>
+							<p>Students</p>
 						</li>
 					</ul>
 					<div class="main__body__data">
 						<div class="sales-summary">
 							<div class="sales-summary__top">
-								<h4>Revenue Summary</h4>
+								<h4>Chart</h4>
 								<div class="sales-summary__menu">
 									<i class="ph-dots-three-outline-vertical-fill"></i>
 									<ul class="menu">
@@ -207,24 +214,16 @@ pageEncoding="ISO-8859-1"%>
 									</ul>
 								</div>
 							</div>
-							<ul class="sales-summary__info">
-								<li>
-									<p>Avg. Room</p>
-									<h5 id="db_room">$76</h5>
-								</li>
-								<li>
-									<p>Avg.Meeting & Event </p>
-									<h5 id="db_meetingevn">$76</h5>
-								</li>
-								<li>
-									<p>Avg. Restaurant & Bar</p>
-									<h5 id="db_resandbar">$76</h5>
-								</li>
-								<li>
-									<p>Avg. Customer</p>
-									<h5 id="db_avgcustomer">$76</h5>
-								</li>
-							</ul>
+							<div class="sales-summary__info">
+								<div class="card">
+									<h3>Room status chart</h3>
+									<canvas id="roomStatusChart"></canvas>
+								</div>
+								<div class="card">
+									<h3>Booking count by month</h3>
+									<canvas id="bookingChart"></canvas>
+								</div>
+							</div>
 							<div id="chart"></div>
 						</div>
 					</div>
@@ -245,9 +244,8 @@ pageEncoding="ISO-8859-1"%>
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th><a class="column_sortstudent" id="customerFirstName" data-order="desc" href="#">Full Name<i class='bx bx-sort-alt-2'></i></a></th>
+								<th><a class="column_sortstudent" idata-order="desc" href="#">Full Name<i class='bx bx-sort-alt-2'></i></a></th>
 								<th>Date of Birth</th>
-								<th>Email</th>
 								<th>Phone Number</th>
 								<th>Gender</th>
 								<th>School</th>
@@ -323,23 +321,18 @@ pageEncoding="ISO-8859-1"%>
 			<div id="invoice" class="content-item">
 				<div class="head-title">
 					<div class="left">
-						<h1>Invoice</h1>
+						<h1>Invoice Management</h1>
 					</div>
 					<a href="#addInvoiceModal" class="btn-download" data-toggle="modal">
 						<i class='bx bxs-cloud-download'></i>
-						<span class="text">Print Invoice</span>
+						<span class="text">Create an Invoice</span>
 					</a>
-					<!-- <a href="#addEmployeeModal" class="btn-download" data-toggle="modal">
-						<i class="material-icons">&#xE147;</i>
-						<span>Add New Customer</span>
-					</a> -->
 				</div>
 				<div id="sort_invoice_data">
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
 								<th>ID</th>
-								
 								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Room ID<i class='bx bx-sort-alt-2'></i></a></th>
 								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Room<i class='bx bx-sort-alt-2'></i></a></th>
 								<th><a class="column_sortbooking" id="paymentDate" data-order="desc" href="#">Student<i class='bx bx-sort-alt-2'></i></a></th>
@@ -354,33 +347,16 @@ pageEncoding="ISO-8859-1"%>
 						</tbody>
 					</table>
 				</div>
-				<!-- <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-							<th>ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Date of Birth</th>
-							<th>Address</th>
-							<th>Email</th>
-							<th>Phone Number</th>
-							<th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="employee_data">
-                    </tbody>
-                </table> -->
-
 			</div>
 			<div id="building" class="content-item">
 				<div class="head-title">
 					<div class="left">
 						<h1>Building Management</h1>
 					</div>
-					<!-- <a href="#addBookingModal" class="btn-download" data-toggle="modal">
+					<a href="#addBuildingModal" class="btn-download" data-toggle="modal">
 						<i class="material-icons">&#xE147;</i>
-						<span>Add New Booking</span>
-					</a> -->
+						<span>Add New Building</span>
+					</a>
 				</div>
 				<div id="sort_message_data">
 					<table class="table table-striped table-hover">
@@ -442,7 +418,7 @@ pageEncoding="ISO-8859-1"%>
 								<div class="modal-body">
 									<div class="mb-3">
 										<label class="form-lable fw-bold">Submit Title</label>
-										<input name="side_title" type="text" id="side_title_inp" class="form-control shadow-none" require></input>
+										<input name="side_title" type="text" id="side_title_inp" class="form-control shadow-none" require/>
 									</div>
 									<div class="mb-3">
 										<label class="form-lable fw-bold">Content</label>
@@ -544,11 +520,11 @@ pageEncoding="ISO-8859-1"%>
 											<div class="col-md-6">
 												<div class="mb-3">
 													<label class="form-lable fw-bold">Address</label>
-													<input name="address" type="text" id="address_inp" class="form-control shadow-none" require></input>
+													<input name="address" type="text" id="address_inp" class="form-control shadow-none" require/>
 												</div>
 												<div class="mb-3">
 													<label class="form-lable fw-bold">Website Link</label>
-													<input name="website" type="text" id="website_inp" class="form-control shadow-none" require></input>
+													<input name="website" type="text" id="website_inp" class="form-control shadow-none" require/>
 												</div>
 												<div class="mb-3">
 													<label class="form-lable fw-bold">Phone Numbers (with contry code)</label>
@@ -563,7 +539,7 @@ pageEncoding="ISO-8859-1"%>
 												</div>
 												<div class="mb-3">
 													<label class="form-lable fw-bold">Email</label>
-													<input name="email" type="text" id="email_inp" class="form-control shadow-none" require></input>
+													<input name="email" type="text" id="email_inp" class="form-control shadow-none" require/>
 												</div>
 											</div>
 											<div class="col-md-6">
@@ -600,42 +576,64 @@ pageEncoding="ISO-8859-1"%>
 	</section>
 	<!-- CONTENT -->
 	<!-- ADD Modal HTML -->
-	<div class="modal fade" id="addStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div  id="addStudentModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Add Customer</h4>
+					<h4 class="modal-title">Add Student</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body add_customer">
-					<div class="form-group">
-						<label>First Name</label>
-						<input type="text" id="firstname_input" class="form-control" required>
+				<form id="addStudentForm">
+					<div class="modal-body add_student">
+						<div class="form-group">
+							<label>Full Name</label>
+							<input type="text" id="fullname_input" class="form-control" required>
+							<span class="error" id="fullNameError"></span>
+						</div>
+						<div class="form-group">
+							<label>Date of birth</label>
+							<input type="date" id="dob_input" class="form-control" required>
+							<span class="error" id="dobError"></span>
+						</div>
+						<div class="form-group">
+							<label>Gender</label>
+							<select id="gender_input" class="form-control" required>
+								<option>Male</option>
+								<option>Female</option>
+								<option>Orther</option>
+							</select>
+							<span class="error" id="genderError"></span>
+						</div>
+						<div class="form-group">
+							<label>Phone Number</label>
+							<input type="text" id="phone_input" class="form-control">
+							<span class="error" id="phoneNumberError"></span>
+						</div>
+						<div class="form-group">
+							<label>School</label>
+							<input type="text" id="school_input" class="form-control">
+							<span class="error" id="schoolError"></span>
+						</div>
+						<div class="form-group">
+							<label>MSSV</label>
+							<input type="text" id="mssv_input" class="form-control">
+							<span class="error" id="mssvError"></span>
+						</div>
+						<div class="form-group">
+							<label>Room</label>
+							<select id="room_select" name="room" class="form-control" required></select>
+							<span class="error" id="roomError"></span>
+						</div>
+						<div class="form-group">
+							<label>Address</label>
+							<textarea class="form-control" name="address" id="address_input" required></textarea>
+							<span class="error" id="addressError"></span>
+						</div>
 					</div>
-					<div class="form-group">
-						<label>Last Name</label>
-						<input type="text" id="lastname_input" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Date of Birth</label>
-						<input type="text" id="dob_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Email</label>
-						<input type="text" id="email_input" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Phone Number</label>
-						<input type="text" id="phone_input" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Address</label>
-						<textarea class="form-control" id="address_input" required></textarea>
-					</div>
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Add" onclick="addCustomer()">
+					<input type="submit" class="btn btn-success" value="Add" onclick="addStudent()">
 				</div>
 			</div>
 		</div>
@@ -647,24 +645,39 @@ pageEncoding="ISO-8859-1"%>
 					<h4 class="modal-title">Add Room</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body add_room">
-					<div class="form-group">
-						<label>Room Name</label>
-						<input type="text" id="roomname_input" class="form-control" required>
+				<form id="addRoomForm">
+					<div class="modal-body add_room">
+						<div class="form-group">
+							<label>Room Number</label>
+							<input type="text" id="roomnumber_input" class="form-control" required>
+							<span class="error" id="roomNumberError"></span>
+						</div>
+						<div class="form-group">
+							<label>Capacity</label>
+							<input type="number" id="capacity_input" class="form-control" required>
+							<span class="error" id="capacityError"></span>
+						</div>
+						<div class="form-group">
+							<label>Building</label>
+							<select id="building_select" name="building" class="form-control" required></select>
+							<span class="error" id="buildingError"></span>
+						</div>
+						<div class="form-group">
+							<label>Floor</label>
+							<input type="number" id="floor_input" min="1" class="form-control">
+							<span class="error" id="floorError"></span>
+						</div>
+						<div class="form-group">
+							<label>Room Status</label>
+							<select id="roomstatus_input" class="form-control" required>
+								<option>Avaliable</option>
+								<option>Booked</option>
+								<option>Reserved</option>
+							</select>
+							<span class="error" id="roomStatusError"></span>
+						</div>
 					</div>
-					<div class="form-group">
-						<label>Room Type</label>
-						<input type="text" id="roomtype_input" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Room Rate</label>
-						<input type="number" id="rate_input" min="10" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Room Status</label>
-						<input type="text" id="roomstatus_input" class="form-control" required>
-					</div>
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
 					<input type="submit" class="btn btn-success" value="Add" onclick="addRoom()">
@@ -679,106 +692,228 @@ pageEncoding="ISO-8859-1"%>
 					<h4 class="modal-title">Add Booking</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body add_booking">
-					<div class="form-group">
-						<label>Customer ID</label>
-						<input type="text" id="customerID_input" class="form-control">
+				<form id="addBookingForm">
+					<div class="modal-body add_booking">
+						<div class="form-group">
+							<label>Student ID</label>
+							<select id="studentId_select" name="room" class="form-control" required></select>
+							<span class="error" id="studentIdError"></span>
+						</div>
+						<div class="form-group">
+							<label>Student Name</label>
+							<select id="studentName_select" name="room" class="form-control" required></select>
+						</div>
+						<div class="form-group">
+							<label>Room ID</label>
+							<select id="roomId_select" name="room" class="form-control" required></select>
+							<span class="error" id="roomIdError"></span>
+						</div>
+						<div class="form-group">
+							<label>Check In Date</label>
+							<input type="date" id="checkin_input" class="form-control" required>
+							<span class="error" id="checkinError"></span>
+						</div>
+						<div class="form-group">
+							<label>Check Out Date</label>
+							<input type="date" id="checkout_input" class="form-control">
+							<span class="error" id="checkoutError"></span>
+						</div>
 					</div>
-					<div class="form-group">
-						<label>Room ID</label>
-						<input type="text" id="roomid_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Check In Date</label>
-						<input type="text" id="checkout_input" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Check Out Date</label>
-						<input type="text" id="checkin_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Payment Status</label>
-						<input type="text" id="paymentstatus_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Number of Guest</label>
-						<input type="text" id="guests_input" class="form-control">
-					</div>
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Add" onclick="addBooking()">
+					<input type="submit" class="btn btn-success" value="Discharge" onclick="addBooking()">
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id="sendModal" class="modal fade">
+	<div id="addBuildingModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Send message</h4>
+					<h4 class="modal-title">Add New Building</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body send_message">
-					<div class="form-group">
-						<label>Recipient</label>
-						<input type="text" id="sender_input" class="form-control" readonly>
+				<form id="addBuildingForm">
+					<div class="modal-body add_building">
+						<div class="form-group">
+							<label>Building Name</label>
+							<input type="text" id="buildingName_input" class="form-control">
+							<span class="error" id="buildingNameError"></span>
+						</div>
+						<div class="form-group">
+							<label>Building Type</label>
+							<input type="text" id="buildingType_input" class="form-control">
+							<span class="error" id="buildingTypeError"></span>
+						</div>
+						<div class="form-group">
+							<label>Total Floor</label>
+							<input type="number" id="totalFloor_input" class="form-control" required>
+							<span class="error" id="totalFloorError"></span>
+						</div>
 					</div>
-					<div class="form-group">
-						<label>Subject</label>
-						<input type="text" id="subject_input" class="form-control" require>
-					</div>
-					<div class="form-group">
-						<label>Content</label>
-						<textarea class="form-control" id="content_input" require></textarea>
-					</div>
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-success" value="Send" onclick="sendMessage()">
+					<input type="submit" class="btn btn-success" value="Add" onclick="addBuilding()">
 				</div>
 			</div>
 		</div>
 	</div>
+	<div id="addInvoiceModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Create an Invoice</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<form id="addInvoiceForm">
+					<div class="modal-body add_invoice">
+						<div class="form-group">
+							<label>Student ID</label>
+							<select id="studentId_select" name="room" class="form-control" required></select>
+							<span class="error" id="studentIdError"></span>
+						</div>
+						<div class="form-group">
+							<label>Student Name</label>
+							<select id="studentName_select" name="room" class="form-control" required></select>
+						</div>
+						<div class="form-group">
+							<label>Room ID</label>
+							<select id="roomId_select" name="room" class="form-control" required></select>
+							<span class="error" id="roomIdError"></span>
+						</div>
+						<div class="form-group">
+							<label>Dute Date</label>
+							<input type="date" id="dueDate_input" class="form-control" required>
+							<span class="error" id="dueDateError"></span>
+						</div>
+						<div class="form-group">
+							<label>Issue Date</label>
+							<input type="date" id="issueDate_input" class="form-control" required>
+							<span class="error" id="issueDateError"></span>
+						</div>
+						<div class="form-group">
+							<label>Electricity Usage</label>
+							<input type="number" id="eUsage_input" class="form-control">
+							<span class="error" id="eUsageError"></span>
+						</div>
+						<div class="form-group">
+							<label>Electricity Cost</label>
+							<input type="text" id="eCost_input" class="form-control" readonly/>
+						</div>
+						<div class="form-group">
+							<label>Water Usage (Unit price 21,300 VND/m3)</label>
+							<input type="text" id="wUsage_input" class="form-control"/>
+							<span class="error" id="wUsageError"></span>
+						</div>
+						<div class="form-group">
+							<label>Water Cost</label>
+							<input type="text" id="wCost_input" class="form-control" readonly/>
+						</div>
+						<div class="form-group">
+							<label>Junk Cost</label>
+							<input type="text" id="junkCost_input" class="form-control">
+							<span class="error" id="junkCostError"></span>
+						</div>
+						<div class="form-group">
+							<label>Room Cost</label>
+							<input type="text" id="roomCost_input" class="form-control">
+							<span class="error" id="roomCostError"></span>
+						</div>
+						<div class="form-group">
+							<label>Total Amount</label>
+							<input type="text" id="totalAmount_input" class="form-control" readonly/>
+						</div>
+						<div class="form-group">
+							<label>Paid Amount</label>
+							<input type="text" id="paidAmount_input" class="form-control">
+							<span class="error" id="paidAmountError"></span>
+						</div>
+						<div class="form-group">
+							<label>Remaining Amount</label>
+							<input type="text" id="remainingAmount_input" class="form-control" readonly/>
+						</div>
+						<div class="form-group">
+							<label>Payment Status</label>
+							<select id="paymentStatus_input" class="form-control" required>
+								<option>Unpaid</option>
+								<option>Paid</option>
+							</select>
+							<span class="error" id="paymentStatusError"></span>
+						</div>
+					</div>
+				</form>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-success" value="Add" onclick="addInvoice()">
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- End Add modal -->
 	<!-- Edit Modal HTML -->
-	<div id="editCustomerModal" class="modal fade">
+	<div id="editStudentModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Edit Customer</h4>
+					<h4 class="modal-title">Edit Student</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body edit_employee">
-					<div class="form-group">
-						<label>First Name</label>
-						<input type="text" id="firstname_input" class="form-control">
+				<form id="editStudentForm">
+					<div class="modal-body edit_student">
+						<div class="form-group">
+							<label>Full Name</label>
+							<input type="text" id="fullname_input" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Date of birth</label>
+							<input type="date" id="dob_input" class="form-control" required>
+							<span class="error" id="dobError"></span>
+						</div>
+						<div class="form-group">
+							<label>Gender</label>
+							<select id="gender_input" class="form-control" required>
+								<option>Male</option>
+								<option>Female</option>
+								<option>Orther</option>
+							</select>
+							<span class="error" id="genderError"></span>
+						</div>
+						<div class="form-group">
+							<label>Phone Number</label>
+							<input type="text" id="phone_input" class="form-control">
+							<span class="error" id="phoneNumberError"></span>
+						</div>
+						<div class="form-group">
+							<label>School</label>
+							<input type="text" id="school_input" class="form-control">
+							<span class="error" id="schoolError"></span>
+						</div>
+						<div class="form-group">
+							<label>MSSV</label>
+							<input type="text" id="mssv_input" class="form-control">
+							<span class="error" id="mssvError"></span>
+						</div>
+						<div class="form-group">
+							<label>Room</label>
+							<select id="room_select" name="room" class="form-control" required>
+							</select>
+							<span class="error" id="roomError"></span>
+						</div>
+						<div class="form-group">
+							<label>Address</label>
+							<textarea class="form-control" name="address" id="address_input" required></textarea>
+							<span class="error" id="addressError"></span>
+						</div>
+						<input type="hidden" id="student_id">
 					</div>
-					<div class="form-group">
-						<label>Last Name</label>
-						<input type="text" id="lastname_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Date of Birth</label>
-						<input type="text" id="dob_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Email</label>
-						<input type="email" id="email_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Phone Number</label>
-						<input type="text" id="phone_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Address</label>
-						<textarea class="form-control" id="address_input"></textarea>
-					</div>
-					<input type="hidden" id="customer_id">
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-info" onclick="editCustomer()" value="Save">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Delete" onclick="showDeleteStudentModal()">
+					<input type="submit" class="btn btn-info" onclick="editStudent()" value="Save">
 				</div>
 			</div>
 		</div>
@@ -790,27 +925,38 @@ pageEncoding="ISO-8859-1"%>
 					<h4 class="modal-title">Edit Room</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body edit_employee">
-					<div class="form-group">
-						<label>Room Name</label>
-						<input type="text" id="roomname_input" class="form-control">
+				<form id="editRoomForm">
+					<div class="modal-body edit_room">
+						<div class="form-group">
+							<label>Room Number</label>
+							<input type="text" id="roomnumber_input" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Capacity</label>
+							<input type="number" id="capacity_input" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Building</label>
+							<select id="building_select" name="building" class="form-control" required></select>
+						</div>
+						<div class="form-group">
+							<label>Floor</label>
+							<input type="number" id="floor_input" min="1" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Room Status</label>
+							<select id="roomstatus_input" class="form-control" required>
+								<option>Available</option>
+								<option>Booked</option>
+								<option>Reserved</option>
+							</select>
+						</div>
+						<input type="hidden" id="room_id">
 					</div>
-					<div class="form-group">
-						<label>Room Type</label>
-						<input type="text" id="roomtype_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Room Rate</label>
-						<input type="number" id="rate_input" min="10" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Room Status</label>
-						<input type="text" id="roomstatus_input" class="form-control">
-					</div>
-					<input type="hidden" id="room_id">
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Delete" onclick="showDeleteRoomModal()">
 					<input type="submit" class="btn btn-info" onclick="editRoom()" value="Save">
 				</div>
 			</div>
@@ -823,216 +969,79 @@ pageEncoding="ISO-8859-1"%>
 					<h4 class="modal-title">Edit Booking</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
-				<div class="modal-body edit_employee">
-					<div class="form-group">
-						<label>First Name</label>
-						<input type="text" id="firstname_input" class="form-control" readonly>
+				<form id="editBookingForm">
+					<div class="modal-body edit_booking">
+						<div class="form-group">
+							<label>Student ID</label>
+							<select id="studentId_select" name="room" class="form-control" required></select>
+						</div>
+						<div class="form-group">
+							<label>Student Name</label>
+							<select id="studentName_select" name="room" class="form-control" required></select>
+						</div>
+						<div class="form-group">
+							<label>Room ID</label>
+							<select id="roomId_select" name="room" class="form-control" required></select>
+						</div>
+						<div class="form-group">
+							<label>Check In Date</label>
+							<input type="date" id="checkin_input" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Check Out Date</label>
+							<input type="date" id="checkout_input" class="form-control">
+						</div>
+						<input type="hidden" id="booking_id">
 					</div>
-					<div class="form-group">
-						<label>Last Name</label>
-						<input type="text" id="lastname_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Room ID</label>
-						<input type="text" id="roomid_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Check In Date</label>
-						<input type="date" id="checkin_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Check Out Date</label>
-						<input type="date" id="checkout_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Payment Status</label>
-						<input type="text" id="paymentstatus_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Number of Guest</label>
-						<input type="text" id="guests_input" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Room Status</label>
-						<select id="roomsta_input" class="form-control">
-							<option value="Reserved">Reserved</option>
-							<option value="Occupied">Occupied</option>
-							<option value="Available">Available</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Total Amount</label>
-						<input type="text" id="total_input" class="form-control" readonly>
-					</div>
-					<input type="hidden" id="booking_id">
-				</div>
+				</form>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Delete" onclick="showDeleteBookingodal()">
 					<input type="submit" class="btn btn-info" onclick="editBooking()" value="Save">
 				</div>
 			</div>
 		</div>
 	</div>
+	<div id="editBuildingModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Edit Buidling</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<form id="editBuildingForm">
+					<div class="modal-body edit_building">
+						<div class="form-group">
+							<label>Building Name</label>
+							<input type="text" id="buildingName_input" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Building Type</label>
+							<input type="text" id="buildingType_input" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Total Floor</label>
+							<input type="number" id="totalFloor_input" class="form-control" required>
+						</div>
+						<input type="hidden" id="building_id">
+					</div>
+				</form>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Delete" onclick="showDeleteBuildingModal()">
+					<input type="submit" class="btn btn-info" onclick="editBuilding()" value="Save">
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- End Edit Modal -->
-	<!-- View Modal HTML -->
-	<div id="viewCustomerModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">View Employee</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body view_employee">
-					<div class="form-group">
-						<label>First Name</label>
-						<input type="text" id="firstname_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Last Name</label>
-						<input type="text" id="lastname_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Date of Birth</label>
-						<input type="text" id="dob_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Email</label>
-						<input type="email" id="email_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Phone Number</label>
-						<input type="text" id="phone_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Address</label>
-						<textarea class="form-control" id="address_input" readonly></textarea>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="viewRoomModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">View Room</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body view_employee">
-					<div class="form-group">
-						<label>Room Name</label>
-						<input type="text" id="roomname_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Room Type</label>
-						<input type="text" id="roomtype_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Room Rate</label>
-						<input type="number" id="rate_input" min="10" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Room Status</label>
-						<input type="email" id="roomstatus_input" class="form-control" readonly>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="viewMessageModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">View Message</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body view_message">
-					<div class="form-group">
-						<label>Timestamp</label>
-						<input type="text" id="timestamp_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Sender</label>
-						<input type="text" id="sender_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Subject</label>
-						<input type="text" id="subject_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Content</label>
-						<textarea class="form-control" id="content_input" readonly></textarea>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="viewBookingModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">View Booking</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body view_employee">
-					<div class="form-group">
-						<label>First Name</label>
-						<input type="text" id="firstname_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Last Name</label>
-						<input type="text" id="lastname_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Room ID</label>
-						<input type="text" id="roomid_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Check In Date</label>
-						<input type="date" id="checkin_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Check Out Date</label>
-						<input type="date" id="checkout_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Payment Status</label>
-						<input type="text" id="paymentstatus_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Number of Guest</label>
-						<input type="text" id="guests_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Total Amount</label>
-						<input type="text" id="total_input" class="form-control" readonly>
-					</div>
-					<div class="form-group">
-						<label>Message</label>
-						<textarea class="form-control" id="message_input" readonly></textarea>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- Delete Modal HTML -->
-	<div id="deleteCustomerModal" class="modal">
+	<div id="deleteStudentModal" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Delete Customer</h4>
+					<h4 class="modal-title">Delete Student</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -1042,7 +1051,7 @@ pageEncoding="ISO-8859-1"%>
 				<input type="hidden" id="delete_id">
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-danger" onclick="deleteCustomer()" value="Delete">
+					<input type="submit" class="btn btn-danger" onclick="deleteStudent()" value="Delete">
 				</div>
 			</div>
 		</div>
@@ -1085,11 +1094,11 @@ pageEncoding="ISO-8859-1"%>
 			</div>
 		</div>
 	</div>
-	<div id="deleteMessageModal" class="modal fade">
+	<div id="deleteBuildingModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Delete Message</h4>
+					<h4 class="modal-title">Delete Building</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -1099,20 +1108,18 @@ pageEncoding="ISO-8859-1"%>
 				<input type="hidden" id="delete_id">
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-danger" onclick="deleteMessage()" value="Delete">
+					<input type="submit" class="btn btn-danger" onclick="deleteBuilding()" value="Delete">
 				</div>
 			</div>
 		</div>
 	</div>
-	<?php
-	require('./inc/scripts.php');
-	?>
 	<!-- PRINT INVOICE MODAL HTML -->
 	<div id="viewInvoiceModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h2>Invoice</h2>
+					<br>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -1120,32 +1127,33 @@ pageEncoding="ISO-8859-1"%>
 						<div class="col-xs-12">
 							<div class="invoice-title">
 								<h3 class="pull-right" id="id_order"></h3>
+								<strong>InvoiceID</strong> - <strong id="invoice_id"></strong>
 							</div>
 							<hr>
 							<div class="row">
 								<div class="col-xs-6">
 									<address>
 										<strong>Bill From:</strong><br>
-										SaiGon Hotel<br>
-										41-47 Dong Du Street<br>
-										District 1<br>
-										Ho Chi Minh City, Viet Nam
+										Dormitory of National University HCMC <br>
+										Dong Hoa Ward <br>
+										Di An District<br>
+										Binh Duong Province<br>
 									</address>
 								</div>
 								<div class="col-xs-6 text-right">
 									<address>
-										<strong>Billed From:</strong><br>
-										<span id="cus_name"></span><br>
-										<span id="cus_address"></span>
+										<strong>Room Infor:</strong><br>
+										Room Number - <span id="room_number"></span><br>
+										Room ID - <span id="room_id"></span><br>
 									</address>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-xs-6 text-right">
 									<address>
-										<strong>Order Date:</strong><br>
-										<span id="time_export"><?php $t = time();
-																echo (date("Y-m-d", $t)); ?></span><br><br>
+										<strong>Date:</strong><br>
+										Due Date - <span id="due_date"></span><br><br>
+										Issue Date - <span id="issue_date"></span><br><br>
 									</address>
 								</div>
 							</div>
@@ -1156,23 +1164,23 @@ pageEncoding="ISO-8859-1"%>
 						<div class="col-md-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h3 class="panel-title"><strong>Order summary</strong></h3>
+									<h3 class="panel-title"><strong>Invoice details</strong></h3>
 								</div>
 								<div class="panel-body">
 									<div class="table-responsive">
 										<table class="table table-condensed">
 											<thead>
 												<tr>
-													<td><strong>Item</strong></td>
-													<td class="text-center"><strong>Price</strong></td>
-													<td class="text-center"><strong>Quantity</strong></td>
-													<td class="text-right"><strong>Totals</strong></td>
+													<td><strong>Category</strong></td>
+													<td class="text-center"><strong>Usage</strong></td>
+													<td class="text-right"><strong>Cost</strong></td>
 												</tr>
 											</thead>
 											<tbody id="bill_data">
 
 											</tbody>
 										</table>
+										<span id="payment_status" ><img class="payment-status-icon" alt=""></span>
 									</div>
 								</div>
 							</div>
@@ -1191,38 +1199,148 @@ pageEncoding="ISO-8859-1"%>
 	<!-- HANDLE LISTDATA -->
 	<script>
 		console.log("hello");
-		// var $j = jQuery.noConflict();
+		
+		// READ
+		function loadStudentData() {
+			$.ajax({
+                type: "GET",
+                url: "/api/students",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#student_data");
+                    tbody.empty();
+                    $.each(data, function (index, student) {
+                        var row = "<tr data-id='" + student.studentID + "'>";
+                        row += "<td>" + student.studentID + "</td>";
+                        row += "<td>" + student.fullName + "</td>";
+                        row += "<td>" + new Date(student.dateOfBirth).toLocaleDateString() + "</td>";
+                        row += "<td>" + student.phoneNumber + "</td>";
+                        row += "<td>" + student.gender + "</td>";
+                        row += "<td>" + student.school + "</td>";
+                        row += "<td>" + student.mssv + "</td>";
+                        row += "<td>" + student.room.roomNumber + "</td>";
+						row += "<td>" + student.room.building.buildingName + "</td>";
+						row += "<td>" + student.address + "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+		}
+		
+		function loadBookingData() {
+			$.ajax({
+                type: "GET",
+                url: "/api/bookings",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#booking_data");
+                    tbody.empty();
+                    $.each(data, function (index, booking) {
+                        var row = "<tr data-id='" + booking.bookingID + "'>";
+                        row += "<td>" + booking.bookingID + "</td>";
+                        row += "<td>" + booking.student.fullName + "</td>";
+                        row += "<td>" + booking.room.roomID + "</td>";
+                        row += "<td>" + booking.room.roomNumber + "</td>";
+                        row += "<td>" + new Date(booking.checkInDate).toLocaleDateString() + "</td>";
+                        row += "<td>" + new Date(booking.checkOutDate).toLocaleDateString() + "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+		}
+		
+		function loadRoomData() {
+			$.ajax({
+                type: "GET",
+                url: "/api/rooms",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#room_data");
+                    tbody.empty();
+                    $.each(data, function (index, room) {
+						var row = "<tr data-id='" + room.roomID + "'>";
+                        row += "<td>" + room.roomID + "</td>";
+                        row += "<td>" + room.roomNumber + "</td>";
+                        row += "<td>" + room.capacity + "</td>";
+                        row += "<td>" + room.floor + "</td>";
+                        row += "<td>" + room.building.buildingName + "</td>";
+                        row += "<td>" + room.status + "</td>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        
+		}
 
-		// function fetchData(action, targetId) {
-		// 	$j.get('../../models/Admin.php?action=' + action, function(data, status) {
-		// 		$j(targetId).html(data);
-		// 		$j('.loading').hide();
-		// 	});
-		// }
-
-		// // Call the function for each data source
-
-		// fetchData('listcustomer', '#customer_data');
-		// fetchData('listbooking', '#booking_data');
-		// fetchData('listroom', '#room_data');
-		// fetchData('listmessage', '#message_data');
-		// fetchData('listinvoice', '#invoice_data');
-
-		// $j.get('../../models/Admin.php', {
-		// 	action: 'dashboard'
-		// }, function(data, status) {
-		// 	var dashboardData = JSON.parse(data);
-		// 	console.log(dashboardData);
-
-		// 	$j('#db_revenue').text(dashboardData.TotalRevenue + " $");
-		// 	$j('#db_booking').text(dashboardData.TotalBooking);
-		// 	$j('#db_customer').text(dashboardData.TotalCustomer);
-		// 	$j('#db_room').text(dashboardData.AvgRoom + " $");
-		// 	$j('#db_meetingevn').text(dashboardData.AvgMeetingEvent + " $");
-		// 	$j('#db_resandbar').text(dashboardData.AvgResBar + " $");
-		// 	$j('#db_avgcustomer').text(dashboardData.AvgCustomer + " $");
-		// })
-
+		function loadInvoiceData() {
+			$.ajax({
+                type: "GET",
+                url: "/api/invoices",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#invoice_data");
+                    tbody.empty();
+                    $.each(data, function (index, invoice) {
+						var row = "<tr data-id='" + invoice.invoiceID + "'>";
+                        row += "<td>" + invoice.invoiceID + "</td>";
+                        row += "<td>" + invoice.room.roomID + "</td>";
+                        row += "<td>" + invoice.room.roomNumber + "</td>";
+                        row += "<td>" + invoice.student.fullName + "</td>";
+                        row += "<td>" + invoice.paymentStatus+ "</td>";
+                        row += "<td>" + new Date(invoice.dueDate).toLocaleDateString() + "</td>";
+                        row += "<td>" + new Date(invoice.issueDate).toLocaleDateString() + "</td>";
+                        row += "<td>" + invoice.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })+ "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+		}
+		
+		function loadBuildingData() {
+			$.ajax({
+                type: "GET",
+                url: "/api/buildings",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var tbody = $("#building_data");
+					tbody.empty();
+                    $.each(data, function (index, building) {
+						var row = "<tr data-id='" + building.buildingID + "'>";
+                        row += "<td>" + building.buildingID + "</td>";
+                        row += "<td>" + building.buildingName + "</td>";
+                        row += "<td>" + building.buildingType + "</td>";
+                        row += "<td>" + building.totalFloors + "</td>";
+                        row += "</tr>";
+                        tbody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+		
+		}
+		
 		$(document).ready(function () {
             // Add event listeners for the sidebar menu
             $("#sidebar .side-menu.top li a").on("click", function () {
@@ -1286,637 +1404,1199 @@ pageEncoding="ISO-8859-1"%>
                 $(this).addClass("active");
                 $(".content-item").eq($(this).index()).addClass("active");
             });
-
-            
 			// Load bookings data 
-            $.ajax({
-                type: "GET",
-                url: "/api/bookings",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var tbody = $("#booking_data");
-                    $.each(data, function (index, booking) {
-                        var row = "<tr>";
-                        row += "<td>" + booking.bookingID + "</td>";
-                        row += "<td>" + booking.student.fullName + "</td>";
-                        row += "<td>" + booking.room.roomID + "</td>";
-                        row += "<td>" + booking.room.roomNumber + "</td>";
-                        row += "<td>" + new Date(booking.checkInDate).toLocaleDateString() + "</td>";
-                        row += "<td>" + new Date(booking.checkOutDate).toLocaleDateString() + "</td>";
-                        row += "</tr>";
-                        tbody.append(row);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+            loadBookingData();
             
 			// Load students data 
-			$.ajax({
-                type: "GET",
-                url: "/api/students",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var tbody = $("#student_data");
-                    $.each(data, function (index, student) {
-                        var row = "<tr>";
-                        row += "<td>" + student.studentID + "</td>";
-                        row += "<td>" + student.fullName + "</td>";
-                        row += "<td>" + new Date(student.dateOfBirth).toLocaleDateString() + "</td>";
-                        row += "<td>" + student.email + "</td>";
-                        row += "<td>" + student.phoneNumber + "</td>";
-                        row += "<td>" + student.gender + "</td>";
-                        row += "<td>" + student.school + "</td>";
-                        row += "<td>" + student.mssv + "</td>";
-                        row += "<td>" + student.room.roomNumber + "</td>";
-						row += "<td>" + student.room.building.buildingName + "</td>";
-						row += "<td>" + student.address + "</td>";
-                        row += "</tr>";
-                        tbody.append(row);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-            
+            loadStudentData();
+
 			// Load rooms data 
-			$.ajax({
-                type: "GET",
-                url: "/api/rooms",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var tbody = $("#room_data");
-                    $.each(data, function (index, room) {
-                        var row = "<tr>";
-                        row += "<td>" + room.roomID + "</td>";
-                        row += "<td>" + room.roomNumber + "</td>";
-                        row += "<td>" + room.capacity + "</td>";
-                        row += "<td>" + room.floor + "</td>";
-                        row += "<td>" + room.building.buildingName + "</td>";
-                        row += "<td>" + room.status + "</td>";
-                        tbody.append(row);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        
-			// Load invocies data 
-			$.ajax({
-                type: "GET",
-                url: "/api/invoices",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var tbody = $("#invoice_data");
-                    $.each(data, function (index, invoice) {
-                        var row = "<tr>";
-                        row += "<td>" + invoice.invoiceID + "</td>";
-                        row += "<td>" + invoice.room.RoomID + "</td>";
-                        row += "<td>" + invoice.room.roomNumber + "</td>";
-                        row += "<td>" + invoice.student.fullName + "</td>";
-                        row += "<td>" + invoice.paymentStatus+ "</td>";
-                        row += "<td>" + new Date(invoice.dueDate).toLocaleDateString() + "</td>";
-                        row += "<td>" + new Date(invoice.issueDate).toLocaleDateString() + "</td>";
-                        row += "<td>" + invoice.totalAmount+ "</td>";
-                        row += "</tr>";
-                        tbody.append(row);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        
+			loadRoomData();
+
+			// Load invoices data 
+			loadInvoiceData();
+
 			// Load building data
+			loadBuildingData();
+
+			// Get totals students
 			$.ajax({
                 type: "GET",
-                url: "/api/buildings",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var tbody = $("#building_data");
-                    $.each(data, function (index, building) {
-                        var row = "<tr>";
-                        row += "<td>" + building.buildingID + "</td>";
-                        row += "<td>" + building.buildingName + "</td>";
-                        row += "<td>" + building.buildingType + "</td>";
-                        row += "<td>" + building.totalFloors + "</td>";
-                        row += "</tr>";
-                        tbody.append(row);
-                    });
+                url: "/api/students/count",
+                success: function(data) {
+                    $('#db_student').text(data);
                 },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
+                error: function(error) {
+                    console.error("Error fetching the total number of students", error);
                 }
             });
+			
+			//Get totals bookings
+			$.ajax({
+                type: "GET",
+                url: "/api/bookings/count",
+                success: function(data) {
+                    $('#db_booking').text(data);
+                },
+                error: function(error) {
+                    console.error("Error fetching the total number of students", error);
+                }
+            });
+			
+			//Room status Pie chart 
+			$.ajax({
+                type: "GET",
+                url: "/api/rooms/status-count",
+                success: function(data) {
+                    const ctx = document.getElementById('roomStatusChart').getContext('2d');
+                    const roomStatusChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Available', 'Booked', 'Reserved'],
+                            datasets: [{
+                                label: 'Tình trạng phòng',
+                                data: [data['Available'], data['Booked'], data['Reserved']],
+                                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += context.raw;
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.error("Error fetching room status count", error);
+                }
+            });
+
+			//Bookings count by month Bar chart 
+			$.ajax({
+                type: "GET",
+                url: "/api/bookings/bookings-per-month",
+                success: function(data) {
+                    var labels = data.map(function(item) { return item.month; });
+                    var counts = data.map(function(item) { return item.count; });
+
+                    const ctx = document.getElementById('bookingChart').getContext('2d');
+                    const bookingChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Booking count by month',
+                                data: counts,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.error("Error fetching booking data per month", error);
+                }
+            });
+
+			// Unpaid Invoice 
+			$.ajax({
+                type: "GET",
+                url: "/api/invoices/unpaid-count",
+                success: function(data) {
+                    $('#db_invoice').text(data);
+                },
+                error: function(error) {
+                    console.error("Error fetching unpaid invoice count", error);
+                }
+            });
+        
+			//Load combobox room
+			$.ajax({
+				type: "GET",
+				url: "/api/rooms", // API endpoint to get room list
+				dataType: "json",
+				success: function (data) {
+					var roomSelect = $(".add_student #room_select");
+					roomSelect.empty(); // Clear previous options
+					$.each(data, function (index, room) {
+					var option = $("<option></option>")
+						.attr("value", room.roomID)
+						.text(room.roomNumber);
+						roomSelect.append(option);
+					});
+
+					var roomIdSelect = $(".add_booking #roomId_select");
+					roomIdSelect.empty(); // Clear previous options
+					$.each(data, function (index, room) {
+					var option = $("<option></option>")
+						.attr("value", room.roomID)
+						.text(room.roomID);
+						roomIdSelect.append(option);
+					});
+
+					var roomIdSelect = $(".add_invoice #roomId_select");
+					roomIdSelect.empty(); // Clear previous options
+					$.each(data, function (index, room) {
+					var option = $("<option></option>")
+						.attr("value", room.roomID)
+						.text(room.roomID);
+						roomIdSelect.append(option);
+					});
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+
+			//Load combobox building
+			$.ajax({
+				type: "GET",
+				url: "/api/buildings", // API endpoint to get building list
+				dataType: "json",
+				success: function (data) {
+					var buildingSelect = $(".add_room #building_select");
+					buildingSelect.empty(); // Clear previous options
+					$.each(data, function (index, building) {
+					var option = $("<option></option>")
+						.attr("value", building.buildingID)
+						.text(building.buildingName);
+						buildingSelect.append(option);
+					});
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		
+			//Load combobox student not in booking
+			$.ajax({
+				type: "GET",
+				url: "/api/students/not-in-booking", // API endpoint to get room list
+				dataType: "json",
+				success: function (data) {
+				console.log(data);
+					var studentIdSelect = $(".add_booking #studentId_select");
+					studentIdSelect.empty(); // Clear previous options
+					$.each(data, function (index, student) {
+					var option = $("<option></option>")
+						.attr("value", student.studentID)
+						.text(student.studentID);
+						studentIdSelect.append(option);
+					});
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});			
+		
+			//Load combobox student
+			$.ajax({
+				type: "GET",
+				url: "/api/students",
+				dataType: "json",
+				success: function (data) {
+				console.log(data);
+					var studentIdSelect = $(".add_invoice #studentId_select");
+					studentIdSelect.empty(); // Clear previous options
+					$.each(data, function (index, student) {
+					var option = $("<option></option>")
+						.attr("value", student.studentID)
+						.text(student.studentID);
+						studentIdSelect.append(option);
+					});
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});			
+		});
+		
+		$(".add_booking #studentId_select").on('change', function() {
+			var selectedStudentId = $(this).val();
+			console.log("Onchange goin");
+			if (selectedStudentId) {
+				// Perform AJAX request to get student information
+				$.ajax({
+					type: "GET",
+					url: "/api/students/" + selectedStudentId,
+					dataType: "json",
+					success: function(student) {
+						console.log("student");
+						console.log(student);
+						var studentNameSelect = $("#studentName_select");
+						studentNameSelect.empty(); 
+						var option = $("<option></option>")
+							.attr("value", student.studentID)
+							.text(student.fullName);
+						studentNameSelect.append(option);
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr.responseText);
+					}
+				});
+			} else {
+				// Clear studentName_select if no ID is selected
+				// $("#studentName_select").empty();
+			}
 		});
 
-		
-		
-	</script>
-	<!-- END HANDLE LISTDATA -->
-	<script>
-		var $jq = jQuery.noConflict();
+		$(".edit_booking #studentId_select").on('change', function() {
+			var selectedStudentId = $(this).val();
+			if (selectedStudentId) {
+				// Perform AJAX request to get student information
+				$.ajax({
+					type: "GET",
+					url: "/api/students/" + selectedStudentId,
+					dataType: "json",
+					success: function(student) {
+						var studentNameSelect = $(".edit_booking #studentName_select");
+						studentNameSelect.empty(); 
+						var option = $("<option></option>")
+							.attr("value", student.studentID)
+							.text(student.fullName);
+						studentNameSelect.append(option);
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr.responseText);
+					}
+				});
+			} else {
+				// Clear studentName_select if no ID is selected
+				$("#studentName_select").empty();
+			}
+		});
 
-		function alertCustome(type, msg) {
-			let bs_class = (type == 'success') ? 'alert-success' : 'alert-danger';
-			let element = document.createElement('div');
-			element.innerHTML = `
-                <div class="alert ${bs_class}  alert-dismissible fade show custom-alert" style="width:27%" role="alert">
-                    <strong> ${msg}</strong> 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            `;
-			document.body.append(element);
+		$(".add_invoice #studentId_select").on('change', function() {
+			var selectedStudentId = $(this).val();
+			if (selectedStudentId) {
+				// Perform AJAX request to get student information
+				$.ajax({
+					type: "GET",
+					url: "/api/students/" + selectedStudentId,
+					dataType: "json",
+					success: function(student) {
+						var studentNameSelect = $(".add_invoice #studentName_select");
+						studentNameSelect.empty(); 
+						var option = $("<option></option>")
+							.attr("value", student.studentID)
+							.text(student.fullName);
+						studentNameSelect.append(option);
+					},
+					error: function(xhr, status, error) {
+						console.error(xhr.responseText);
+					}
+				});
+			} else {
+				// Clear studentName_select if no ID is selected
+				$("#studentName_select").empty();
+			}
+		});
+		
+		function timestampToDate(timestamp) {
+			// Tạo một đối tượng Date từ timestamp
+			var date = new Date(timestamp);
+			// Lấy ngày, tháng và năm từ đối tượng Date
+			var day = date.getDate();
+			var month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
+			var year = date.getFullYear();
+			// Định dạng lại chuỗi ngày tháng năm
+			var formattedDate = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+			return formattedDate;
+		}
+		
+		$('#eUsage_input').on('input', function() {
+			var kWh = $(this).val();
+			var price;
+			if (isNaN(kWh) || kWh < 0) {
+				price = 0;
+			} else if (kWh <= 50) {
+				price = kWh * 1728;
+			} else if (kWh <= 100) {
+				price = 50 * 1728 + (kWh - 50) * 1786;
+			} else if (kWh <= 200) {
+				price = 50 * 1728 + 50 * 1786 + (kWh - 100) * 2074;
+			} else if (kWh <= 300) {
+				price = 50 * 1728 + 50 * 1786 + 100 * 2074 + (kWh - 200) * 2612;
+			} else {
+				price = 50 * 1728 + 50 * 1786 + 100 * 2074 + 100 * 2612 + (kWh - 300) * 2612;
+			}
+			// $('#eCost_input').val(price);  // Set the raw price value
+       		// $('#eCost_input').attr('data-raw', price); 
+			$('#eCost_input').val(price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+        	$('#eCost_input').attr('data-raw', price); // Store raw price value
+			calculateTotalAmount();
+    	});
+
+		// Calculate Water Cost
+		$('#wUsage_input').on('input', function() {
+			var m3 = $(this).val();
+			var cost;
+			if (isNaN(m3) || m3 < 0) {
+				cost = 0;
+			} else {
+				cost = m3 * 21300;
+			}
+			$('#wCost_input').val(cost.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+        	$('#wCost_input').attr('data-raw', cost); // Store raw cost value
+			calculateTotalAmount();
+		});
+
+		// Calculate Total Amount
+		function calculateTotalAmount() {
+			var eCost = parseFloat($('#eCost_input').attr('data-raw')) || 0;
+			var wCost = parseFloat($('#wCost_input').attr('data-raw')) || 0;
+			var junkCost = parseFloat($('#junkCost_input').val()) || 0;
+			var roomCost = parseFloat($('#roomCost_input').val()) || 0;
+			var total = eCost + wCost + junkCost + roomCost;
+			$('#totalAmount_input').val(total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));  // Set the raw total value
+        	$('#totalAmount_input').attr('data-raw', total);  
+		}
+
+		// Recalculate total amount when junkCost or roomCost inputs change
+		$('#junkCost_input, #roomCost_input').on('input', function() {
+			calculateTotalAmount();
+		});
+
+		// Recalculate total amount when junkCost or roomCost inputs change
+		$('#paidAmount_input').on('input', function() {
+			var totalAmount = parseFloat($('#totalAmount_input').attr("data-raw")) || 0;
+			var paidAmount = parseFloat($('#paidAmount_input').val()) || 0;
+			var remainingAmount = totalAmount - paidAmount;
+			$('#remainingAmount_input').val(remainingAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));  // Set the raw total value
+        	$('#remainingAmount_input').attr('data-raw', remainingAmount);  
+		});
+
+		// Onclick table row to load add modal 
+		$('#student_data').on('click', 'tr', function () {
+            var studentId = $(this).attr('data-id'); // Lấy studentID từ thuộc tính data-id của hàng
+			$.ajax({
+				type: 'GET',
+				url: '/api/students/' + studentId,
+				success: function (student) {
+					$("#editStudentModal").modal("show");
+					var roomSelect = $(".edit_student #room_select");
+            		roomSelect.empty(); // Clear previous options
+					var currentRoomOption = $("<option></option>")
+						.attr("value", student.room.roomID)
+						.text(student.room.roomNumber)
+						.attr("selected", "selected");
+					roomSelect.append(currentRoomOption);
+					$.ajax({
+						type: "GET",
+						url: "/api/rooms", // API endpoint to get room list
+						dataType: "json",
+						success: function (data) {
+							var currentRoomID = student.room.roomID;
+							$.each(data, function(index, room) {
+								if (room.roomID !== currentRoomID) {
+									var option = $("<option></option>")
+										.attr("value", room.roomID)
+										.text(room.roomNumber);
+									roomSelect.append(option);
+								}
+							});
+						},
+						error: function (xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});	
+					var dateOfBirth = timestampToDate(student.dateOfBirth);
+					$('.edit_student #fullname_input').val(student.fullName);
+					$('.edit_student #dob_input').val(dateOfBirth)
+					$(".edit_student #gender_input").val(student.gender);
+					$('.edit_student #phone_input').val(student.phoneNumber);
+					$('.edit_student #address_input').val(student.address);
+					$('.edit_student #school_input').val(student.school);
+					$('.edit_student #mssv_input').val(student.mssv);
+					$('.edit_student #student_id').val(student.studentID);
+					$("#editStudentModal").modal("show");
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					alert('Error loading student data.');
+				}
+			});
+        });
+		
+		$('#room_data').on('click', 'tr', function () {
+			var roomId = $(this).attr('data-id');
+			$.ajax({
+				type: 'GET',
+				url: '/api/rooms/' + roomId,
+				success: function (room) {
+					$('.edit_room #roomnumber_input').val(room.roomNumber);
+					$('.edit_room #capacity_input').val(room.capacity);
+					var buildingSelect = $(".edit_room #building_select");
+					$('.edit_room #roomstatus_input').val(room.status);
+            		buildingSelect.empty(); // Clear previous options
+					var currentBuildingOption = $("<option></option>")
+						.attr("value", room.building.buildingID)
+						.text(room.building.buildingName)
+						.attr("selected", "selected");
+					buildingSelect.append(currentBuildingOption);
+					$.ajax({
+						type: "GET",
+						url: "/api/buildings",
+						dataType: "json",
+						success: function (data) {
+							var currentBuildingID = room.building.buildingID;
+							$.each(data, function(index, building) {
+								if (building.buildingID !== currentBuildingID) {
+									var option = $("<option></option>")
+										.attr("value", building.buildingID)
+										.text(building.buildingName);
+									buildingSelect.append(option);
+								}
+							});
+						},
+						error: function (xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});	
+					$('.edit_room #floor_input').val(room.floor);
+					$('.edit_room #room_id').val(room.roomID);
+					$("#editRoomModal").modal("show");
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					alert('Error loading building data.');
+				}
+			});
+        });
+		
+		$('#booking_data').on('click', 'tr', function () {
+            var bookingId = $(this).attr('data-id'); // Lấy bookingID từ thuộc tính data-id của hàng
+			$.ajax({
+				type: 'GET',
+				url: '/api/bookings/' + bookingId,
+				success: function (booking) {
+					$("#editBookingModal").modal("show");
+					var studentIdSelect = $(".edit_booking #studentId_select");
+            		studentIdSelect.empty(); // Clear previous options
+					var currentStudentIdOption = $("<option></option>")
+						.attr("value", booking.student.studentID)
+						.text(booking.student.studentID)
+						.attr("selected", "selected");
+					studentIdSelect.append(currentStudentIdOption);	
+					$.ajax({
+						type: "GET",
+						url: "/api/students/not-in-booking",
+						dataType: "json",
+						success: function (data) {
+							var currentStudentID = booking.student.studentID;
+							console.log("currentStudentID");
+							console.log(currentStudentID);
+							$.each(data, function(index, student) {
+								if (student.studentID !== currentStudentID) {
+									var option = $("<option></option>")
+										.text(student.studentID);
+									studentIdSelect.append(option);
+								}
+							});	
+						},
+						error: function (xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});
+					var roomIdSelect = $(".edit_booking #roomId_select");
+            		roomIdSelect.empty(); // Clear previous options
+					var currentRoomIdOption = $("<option></option>")
+						.attr("value", booking.room.roomID)
+						.text(booking.room.roomID)
+						.attr("selected", "selected");
+						roomIdSelect.append(currentRoomIdOption);
+					$.ajax({
+						type: "GET",
+						url: "/api/rooms",
+						dataType: "json",
+						success: function (data) {
+							var currentRoomID = booking.room.roomID;
+							$.each(data, function(index, room) {
+								if (room.roomID !== currentRoomID) {
+									var option = $("<option></option>")
+										.attr("value", room.roomID)
+										.text(room.roomID);
+									roomIdSelect.append(option);
+								}
+							});
+						},
+						error: function (xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});
+					
+					$.ajax({
+						type: "GET",
+						url: "/api/students/" + booking.student.studentID,
+						dataType: "json",
+						success: function(student) {
+							var studentNameSelect = $(".edit_booking #studentName_select");
+							studentNameSelect.empty(); 
+							var option = $("<option></option>")
+								.attr("value", student.studentID)
+								.text(student.fullName);
+							studentNameSelect.append(option);
+						},
+						error: function(xhr, status, error) {
+							console.error(xhr.responseText);
+						}
+					});
+					
+					var checkInDate = timestampToDate(booking.checkInDate);
+					var checkOutDate = timestampToDate(booking.checkOutDate);
+					$('.edit_booking #checkin_input').val(checkInDate)
+					$('.edit_booking #checkout_input').val(checkOutDate)
+					$('.edit_booking #booking_id').val(booking.bookingID)
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					alert('Error loading booking data.');
+				}
+			});
+        });
+		
+		$('#invoice_data').on('click', 'tr', function () {
+            var invoiceID = $(this).attr('data-id'); // Lấy studentID từ thuộc tính data-id của hàng
+			$("#viewInvoiceModal").modal("show");
+			$.ajax({
+				type: 'GET',
+				url: '/api/invoices/' + invoiceID,
+				success: function (invoice) {
+					$('#viewInvoiceModal #invoice_id').text(invoiceID);
+					$('#viewInvoiceModal #room_number').text(invoice.room.roomNumber);
+					$('#viewInvoiceModal #room_id').text(invoice.room.roomID);
+					$('#viewInvoiceModal #due_date').text(new Date(invoice.dueDate).toLocaleDateString());
+					$('#viewInvoiceModal #issue_date').text(new Date(invoice.issueDate).toLocaleDateString());
+					var tbody = $("#bill_data");
+                    tbody.empty();
+					var rowRoom = "<tr>";
+					rowRoom += "<td>" + "Room" + "</td>";
+					rowRoom += "<td>"  + "</td>";
+					rowRoom += "<td>" + invoice.roomCost.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "/month" + "</td>";
+					rowRoom += "</tr>";
+					tbody.append(rowRoom);
+					var rowElectricity = "<tr data-id='" + invoice.invoiceID + "'>";
+					rowElectricity += "<td>" + "Electricity" + "</td>";
+					rowElectricity += "<td>" + invoice.electricityUsage + " kWh" + "</td>";
+					rowElectricity += "<td>" + invoice.electricityCost.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "</td>";
+					rowElectricity += "</tr>";
+					tbody.append(rowElectricity);
+					var rowWater = "<tr data-id='" + invoice.invoiceID + "'>";
+					rowWater += "<td>" + "Water" + "</td>";
+					rowWater += "<td>" + invoice.waterUsage + " m3" + "</td>";
+					rowWater += "<td>" + invoice.waterCost.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "</td>";
+					rowWater += "</tr>";
+					tbody.append(rowWater);
+					var rowJunkCost = "<tr>";
+					rowJunkCost += "<td>" + "Junk" + "</td>";
+					rowJunkCost += "<td>"  + "</td>";
+					rowJunkCost += "<td>" + invoice.junkCost.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "</td>";
+					rowJunkCost += "</tr>";
+					tbody.append(rowJunkCost);
+					var rowTotal = "<tr>";
+					rowTotal += "<td><strong>" + "Total" + "</strong</td>";
+					rowTotal += "<td>"  + "</td>";
+					rowTotal += "<td>" + invoice.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "</td>";
+					rowTotal += "</tr>";
+					tbody.append(rowTotal);
+					var rowPaidAmount = "<tr>";
+					rowPaidAmount += "<td><strong>" + "Paid" + "</strong</td>";
+					rowPaidAmount += "<td>"  + "</td>";
+					rowPaidAmount += "<td>" + invoice.paidAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "</td>";
+					rowPaidAmount += "</tr>";
+					tbody.append(rowPaidAmount);
+					var rowRemainingAmount = "<tr>";
+					rowRemainingAmount += "<td><strong>" + "Remaining" + "</strong</td>";
+					rowRemainingAmount += "<td>"  + "</td>";
+					rowRemainingAmount += "<td>" + invoice.remainingAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) + "</td>";
+					rowRemainingAmount += "</tr>";
+					tbody.append(rowRemainingAmount);
+					var unpaidSrc = '../../../resources/static/img/unpaid-icon.jpg'; // Thay đổi thành đường dẫn của hình ảnh mới
+					var paidSrc = '../../../resources/static/img/paid-stamp-icon.png'; // Thay đổi thành đường dẫn của hình ảnh mới
+					if(invoice.paymentStatus === 'Paid') {
+						$('.payment-status-icon').attr('src', paidSrc);
+					} else {
+						$('.payment-status-icon').attr('src', unpaidSrc);
+					}
+
+	
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					alert('Error loading student data.');
+				}
+			});
+        });
+		
+		$('#building_data').on('click', 'tr', function () {
+            var buildingId = $(this).attr('data-id'); // Lấy buildingId từ thuộc tính data-id của hàng
+			$.ajax({
+				type: 'GET',
+				url: '/api/buildings/' + buildingId,
+				success: function (building) {
+					$('.edit_building #buildingName_input').val(building.buildingName);
+					$('.edit_building #buildingType_input').val(building.buildingType);
+					$('.edit_building #totalFloor_input').val(building.totalFloors);
+					$('.edit_building #building_id').val(building.buildingID);
+					$("#editBuildingModal").modal("show");
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					alert('Error loading student data.');
+				}
+			});
+        });
+		
+		function alertCustome(msg) {
+			let element = $(`
+				<div class="alert alert-success alert-dismissible fade show custom-alert" style="width:27%" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<strong></strong> 
+				</div>
+			`);
+			element.find('strong').text(msg);
+
+			// Thêm thẻ div vào body
+			$('body').append(element);
+		
 			setTimeout(() => {
-				document.body.removeChild(element);
+				element.alert('close');
 			}, 2000);
 		}
 
-		function viewCustomer(id) {
-			$jq('.edit_employee #customer_id').val(id);
+		// CREATE
+		function addStudent() {	
+			$(".error").hide();
+			var isValid = true;
+			if ($("#fullname_input").val().trim() === "") {
+				$("#fullNameError").text("Full is required").show();
+				isValid = false;
+			}
 
-			$jq.get('../../models/Admin.php', {
-				action: 'viewCustomer',
-				idcustomer: id
-			}, function(data, status) {
-				// Parse the JSON data received from the server
-				var customerData = JSON.parse(data);
-				// Update modal content with customer data
-				$jq('.edit_employee #firstname_input').val(customerData.CustomerFirstName);
-				$jq('.edit_employee #lastname_input').val(customerData.CustomerLastName);
-				$jq('.edit_employee #dob_input').val(customerData.CustomerDob);
-				$jq('.edit_employee #email_input').val(customerData.CustomerEmail);
-				$jq('.edit_employee #phone_input').val(customerData.CustomerPhoneNumber);
-				$jq('.edit_employee #address_input').val(customerData.CustomerAddress);
-				$jq('.view_employee #firstname_input').val(customerData.CustomerFirstName);
-				$jq('.view_employee #lastname_input').val(customerData.CustomerLastName);
-				$jq('.view_employee #dob_input').val(customerData.CustomerDob);
-				$jq('.view_employee #email_input').val(customerData.CustomerEmail);
-				$jq('.view_employee #phone_input').val(customerData.CustomerPhoneNumber);
-				$jq('.view_employee #address_input').val(customerData.CustomerAddress);
+			if ($("#dob_input").val().trim() === "") {
+				$("#dobError").text("Date of birth is required").show();
+				isValid = false;
+			}
 
-			});
+			if ($("#gender_input").val().trim() === "") {
+				$("#genderError").text("Gender is required").show();
+				isValid = false;
+			}
+
+			if ($("#phone_input").val().trim() === "") {
+				$("#phoneNumberError").text("Phone is required").show();
+				isValid = false;
+			}
+
+			if ($("#room_select").val().trim() === null) {
+				$("#roomError").text("Room is required").show();
+				isValid = false;
+			}
+			if ($("#school_input").val() === "") {
+				$("#schoolError").text("School is required").show();
+				isValid = false;
+			}
+			if ($("#mssv_input").val() === "") {
+				$("#mssvError").text("MSSV is required").show();
+				isValid = false;
+			}
+			if ($("#address_input").val() === "") {
+				$("#addressError").text("Address is required").show();
+				isValid = false;
+			}
+			if(isValid) {
+				var dateOfBirth = $('.add_student #dob_input').val();
+				var timestamp = new Date(dateOfBirth).getTime(); 
+				var formData = {
+					fullName: $('.add_student #fullname_input').val(),
+					dateOfBirth: timestamp,
+					gender: $('.add_student #gender_input').val(),
+					phoneNumber:$('.add_student #phone_input').val(),
+					room: {
+						roomID: $(".add_student #room_select").val().trim(),
+					},
+					address:$('.add_student #address_input').val(),
+					school:$('.add_student #school_input').val(),
+					mssv:$('.add_student #mssv_input').val(),
+				};
+				$.ajax({
+					type: "POST",
+					url: "/api/students", // API endpoint to add student
+					contentType: "application/json",
+					data: JSON.stringify(formData),
+					success: function (response) {
+						$('.modal-backdrop').hide();
+						$('#addStudentModal').hide();
+						alertCustome("Student added successfully!");
+						$("#addStudentForm")[0].reset(); 
+						loadStudentData();
+					},
+					error: function (xhr, status, error) {
+						console.error(xhr.responseText);
+						alert("An error occurred while adding the student.");
+					}
+				});
+			}
 		}
 
-		function viewRoom(id) {
-			$jq('.edit_employee #room_id').val(id);
+		function addRoom() {	
+			$(".error").hide();
+			var isValid = true;
+			if ($("#roomnumber_input").val().trim() === "") {
+				$("#roomNumberError").text("Room number is required").show();
+				isValid = false;
+			}
 
-			$jq.get('../../models/Admin.php', {
-				action: 'viewRoom',
-				idroom: id
-			}, function(data, status) {
-				// Parse the JSON data received from the server
-				var roomData = JSON.parse(data);
+			if ($("#capacity_input").val().trim() === "") {
+				$("#capacityError").text("Capacity is required").show();
+				isValid = false;
+			}
 
-				// Update modal content with room data
-				$jq('.edit_employee #roomname_input').val(roomData.RoomName);
-				$jq('.edit_employee #roomtype_input').val(roomData.RoomType);
-				$jq('.edit_employee #rate_input').val(roomData.RoomRate);
-				$jq('.edit_employee #roomstatus_input').val(roomData.RoomStatus);
-				$jq('.view_employee #roomname_input').val(roomData.RoomName);
-				$jq('.view_employee #roomtype_input').val(roomData.RoomType);
-				$jq('.view_employee #rate_input').val(roomData.RoomRate);
-				$jq('.view_employee #roomstatus_input').val(roomData.RoomStatus);
-			});
+			if ($("#building_select").val().trim() === null) {
+				$("#buildingError").text("Buidling is required").show();
+				isValid = false;
+			}
+
+			if ($("#floor_input").val().trim() === "") {
+				$("#floorError").text("Floor is required").show();
+				isValid = false;
+			}
+
+			if ($("#roomstatus_input").val().trim() === null) {
+				$("#roomStatusError").text("Room status is required").show();
+				isValid = false;
+			}
+			
+			if(isValid) {
+				var formData = {
+					roomNumber: $('.add_room #roomnumber_input').val(),
+					capacity: $('.add_room #capacity_input').val(),
+					building: {
+						buildingID: $(".add_room #building_select").val().trim(),
+					},
+					floor: $('.add_room #floor_input').val(),
+					roomStatus:$('.add_room #roomstatus_input').val(),
+				};
+				console.log(formData);
+				$.ajax({
+					type: "POST",
+					url: "/api/rooms", // API endpoint to add room
+					contentType: "application/json",
+					data: JSON.stringify(formData),
+					success: function (response) {
+						$('.modal-backdrop').hide();
+						$('#addRoomModal').hide();
+						alertCustome("Room added successfully!");
+						$("#addRoomForm")[0].reset(); 
+						loadRoomData();
+					},
+					error: function (xhr, status, error) {
+						console.error(xhr.responseText);
+						alert("An error occurred while adding the room.");
+					}
+				});
+			}
 		}
 
-		function viewMessage(id) {
+		function addBooking() {	
+			$(".error").hide();
+			var isValid = true;
 
-			$jq.get('../../models/Admin.php', {
-				action: 'viewMessage',
-				idmessage: id
-			}, function(data, status) {
-				// Parse the JSON data received from the server
-				var messageData = JSON.parse(data);
+			if ($("#checkout_input").val().trim() === "") {
+				$("#checkoutError").text("Checkout date is required").show();
+				isValid = false;
+			}
 
-				// Update modal content with message data
-				$jq('.view_message #timestamp_input').val(messageData.Timestamp);
-				$jq('.view_message #sender_input').val(messageData.Sender);
-				$jq('.view_message #subject_input').val(messageData.Subject);
-				$jq('.view_message #content_input').val(messageData.Content);
-				$jq('.send_message #sender_input').val(messageData.Sender);
-
-			});
+			if ($("#checkin_input").val().trim() === "") {
+				$("#checkinError").text("Checkin date is required").show();
+				isValid = false;
+			}
+			
+			if(isValid) {
+				var checkInDate = $('.add_booking #checkin_input').val();
+				var checkOutDate = $('.add_booking #checkout_input').val();
+				var timestampCheckin = new Date(checkInDate).getTime(); 
+				var timestampCheckout = new Date(checkOutDate).getTime(); 
+				var formData = {
+					checkInDate: timestampCheckin,
+					checkOutDate: timestampCheckout,
+					student: {
+						studentID: $(".add_booking #studentId_select").val().trim(),
+					},
+					room: {
+						roomID: $(".add_booking #roomId_select").val().trim(),
+					},
+				};
+				console.log(formData);
+				$.ajax({
+					type: "POST",
+					url: "/api/bookings",
+					contentType: "application/json",
+					data: JSON.stringify(formData),
+					success: function (response) {
+						$('.modal-backdrop').hide();
+						$('#addBookingModal').hide();
+						alertCustome("Booking added successfully!");
+						$("#addBookingForm")[0].reset(); 
+						loadBookingData();
+					},
+					error: function (xhr, status, error) {
+						console.error(xhr.responseText);
+						alert("An error occurred while adding the booking.");
+					}
+				});
+			}
 		}
 
-		function viewBooking(id) {
-			$jq('.edit_employee #booking_id').val(id);
-			$jq.get('../../models/Admin.php', {
-				action: 'viewBooking',
-				idbooking: id
-			}, function(data, status) {
-				// Parse the JSON data received from the server
-				var bookingData = JSON.parse(data);
+		function addInvoice() {	
+			$(".error").hide();
+			var isValid = true;
+			if ($("#dueDate_input").val().trim() === "") {
+				$("#dueDateError").text("Due date is required").show();
+				isValid = false;
+			}
 
-				// Update modal content with booking data
-				$jq('.edit_employee #firstname_input').val(bookingData.CustomerFirstName);
-				$jq('.edit_employee #lastname_input').val(bookingData.CustomerLastName);
-				$jq('.edit_employee #roomid_input').val(bookingData.RoomID);
-				$jq('.edit_employee #checkout_input').val(bookingData.CheckOutDate);
-				$jq('.edit_employee #roomsta_input').val(bookingData.RoomStatus);
-				$jq('.edit_employee #checkin_input').val(bookingData.CheckInDate);
-				$jq('.edit_employee #paymentstatus_input').val(bookingData.PaymentStatus);
-				$jq('.edit_employee #guests_input').val(bookingData.NumberOfCustomer);
-				$jq('.edit_employee #message_input').val(bookingData.Message);
-				$jq('.edit_employee #total_input').val(bookingData.TotalAmount);
-				$jq('.view_employee #firstname_input').val(bookingData.CustomerFirstName);
-				$jq('.view_employee #lastname_input').val(bookingData.CustomerLastName);
-				$jq('.view_employee #roomid_input').val(bookingData.RoomID);
-				$jq('.view_employee #checkout_input').val(bookingData.CheckOutDate);
-				$jq('.view_employee #checkin_input').val(bookingData.CheckInDate);
-				$jq('.view_employee #paymentstatus_input').val(bookingData.PaymentStatus);
-				$jq('.view_employee #guests_input').val(bookingData.NumberOfCustomer);
-				$jq('.view_employee #message_input').val(bookingData.Message);
-				$jq('.view_employee #total_input').val(bookingData.TotalAmount);
-			});
+			if ($("#issueDate_input").val().trim() === "") {
+				$("#issueDateError").text("Issue date is required").show();
+				isValid = false;
+			}
+
+			if ($("#eUsage_input").val().trim() === "") {
+				$("#eUsageError").text("Electricity Usage is required").show();
+				isValid = false;
+			}
+			if ($("#wUsage_input").val() === "") {
+				$("#wUsageError").text("Water Usage is required").show();
+				isValid = false;
+			}
+			if ($("#junkCost_input").val() === "") {
+				$("#junkCostError").text("Junk Cost is required").show();
+				isValid = false;
+			}
+			if ($("#roomCost_input").val() === "") {
+				$("#roomCostError").text("Room Cost is required").show();
+				isValid = false;
+			}
+			if ($("#paidAmount_input").val() === "") {
+				$("#paidAmountError").text("Paid amount is required").show();
+				isValid = false;
+			}
+
+			if(isValid) {
+				var dueDate = $('.add_invoice #dueDate_input').val();
+				var issueDate = $('.add_invoice #issueDate_input').val();
+				var timestampDueDate = new Date(dueDate).getTime(); 
+				var timestampIssueDate = new Date(issueDate).getTime(); 
+				var formData = {
+					dueDate: timestampDueDate,
+					issueDate: timestampIssueDate,
+					student: {
+						studentID: $(".add_invoice #studentId_select").val().trim(),
+					},
+					room: {
+						roomID: $(".add_invoice #roomId_select").val().trim(),
+					},
+					roomCost:$('.add_invoice #roomCost_input').val(),
+					electricityCost:$('.add_invoice #eCost_input').attr("data-raw"),
+					electricityUsage:$('.add_invoice #eUsage_input').val(),
+					waterCost:$('.add_invoice #wCost_input').attr("data-raw"),
+					waterUsage:$('.add_invoice #wUsage_input').val(),
+					junkCost:$('.add_invoice #junkCost_input').val(),
+					paidAmount:$('.add_invoice #paidAmount_input').val(),
+					remainingAmount:$('.add_invoice #remainingAmount_input').attr("data-raw"),
+					totalAmount:$('.add_invoice #totalAmount_input').attr("data-raw"),
+					paymentStatus:$('.add_invoice #paymentStatus_input').val(),
+				};
+				console.log(formData);
+				$.ajax({
+					type: "POST",
+					url: "/api/invoices", // API endpoint to add student
+					contentType: "application/json",
+					data: JSON.stringify(formData),
+					success: function (response) {
+						$('.modal-backdrop').hide();
+						$('#addInvoiceModal').hide();
+						alertCustome("Invoice added successfully!");
+						$("#addInvoiceForm")[0].reset(); 
+						loadInvoiceData();
+					},
+					error: function (xhr, status, error) {
+						console.error(xhr.responseText);
+						alert("An error occurred while adding the invocie.");
+					}
+				});
+			}
 		}
 
-		function viewInvoice(invoicelD) {
-			$jq.get('../../models/Admin.php', {
-				action: 'viewInvoice',
-				idinvoice: invoicelD
-			}, function(data, status) {
-				var invoiceData = JSON.parse(data);
-				$jq('#cus_name').text(invoiceData.CustomerFirstName + ' ' + invoiceData.CustomerLastName);
-				$jq('#cus_address').text(invoiceData.CustomerAddress);
-				$jq('#id_order').text('Order #' + invoiceData.InvoicelD);
-			});
-			$jq.get('../../models/Admin.php', {
-				action: 'listbill',
-				idinvoice: invoicelD
-			}, function(data, status) {
-				$jq('#bill_data').html(data);
+		function addBuilding() {	
+			$(".error").hide();
+			var isValid = true;
+			if ($("#buildingName_input").val().trim() === "") {
+				$("#buildingNameError").text("Building name is required").show();
+				isValid = false;
+			}
 
-			});
+			if ($("#buildingType_input").val().trim() === "") {
+				$("#buildingTypeError").text("Building type is required").show();
+				isValid = false;
+			}
+
+			if ($("#totalFloor_input").val().trim() === "") {
+				$("#totalFloorError").text("Floor is required").show();
+				isValid = false;
+			}
+			
+			if(isValid) {
+				var formData = {
+					buildingName: $('.add_building #buildingName_input').val(),
+					buildingType: $('.add_building #buildingType_input').val(),
+					totalFloor: $('.add_building #totalFloor_input').val(),
+				};
+				console.log(formData);
+				$.ajax({
+					type: "POST",
+					url: "/api/buildings", // API endpoint to add building
+					contentType: "application/json",
+					data: JSON.stringify(formData),
+					success: function (response) {
+						$('.modal-backdrop').hide();
+						$('#addBuildingModal').hide();
+						alertCustome("Building added successfully!");
+						$("#addBuildingForm")[0].reset(); 
+						loadBuildingData();
+					},
+					error: function (xhr, status, error) {
+						console.error(xhr.responseText);
+						alert("An error occurred while adding the building.");
+					}
+				});
+			}
 		}
 
-		// send
-		function sendMessage() {
-			var sender = $jq('#sender_input').val();
-			var subject = $jq('#subject_input').val();
-			var content = $jq('#content_input').val();
-			var parameters = "sender=" + sender + "&subject=" + subject + "&content=" + content;
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'sendMessage',
-			}, function(data, status) {
-				// Handle the response if needed
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The email has been sent successfully");
+		// UPDATE
+		function editStudent() {
+			var dateOfBirth = $('.edit_student #dob_input').val();
+			var timestamp = new Date(dateOfBirth).getTime(); 
+			var updatedStudent = {
+				fullName: $('.edit_student #fullname_input').val(),
+				dateOfBirth: timestamp,
+				gender: $('.edit_student #gender_input').val(),
+				phoneNumber:$('.edit_student #phone_input').val(),
+				room: {
+					roomID: $(".edit_student #room_select").val().trim(),
+				},
+				address:$('.edit_student #address_input').val(),
+				school:$('.edit_student #school_input').val(),
+				mssv:$('.edit_student #mssv_input').val(),
+			};
+			console.log(updatedStudent);
+			$.ajax({
+				type: 'PUT',
+				url: '/api/students/' + $('.edit_student #student_id').val(),
+				contentType: 'application/json',
+				data: JSON.stringify(updatedStudent),
+				success: function(response) {
+					alertCustome("Student updated successfully!");
+					$("#editStudentModal").modal("hide");
+					$("#editStudentForm")[0].reset(); 
+					loadStudentData();
+				},
+				error: function(xhr, status, error) {
+					// Handle error
+					alert('Error updating student: ' + xhr.responseText);
+				}
 			});
-		}
-		// delete
-		function prepareAction(ID) {
-			$jq('#delete_id').val(ID);
-		}
-
-		function deleteCustomer() {
-			var customerID = $jq('#delete_id').val();
-			$jq.get('../../models/Admin.php', {
-				action: 'deleteCustomer',
-				idcustomer: customerID
-			}, function(data, status) {
-				$jq('#deleteCustomerModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The customer has been deleted successfully");
-				fetchData('listcustomer', '#customer_data');
-			});
-		}
-
-		function deleteBooking() {
-			var bookingID = $jq('#delete_id').val();
-
-
-			$jq.get('../../models/Admin.php', {
-				action: 'deleteBooking',
-				idbooking: bookingID
-			}, function(data, status) {
-				// Handle the response if needed
-				$jq('#deleteBookingModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The booking has been deleted successfully");
-				fetchData('listbooking', '#booking_data');
-
-			});
-		}
-
-		function deleteRoom() {
-			var roomID = $jq('#delete_id').val();
-
-			$jq.get('../../models/Admin.php', {
-				action: 'deleteRoom',
-				idroom: roomID
-			}, function(data, status) {
-				// Handle the response if needed
-				$jq('#deleteRoomModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The room has been deleted successfully");
-				fetchData('listroom', '#room_data');
-
-			});
-		}
-
-		function deleteMessage() {
-			var messageID = $jq('#delete_id').val();
-
-			$jq.get('../../models/Admin.php', {
-				action: 'deleteMessage',
-				idmessage: messageID
-			}, function(data, status) {
-				// Handle the response if needed
-				$jq('#deleteMessageModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The message has been deleted successfully");
-				fetchData('listmessage', '#message_data');
-
-			});
-		}
-
-		function editCustomer() {
-			var customerid = $jq('.edit_employee #customer_id').val();
-			var firstname = $jq('.edit_employee #firstname_input').val();
-			var lastname = $jq('.edit_employee #lastname_input').val();
-			var dob = $jq('.edit_employee #dob_input').val();
-			var email = $jq('.edit_employee #email_input').val();
-			var phone = $jq('.edit_employee #phone_input').val();
-			var address = $jq('.edit_employee #address_input').val();
-			// Create parameters string
-			var parameters = "customerid=" + customerid +
-				"&firstname=" + firstname +
-				"&lastname=" + lastname +
-				"&dob=" + dob +
-				"&email=" + email +
-				"&phone=" + phone +
-				"&address=" + address;
-
-			// ../../models/Admin.php?action=editBooking&bookingid=14&roomid=8&
-			// checkoutdate=2023/1/1&checkindate=2023/2/2&paymentstatus=paid&guests&message=hello
-			// Use parameters in a GET request
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'editCustomer'
-			}, function(data, status) {
-				// Handle the response if needed
-				$jq('#editCustomerModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The customer has been edited successfully");
-				fetchData('listcustomer', '#customer_data');
-
-			});
-
 		}
 
 		function editRoom() {
-			var roomid = $jq('.edit_employee #room_id').val();
-			var roomname = $jq('.edit_employee #roomname_input').val();
-			var roomtype = $jq('.edit_employee #roomtype_input').val();
-			var roomrate = $jq('.edit_employee #rate_input').val();
-			var roomstatus = $jq('.edit_employee #roomstatus_input').val();
-			// Create parameters string
-			var parameters = "roomid=" + roomid +
-				"&roomname=" + roomname +
-				"&roomtype=" + roomtype +
-				"&roomrate=" + roomrate +
-				"&roomstatus=" + roomstatus;
-
-			// ../../models/Admin.php?action=editBooking&bookingid=14&roomid=8&
-			// checkoutdate=2023/1/1&checkindate=2023/2/2&paymentstatus=paid&guests&message=hello
-			// Use parameters in a GET request
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'editRoom'
-			}, function(data, status) {
-				// Handle the response if needed
-				$jq('#editRoomModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The room has been edited successfully");
-				fetchData('listroom', '#room_data');
-
+			var updatedRoom = {
+				roomNumber: $('.edit_room #roomnumber_input').val(),
+				capacity: $('.edit_room #capacity_input').val(),
+				building: {
+					buildingID: $(".edit_room #building_select").val().trim(),
+				},
+				floor: $('.edit_room #floor_input').val(),
+				status: $('.edit_room #roomstatus_input').val(),
+			};
+			console.log(updatedRoom);
+			$.ajax({
+				type: 'PUT',
+				url: '/api/rooms/' + $('.edit_room #room_id').val(),
+				contentType: 'application/json',
+				data: JSON.stringify(updatedRoom),
+				success: function(response) {
+					alertCustome("Room updated successfully!");
+					$("#editRoomModal").modal("hide");
+					$("#editRoomForm")[0].reset(); 
+					loadRoomData();
+				},
+				error: function(xhr, status, error) {
+					// Handle error
+					alert('Error updating room: ' + xhr.responseText);
+				}
 			});
-
+		}
+		
+		function editBuilding() {
+			var updatedBuilding = {
+				buildingName: $('.edit_building #buildingName_input').val(),
+				buildingType: $('.edit_building #buildingType_input').val(),
+				totalFloor: $('.edit_building #totalFloor_input').val(),
+			};
+			console.log(updatedBuilding);
+			$.ajax({
+				type: 'PUT',
+				url: '/api/buildings/' + $('.edit_building #building_id').val(),
+				contentType: 'application/json',
+				data: JSON.stringify(updatedBuilding),
+				success: function(response) {
+					alertCustome("Building updated successfully!");
+					$("#editBuildingModal").modal("hide");
+					$("#editBuildingForm")[0].reset(); 
+					loadBuildingData();
+				},
+				error: function(xhr, status, error) {
+					// Handle error
+					alert('Error updating student: ' + xhr.responseText);
+				}
+			});
 		}
 
 		function editBooking() {
-			var bookingid = $jq('.edit_employee #booking_id').val();
-			var roomid = $jq('.edit_employee #roomid_input').val();
-			var formattedCheckoutDate = $jq('.edit_employee #checkout_input').val();
-			var formattedCheckinDate = $jq('.edit_employee #checkin_input').val();
-			var checkoutdate = moment(checkoutdate).format("YY-MM-DD");
-			var checkindate = moment(checkindate).format("YY-MM-DD");
-			var paymentstatus = $jq('.edit_employee #paymentstatus_input').val();
-			var guests = $jq('.edit_employee #guests_input').val();
-			var roomstatus = $jq('.edit_employee #roomsta_input').val();
-			var message = $jq('.edit_employee #message_input').val();
-			// Create parameters string
-			var parameters = "bookingid=" + bookingid +
-				"&roomid=" + roomid +
-				"&checkoutdate=" + checkoutdate +
-				"&checkindate=" + checkindate +
-				"&paymentstatus=" + paymentstatus +
-				"&guests=" + guests +
-				"&roomstatus=" + roomstatus +
-				"&message=" + message;
-
-			// ../../models/Admin.php?action=editBooking&bookingid=14&roomid=8&
-			// checkoutdate=2023/1/1&checkindate=2023/2/2&paymentstatus=paid&guests&message=hello
-			// Use parameters in a GET request
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'editBooking'
-			}, function(data, status) {
-				// Handle the response if needed
-			
-				$jq('#editBookingModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The booking has been edited successfully");
-				fetchData('listbooking', '#booking_data');
-				fetchData('listroom', '#room_data');
-				fetchData('listinvoice', '#invoice_data');
+			var checkInDate = $('.edit_booking #checkin_input').val();
+			var checkOutDate = $('.edit_booking #checkout_input').val();
+			var timestampCheckInDate = new Date(checkInDate).getTime(); 
+			var timestampCheckOutDate = new Date(checkOutDate).getTime(); 
+			var updatedBooking = {
+				student: {
+						studentID: $(".edit_booking #studentId_select").val().trim(),
+					},
+				room: {
+					roomID: $(".edit_booking #roomId_select").val().trim(),
+				},
+				checkInDate: timestampCheckInDate,
+				checkOutDate: timestampCheckOutDate,
+			};
+			$.ajax({
+				type: 'PUT',
+				url: '/api/bookings/' + $('.edit_booking #booking_id').val(),
+				contentType: 'application/json',
+				data: JSON.stringify(updatedBooking),
+				success: function(response) {
+					alertCustome("Booking updated successfully!");
+					$("#editBookingModal").modal("hide");
+					$("#editBookingForm")[0].reset(); 
+					loadBookingData();
+				},
+				error: function(xhr, status, error) {
+					// Handle error
+					alert('Error updating booking: ' + xhr.responseText);
+				}
 			});
-
-		}
-		// Add new data
-		function addCustomer() {
-			// Collect data from the form
-			var firstName = $jq('.add_customer #firstname_input').val();
-			var lastName = $jq('.add_customer #lastname_input').val();
-			var dob = $jq('.add_customer #dob_input').val();
-			var email = $jq('.add_customer #email_input').val();
-			var phoneNumber = $jq('.add_customer #phone_input').val();
-			var address = $jq('.add_customer #address_input').val();
-
-			// Simple client-side validation
-			if (!firstName || !lastName || !email || !phoneNumber || !address) {
-				alert('Please fill in all required fields.');
-				return;
-			}
-
-			// Create a URL-encoded string
-			var parameters = "firstName=" + firstName +
-				"&lastName=" + lastName +
-				"&dob=" + dob +
-				"&email=" + email +
-				"&phoneNumber=" + phoneNumber +
-				"&address=" + address;
-			// alert('../../models/Admin.php?action=addCustomer?'+ parameters);
-			// debugger;
-			// Perform any additional client-side logic if needed
-
-			// Add logic to send the data to the server via AJAX
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'addCustomer'
-			}, function(data, status) {
-				// Handle the response from the server if needed
-				$jq('#addStudentModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The customer has been added successfully");
-				fetchData('listcustomer', '#customer_data');
-			})
 		}
 
-		function addRoom() {
-			// Collect data from the form
-			var roomname = $jq('.add_room #roomname_input').val();
-			var roomtype = $jq('.add_room #roomtype_input').val();
-			var roomrate = $jq('.add_room #rate_input').val();
-			var roomstatus = $jq('.add_room #roomstatus_input').val();
-
-			// Create a URL-encoded string
-			var parameters = "roomname=" + roomname +
-				"&roomtype=" + roomtype +
-				"&roomrate=" + roomrate +
-				"&roomstatus=" + roomstatus;
-
-			// Perform any additional client-side logic if needed
-
-			// Add logic to send the data to the server via AJAX
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'addRoom'
-			}, function(data, status) {
-				// Handle the response from the server if needed
-				$jq('#addRoomModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The room has been added successfully");
-				// Update and perform additional actions
-				fetchData('listroom', '#room_data');
-			})
+		//DELETE
+		function showDeleteStudentModal() {
+			$("#editStudentModal").modal("hide");
+			$("#deleteStudentModal").modal("show");
+		}
+		function deleteStudent() {
+			$.ajax({
+				type: 'DELETE',
+				url: '/api/students/' + $('.edit_student #student_id').val(),
+				success: function(response) {
+					alertCustome("Student deleted successfully!");
+					$("#deleteStudentModal").modal("hide");
+					loadStudentData();
+				},
+				error: function(xhr, status, error) {
+					alert('Error deleting student: ' + xhr.responseText);
+				}
+        	});
 		}
 
-		function addBooking() {
-			var customerID = $jq('.add_booking #customerID_input').val();
-			var roomid = $jq('.add_booking #roomid_input').val();
-			var checkoutdate = $jq('.add_booking #checkout_input').val();
-			var checkindate = $jq('.add_booking #checkin_input').val();
-			var paymentstatus = $jq('.add_booking #paymentstatus_input').val();
-			var guests = $jq('.add_booking #guests_input').val();
-
-			// Create a URL-encoded string
-			var parameters = "customerID=" + customerID +
-				"&roomid=" + roomid +
-				"&checkoutdate=" + checkoutdate +
-				"&checkindate=" + checkindate +
-				"&paymentstatus=" + paymentstatus +
-				"&guests=" + guests;
-
-			// // Debugging: Alert parameters and stop code execution
-			// alert(parameters);
-			// debugger;
-
-			// Add logic to send the data to the server via AJAX
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'addBooking'
-			}, function(data, status) {
-				// Handle the response from the server if needed
-				$jq('#addBookingModal').hide();
-				$jq('.modal-backdrop').hide();
-				alertCustome("success", "The booking has been added successfully");
-				// Update and perform additional actions
-				fetchData('listbooking', '#booking_data');
-			})
+		function showDeleteBuildingModal() {
+			$("#editBuildingModal").modal("hide");
+			$("#deleteBuildingModal").modal("show");
 		}
-		// Sorting
-		$jq(document).on('click', '.column_sortstudent', function() {
-			var column_name = $jq(this).attr("id");
-			var order = $jq(this).data("order");
-			var parameters = "column_name=" + column_name + "&order=" + order;
-			var arrow = '';
+		function deleteBuilding() {
+			$.ajax({
+				type: 'DELETE',
+				url: '/api/buildings/' + $('.edit_building #building_id').val(),
+				success: function(response) {
+					alertCustome("Building deleted successfully!");
+					$("#deleteBuildingModal").modal("hide");
+					loadBuildingData();
+				},
+				error: function(xhr, status, error) {
+					alert('Error deleting building: ' + xhr.responseText);
+				}
+        	});
+		}
 
-			// if (order == 'desc') {
-			// 	arrow = '<i class="bx bx-arrow-down"></i>';
-			// } else {
-			// 	arrow = '<i class="bx bx-arrow-up"></i>';
-			// }
+		function showDeleteRoomModal() {
+			$("#editRoomModal").modal("hide");
+			$("#deleteRoomModal").modal("show");
+		}
+		function deleteRoom() {
+			$.ajax({
+				type: 'DELETE',
+				url: '/api/rooms/' + $('.edit_room #room_id').val(),
+				success: function(response) {
+					alertCustome("Room deleted successfully!");
+					$("#deleteRoomModal").modal("hide");
+					loadRoomData();
+				},
+				error: function(xhr, status, error) {
+					alert('Error deleting room: ' + xhr.responseText);
+				}
+        	});
+		}
 
-
-			// ../../models/Admin.php?column_name=customerFirstName&order=desc&action=sort
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'sortcustomer'
-			}, function(data, status) {
-				$jq('#sort_studentata').html(data);
-				// $jq('.column_sortstudent i').html(arrow);
-			});
-		});
-		$jq(document).on('click', '.column_sortroom', function() {
-			var column_name = $jq(this).attr("id");
-			var order = $jq(this).data("order");
-			var parameters = "column_name=" + column_name + "&order=" + order;
-			var arrow = '';
-
-			// if (order == 'desc') {
-			// 	arrow = '<i class="bx bx-arrow-down"></i>';
-			// } else {
-			// 	arrow = '<i class="bx bx-arrow-up"></i>';
-			// }
-
-
-			// ../../models/Admin.php?column_name=customerFirstName&order=desc&action=sort
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'sortroom'
-			}, function(data, status) {
-				$jq('#sort_room_data').html(data);
-				// $jq('.column_sortstudent i').html(arrow);
-			});
-		});
-		$jq(document).on('click', '.column_sortbooking', function() {
-			var column_name = $jq(this).attr("id");
-			var order = $jq(this).data("order");
-			var parameters = "column_name=" + column_name + "&order=" + order;
-			var arrow = '';
-
-			// if (order == 'desc') {
-			// 	arrow = '<i class="bx bx-arrow-down"></i>';
-			// } else {
-			// 	arrow = '<i class="bx bx-arrow-up"></i>';
-			// }
-
-
-			// ../../models/Admin.php?column_name=customerFirstName&order=desc&action=sort
-			$jq.get('../../models/Admin.php?' + parameters, {
-				action: 'sortbooking'
-			}, function(data, status) {
-				$jq('#sort_booking_data').html(data);
-				// $jq('.column_sortstudent i').html(arrow);
-			});
-		});
-		$jq(document).on('click', '#searchBtn', function() {
-			// Get the search query and current content type
-			var searchQuery = $jq('#searchInput').val();
-			var contentType = $jq('.content-item.active').attr('id');
-			// Make an AJAX request to your PHP endpoint
-			$jq.get('../../models/Admin.php?searchQuery=' + searchQuery, {
-				action: contentType
-			}, function(data, status) {
-				$jq('#' + contentType + '_data').html(data);
-				// $jq('.column_sortstudent i').html(arrow);
-			});
-		});
-		// print 
+		function showDeleteBookingodal() {
+			$("#editBookingModal").modal("hide");
+			$("#deleteBookingModal").modal("show");
+		}
+		function deleteBooking() {
+			$.ajax({
+				type: 'DELETE',
+				url: '/api/bookings/' + $('.edit_booking #booking_id').val(),
+				success: function(response) {
+					alertCustome("Booking deleted successfully!");
+					$("#deleteBookingModal").modal("hide");
+					loadBookingData();
+				},
+				error: function(xhr, status, error) {
+					alert('Error deleting booking: ' + xhr.responseText);
+				}
+        	});
+		}
+		// PRINT 
 		function Print() {
 			// Create a new window
 			var printWindow = window.open('', '_blank');
@@ -1942,161 +2622,6 @@ pageEncoding="ISO-8859-1"%>
 
 			// Print the new window
 			printWindow.print();
-		}
-	</script>
-
-	<!-- HANDLE SETTINGS -->
-	<script>
-		function alert(type, msg) {
-			let bs_class = (type == 'success') ? 'alert-success' : 'alert-danger';
-			let element = document.createElement('div');
-			element.innerHTML = `
-                <div class="alert ${bs_class} alert-dismissible fade show custom-alert" role="alert">
-                    <strong> ${msg}</strong> 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            `;
-			document.body.append(element);
-			setTimeout(() => {
-				document.body.removeChild(element);
-			}, 2000);
-		}
-
-		let general_data, contacts_data;
-		let general_s_form = document.getElementById("general_s_form");
-		let side_title_inp = document.getElementById("side_title_inp");
-		let side_about_inp = document.getElementById("side_about_inp");
-		let contacts_s_form = document.getElementById("contacts_s_form");
-
-		function get_general() {
-			let side_title = document.getElementById("side_title");
-			let side_about = document.getElementById("side_about");
-
-			let shudown_toggle = document.getElementById("shutdown-toogle");
-
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST", "../../controllers/ajax/settings_crud.php", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.onload = function() {
-				general_data = JSON.parse(this.responseText);
-				side_title.innerText = general_data.SideTitle;
-				side_about.innerText = general_data.SideAbout;
-				side_title_inp.value = general_data.SideTitle;
-				side_about_inp.value = general_data.SideAbout;
-				if (general_data.Shutdown == 0) {
-					shudown_toggle.checked = false;
-					shudown_toggle.value = 0;
-				} else {
-					shudown_toggle.checked = true;
-					shudown_toggle.value = 1;
-				}
-			}
-			xhr.send('get_general');
-		}
-
-		general_s_form.addEventListener('submit', function(e) {
-			e.preventDefault();
-			upd_general(side_title_inp.value, side_about_inp.value);
-
-		})
-
-		function upd_general(side_title_val, side_about_val) {
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST", "../../controllers/ajax/settings_crud.php", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.onload = function() {
-				var myModal = document.getElementById('general-s');
-				var modal = bootstrap.Modal.getInstance(myModal);
-				modal.hide();
-				if (this.responseText == 1) {
-					alert('success', "Changes saved!");
-					get_general();
-				} else {
-					alert('error', "No Changes made!");
-				}
-			}
-			xhr.send('side_title=' + side_title_val + '&side_about=' + side_about_val + '&upd_general');
-		}
-
-		function upd_shutdown(val) {
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST", "../../controllers/ajax/settings_crud.php", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.onload = function() {
-				console.log(this.responseText);
-				if (this.responseText == 1 && general_data.Shutdown == 0) {
-					alert('success', "Site has been shutdown!");
-				} else {
-					alert('success', "Shutdown made off!");
-				}
-				get_general();
-			}
-			xhr.send('&upd_shutdown=' + val);
-		}
-
-		function get_contacts() {
-			let contacts_p_id = ['address', 'website', 'pn1', 'pn2', 'email', 'fb', 'tpv'];
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST", "../../controllers/ajax/settings_crud.php", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.onload = function() {
-				contacts_data = JSON.parse(this.responseText);
-				contacts_data = Object.values(contacts_data);
-				for (let i = 0; i < contacts_p_id.length; i++) {
-					document.getElementById(contacts_p_id[i]).innerText = contacts_data[i + 1];
-				}
-				contacts_inp(contacts_data);
-			}
-			xhr.send('get_contacts');
-		}
-
-		function contacts_inp(data) {
-			let contacts_inp_id = ['address_inp', 'website_inp', 'pn1_inp', 'pn2_inp', 'email_inp', 'fb_inp', 'tpv_inp'];
-			for (let i = 0; i < contacts_inp_id.length; i++) {
-				document.getElementById(contacts_inp_id[i]).value = data[i + 1];
-
-			}
-		}
-
-		function upd_contacts() {
-			let xhr = new XMLHttpRequest();
-			let index = ['address', 'website', 'pn1', 'pn2', 'email', 'fb', 'tpv'];
-			let contacts_inp_id = ['address_inp', 'website_inp', 'pn1_inp', 'pn2_inp', 'email_inp', 'fb_inp', 'tpv_inp'];
-
-			let data_str = "";
-			for (let i = 0; i < index.length; i++) {
-				data_str += index[i] + "=" + document.getElementById(contacts_inp_id[i]).value + '&';
-			}
-
-			data_str += "upd_contacts";
-			xhr.open("POST", "../../controllers/ajax/settings_crud.php", true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.onload = function() {
-				console.log(this.responseText);
-				var myModal = document.getElementById('contacts-s');
-				var modal = bootstrap.Modal.getInstance(myModal);
-				modal.hide();
-				if (this.responseText == 1) {
-					alert('success', "Changes saved!");
-					get_contacts();
-				} else {
-					alert('error', "No Changes made!");
-				}
-			}
-			xhr.send(data_str);
-
-		}
-
-		contacts_s_form.addEventListener('submit', function(e) {
-			e.preventDefault();
-			upd_contacts();
-		})
-
-		window.onload = function() {
-			get_general();
-			get_contacts();
 		}
 	</script>
 
