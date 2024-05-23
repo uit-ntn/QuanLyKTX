@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.QuanLyKTX.model.Invoice;
 import com.example.QuanLyKTX.service.InvoiceService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class InvoiceController {
