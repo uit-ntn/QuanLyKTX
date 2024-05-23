@@ -7,16 +7,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ROOMS")
 public class Room {
-    
+      
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rooms_seq")
+    @SequenceGenerator(name = "rooms_seq", sequenceName = "ROOMS_SEQ", allocationSize = 1)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomID;
-    
+
     @ManyToOne
     @JoinColumn(name = "BuildingID")
     private Building building;

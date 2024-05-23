@@ -17,4 +17,17 @@ public class InvoiceService {
     public List<Invoice> getAlInvoices() {
         return invoiceRepository.findAll();
     }
+
+    
+    public Invoice saveInvoice(Invoice invoice) {
+        return invoiceRepository.save(invoice);
+    }
+
+    public Invoice findById(Long invoiceId) {
+        return invoiceRepository.findById(invoiceId).orElse(null);
+    }
+
+    public Long getUnpaidInvoiceCount() {
+        return invoiceRepository.countByPaymentStatus("Unpaid");
+    }
 }

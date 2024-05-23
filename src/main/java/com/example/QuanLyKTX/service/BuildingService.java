@@ -17,4 +17,30 @@ public class BuildingService {
     public List<Building> getAllBuildings() {
         return buidlingRepository.findAll();
     }
+
+    
+    public Building saveBuilding(Building building) {
+        return buidlingRepository.save(building);
+    }
+
+    public Building findById(Long buildingId) {
+        return buidlingRepository.findById(buildingId).orElse(null);
+    }
+
+    public Building updateBuilding(Long buildingId, Building updatedBuilding) {
+        return buidlingRepository.findById(buildingId).map(building -> {
+            building.setBuildingName(updatedBuilding.getBuildingName());
+            building.setBuildingType(updatedBuilding.getBuildingType());
+            building.setTotalFloors(updatedBuilding.getTotalFloors());
+            return buidlingRepository.save(building);
+        }).orElse(null);
+    }
+    
+    public boolean deleteBuilding(long buildingId) {
+        if (buidlingRepository.existsById(buildingId)) {
+            buidlingRepository.deleteById(buildingId);
+            return true;
+        }
+        return false;
+    }
 }
