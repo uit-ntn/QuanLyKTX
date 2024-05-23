@@ -7,29 +7,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.model.MonthlyBookingCount;
 import com.example.QuanLyKTX.model.Student;
+import com.example.QuanLyKTX.model.Room;
 import com.example.QuanLyKTX.service.BookingService;
+import com.example.QuanLyKTX.service.RoomService;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class BookingController {
-    private BookingService bookingService = null;
+    private BookingService bookingService;
+    private RoomService roomService;
 
-    public BookingController(BookingService bookingService) {
+    public BookingController(BookingService bookingService, RoomService roomService) {
         this.bookingService = bookingService;
+        this.roomService = roomService;
     }
 
-    @GetMapping("/booking")
+    @GetMapping("/booking/index")
     public String getAllBookings(Model model) throws JsonProcessingException {
         List<Booking> bookings = bookingService.getAllBookings();
         ObjectMapper mapper = new ObjectMapper();
@@ -38,13 +43,22 @@ public class BookingController {
         System.err.println(json);
         model.addAttribute("bookingsJson", json);
 
-        return "booking"; // Trả về tên của file JSP hoặc HTML đại diện cho trang booking
+        return "booking";
     }
 
-    @GetMapping(value = "/api/bookings", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<Booking> getAllBookings() {
-        return bookingService.getAllBookings();
+    // Thay đổi đường dẫn này để tránh xung đột
+    @GetMapping("/booking/room-list")
+    public String RoomList(Model model) {
+        try {
+            List<Room> rooms = roomService.getAllRooms();
+            model.addAttribute("rooms", rooms);
+            System.out.println(rooms);
+              } catch (Exception e) {
+
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "An error occurred while fetching rooms");
+        }
+        return "roomList";
     }
 
     
@@ -90,4 +104,5 @@ public class BookingController {
         return ResponseEntity.ok(monthlyBookings);
     }
 
+    
 }

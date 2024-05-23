@@ -16,19 +16,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.QuanLyKTX.model.Room;
 import com.example.QuanLyKTX.service.RoomService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class RoomController {
-    private RoomService roomService = null;
+    private RoomService roomService = new RoomService(); 
 
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 
-    @GetMapping(value = "/api/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<Room> getAllRoooms() {
-        return roomService.getAllRooms();
+    @GetMapping("/booking/rooms")
+    public String RoomList() {
+        return "roomList";
     }
     
     @PostMapping("api/rooms")
@@ -67,4 +68,5 @@ public class RoomController {
         Map<String, Long> statusCount = roomService.getRoomStatusCount();
         return ResponseEntity.ok(statusCount);
     }
+
 }
