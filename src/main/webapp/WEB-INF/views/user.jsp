@@ -101,22 +101,22 @@ pageEncoding="UTF-8"%>
                         alt="Student Photo"
                         class="student-photo img-thumbnail mb-3">
                     <nav class="nav flex-column">
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('general-info')">Thông tin lưu
                             trú</a>
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('invoice-details')">Hóa đơn,
                             biên lai</a>
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('repair-info')">Yêu cầu sửa
                             chữa</a>
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('bhyt-info')">Khai báo BHYT</a>
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('survey-info')">Khảo sát</a>
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('form-info')">Biểu mẫu</a>
-                        <a class="nav-link" href="#"
+                        <a class="nav-link"
                             onclick="showSection('notify-info')">Thông báo</a>
                     </nav>
                 </div>
@@ -139,7 +139,7 @@ pageEncoding="UTF-8"%>
 
             <div class="content mt-5">
                 <div class="info-card" id="general-info">
-                    <h2>Thông tin chung ${user.id}</h2>
+                    <h2>Thông tin chung</h2>
                     <hr>
                     
                     <div class="row">
@@ -213,14 +213,14 @@ pageEncoding="UTF-8"%>
                     <h3 class="mb-4">Hóa đơn, biên lai</h3>
                     <ul class="nav nav-tabs mb-3">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Hóa đơn lệ
+                            <a class="nav-link active">Hóa đơn lệ
                                 phí</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Biên lai điện nước</a>
+                            <a class="nav-link">Biên lai điện nước</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">DS hóa đơn đang nợ</a>
+                            <a class="nav-link">DS hóa đơn đang nợ</a>
                         </li>
                     </ul>
                     <table class="table">

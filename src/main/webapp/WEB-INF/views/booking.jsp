@@ -103,7 +103,7 @@ pageEncoding="UTF-8"%>
             </div>
 
           </div>
-          <button class="btn btn-primary center" submit="">Tìm phòng</button>
+          <button class="btn btn-primary" submit="">Tìm phòng</button>
         </form>
       </div>
 

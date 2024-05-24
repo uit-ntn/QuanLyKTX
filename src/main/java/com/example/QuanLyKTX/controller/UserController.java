@@ -30,8 +30,9 @@ public class UserController {
     public String userProfile(
             @PathVariable("user_id") int userId,
             Model model) {
-        User user = userService.findUserById(userId);
-        model.addAttribute("user", user);
+        // User user = userService.findUserById(userId);
+        // System.out.println(user);
+        // model.addAttribute("user", user);
         return "user";
     }
 
