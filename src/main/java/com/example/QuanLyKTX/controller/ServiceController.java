@@ -10,6 +10,5 @@ public class ServiceController {
     @GetMapping("Services")
     public String Service() {
         return "service";
-    }
-    
+    }   
 }

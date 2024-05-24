@@ -10,7 +10,7 @@ import com.example.QuanLyKTX.repository.UserRepository;
 
 public class UserService {
     private final UserRepository userRepository;
-    
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -18,6 +18,10 @@ public class UserService {
 
     public User save(User user) {
         return userRepository.save(user);
+    }
+
+    public User findUserById(int id) {
+        return userRepository.findById(id);
     }
 
     public User findByUsername(String username) {

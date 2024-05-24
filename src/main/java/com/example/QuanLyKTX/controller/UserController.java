@@ -1,10 +1,15 @@
 package com.example.QuanLyKTX.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.QuanLyKTX.service.UserService;
+import com.example.QuanLyKTX.model.*;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,9 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/user")
 public class UserController {
 
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     // Trả về trang thông tin user
     @GetMapping("/{user_id}/profile")
-    public String userProfile(@PathVariable("user_id") String userId) {
+    public String userProfile(
+            @PathVariable("user_id") int userId,
+            Model model) {
+        User user = userService.findUserById(userId);
+        model.addAttribute("user", user);
         return "user";
     }
 
