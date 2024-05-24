@@ -16,6 +16,8 @@ import java.util.*;
 
 import com.example.QuanLyKTX.model.Building;
 import com.example.QuanLyKTX.service.BuildingService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
@@ -25,6 +27,12 @@ public class BuildingController {
     public BuildingController(BuildingService buildingService) {
         this.buildingService = buildingService;
     }
+
+    @GetMapping("/building/getAllBuiding")
+    public List<Building> getAllBuilding() {
+        return buildingService.getAllBuildings();
+    }
+    
 
     @GetMapping(value = "/api/buildings", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
