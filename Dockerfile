@@ -2,9 +2,10 @@
 FROM maven:3.8.4-openjdk-17 AS build
 COPY . /app
 WORKDIR /app
-RUN mvn clean package -DskipTests
-
-
+RUN mvn install -DskipTests
+RUN mvn spring-boot:run
+# Khai báo cổng mà ứng dụng sẽ chạy
+EXPOSE 8080
 
 
 # Sử dụng hình ảnh OpenJDK để chạy ứng dụng
