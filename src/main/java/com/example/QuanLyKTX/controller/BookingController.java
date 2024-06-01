@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.*;
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.model.Building;
@@ -34,42 +36,35 @@ public class BookingController {
 
     @GetMapping("/booking/index")
     public String Booking(Model model) {
-
         List<Room> rooms = roomService.getAllRooms();
-    
-        List <Building> buildings = buildingService.getAllBuildings();
-
-
-         // Kiểm tra và in ra console
-    if (rooms == null || rooms.isEmpty()) {
-        System.out.println("Rooms list is null or empty.");
-    } else {
-        System.out.println("Rooms list size: " + rooms.size());
-    }
-
-    if (buildings == null || buildings.isEmpty()) {
-        System.out.println("Buildings list is null or empty.");
-    } else {
-        System.out.println("Buildings list size: " + buildings.size());
-    }
-
+        List<Building> buildings = buildingService.getAllBuildings();
         model.addAttribute("rooms", rooms);
         model.addAttribute("buildings", buildings);
+
+        for (Building building : buildings) {
+            building.toString();
+        }
         return "booking";
     }
-
-    // Thay đổi đường dẫn này để tránh xung đột
-    @GetMapping("/booking/room-list")
-    public String RoomList(Model model) {
-        try {
-            List<Room> rooms = roomService.getAllRooms();
-            model.addAttribute("rooms", rooms);
-            System.out.println(rooms);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            model.addAttribute("errorMessage", "An error occurred while fetching rooms");
+    @GetMapping("/booking/rooms")
+    public String getRooms(
+            @RequestParam String buildingtype,
+            @RequestParam int capacity,
+            @RequestParam Long building,
+            Model model) {
+        List<Room> rooms = roomService.findRoomsByCriteria(buildingtype, capacity, building);
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("buildingtype", buildingtype);
+        model.addAttribute("capacity", capacity);
+        model.addAttribute("building", building);
+    
+        List<Building> buildings = buildingService.getAllBuildings();
+        model.addAttribute("buildings", buildings);
+    
+        if (rooms.isEmpty()) {
+            model.addAttribute("message", "Không có phòng phù hợp.");
         }
+    
         return "roomList";
     }
 

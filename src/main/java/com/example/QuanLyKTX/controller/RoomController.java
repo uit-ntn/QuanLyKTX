@@ -18,20 +18,25 @@ import com.example.QuanLyKTX.model.Room;
 import com.example.QuanLyKTX.service.RoomService;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class RoomController {
-    private RoomService roomService = new RoomService(); 
+    private RoomService roomService = new RoomService();
+
+    // contructor
+    public RoomController() {
+    }
 
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
 
-    @GetMapping("/booking/rooms")
-    public String RoomList() {
-        return "roomList";
-    }
-    
+    // @GetMapping("/booking/rooms")
+    // public String RoomList() {
+    //     return "roomList";
+    // }
+
+ 
+
     @PostMapping("api/rooms")
     public ResponseEntity<Room> addRoom(@RequestBody Room room) {
         System.out.println(room);
@@ -67,6 +72,37 @@ public class RoomController {
     public ResponseEntity<Map<String, Long>> getRoomStatusCount() {
         Map<String, Long> statusCount = roomService.getRoomStatusCount();
         return ResponseEntity.ok(statusCount);
+    }
+
+    public RoomService getRoomService() {
+        return this.roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
+    public RoomController roomService(RoomService roomService) {
+        setRoomService(roomService);
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof RoomController)) {
+            return false;
+        }
+        RoomController roomController = (RoomController) o;
+        return Objects.equals(roomService, roomController.roomService);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " roomService='" + getRoomService() + "'" +
+                "}";
     }
 
 }

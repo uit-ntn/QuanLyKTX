@@ -10,7 +10,6 @@ import java.util.*;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT new com.example.QuanLyKTX.model.MonthlyBookingCount(TO_CHAR(b.checkInDate, 'YYYY-MM'), COUNT(b)) " +
     "FROM Booking b GROUP BY TO_CHAR(b.checkInDate, 'YYYY-MM') ORDER BY TO_CHAR(b.checkInDate, 'YYYY-MM')")
-    
     List<MonthlyBookingCount> findMonthlyBookingCounts();   
 
 }

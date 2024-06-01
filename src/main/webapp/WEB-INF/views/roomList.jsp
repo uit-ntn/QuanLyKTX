@@ -2,6 +2,7 @@
 pageEncoding="UTF-8"%>
 <%@ page import="com.example.QuanLyKTX.model.Room" %>
 <%@page session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -87,132 +88,106 @@ pageEncoding="UTF-8"%>
                     GIA</h2>
             </div>
 
-            <form class="mb-4">
+            <form class="mb-4" action="/booking/rooms" method="get">
                 <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="school" class="form-label">Chọn
+                            Trường</label>
+                        <select class="form-select" id="school">
+                            <option>Chọn trường</option>
+                            <option>Trường Đại học Công nghệ Thông tin</option>
+                            <option>Trường Đại học Bách Khoa</option>
+                            <option>Trường Đại học Quốc tế</option>
+                            <option>Trường Đại học Nhân văn</option>
+                            <option>Trường Đại học Kinh tế - Luật</option>
+                        </select>
+                    </div>
+                    <!-- Chọn giới tính -->
+                    <div class="col-md-3 mb-3">
+                        <label for="gender" class="form-label">Chọn Giới
+                            Tính</label>
+                        <select class="form-select" id="buildingtype"
+                            name="buildingtype">
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="KTX">KTX</option>
+                        </select>
+                    </div>
+                    <!-- Chọn loại phòng -->
+                    <div class="col-md-3 mb-3">
+                        <label for="capacity" class="form-label">Chọn Loại
+                            Phòng</label>
+                        <select class="form-select" id="capacity"
+                            name="capacity">
+                            <option value="4">Phòng 4 sinh viên</option>
+                            <option value="6">Phòng 6 sinh viên</option>
+                            <option value="8">Phòng 8 sinh viên</option>
+                        </select>
+                    </div>
 
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>ĐH Khoa học Xã hội và Nhân
-                                văn, ĐHQG TP.HCM</option>
+                    <div class="col-md-3 mb-3">
+                        <label for="building" class="form-label">Chọn
+                            Tòa</label>
+                        <select class="form-select" id="building"
+                            name="building">
+                            <c:forEach var="building" items="${buildings}">
+                                <option
+                                    value="${building.buildingID}">${building.buildingName}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option>Khu A</option>
-                            <option>Khu B</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>Nam</option>
-                            <!-- Add other options here -->
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option selected>Phòng 8 sinh viên</option>
-                            <!-- Add other options here -->
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select class="form-select">
-                            <option selected>C02</option>
-                            <!-- Add other options here -->
-                        </select>
-                    </div>
-
                 </div>
-                <button class="btn-primary btn">Tìm kiếm</button>
+                <div class="col-12">
+                    <div class="text-center">
+                        <button class="btn btn-primary">Tìm phòng</button>
+                    </div>
+                </div>
             </form>
 
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            P 301 <span class="badge bg-primary">8 sinh
-                                viên</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="room-status">
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-available">&#x1F464;</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="container">
+                <h1>Danh sách các phòng</h1>
+                <p>Building Type: ${buildingtype}</p>
+                <p>Capacity: ${capacity}</p>
+                <p>Building: ${building}</p>
 
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            P 303 <span class="badge bg-primary">8 sinh
-                                viên</span>
+                <c:choose>
+                    <c:when test="${empty rooms}">
+                        <p>Không có phòng phù hợp.</p>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="row">
+                            <c:forEach var="room" items="${rooms}">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            P ${room.roomNumber}
+                                            <span class="badge bg-primary">${room.capacity} sinh viên</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="room-status">
+                                                <c:forEach var="i" begin="1" end="${room.capacity}">
+                                                    <span class="seat 
+                                                        <c:choose>
+                                                            <c:when test="${i <= room.occupied}">
+                                                                seat-occupied
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                seat-available
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    ">&#x1F464;</span>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
-                        <div class="card-body">
-                            <div class="room-status">
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-available">&#x1F464;</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            P 308 <span class="badge bg-primary">8 sinh
-                                viên</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="room-status">
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-occupied">&#x1F464;</span>
-                                <span
-                                    class="seat seat-available">&#x1F464;</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
+
         </div>
 
         <script
