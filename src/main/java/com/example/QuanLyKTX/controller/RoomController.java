@@ -56,8 +56,14 @@ public class RoomController {
 
     @PostMapping("/rooms/search")
     public String searchRooms(@ModelAttribute Room room, Model model) {
+        System.out.println("Building ID: " + room.getBuilding().getBuildingID());
+        System.out.println("Capacity: " + room.getCapacity());
+        System.out.println("Building Type: " + room.getBuilding().getBuildingType());
+
         List<Room> rooms = roomService.getRoomsByCriteria(room.getBuilding().getBuildingID(),
                 room.getCapacity(), room.getBuilding().getBuildingType());
+
+        System.out.println("Found rooms: " + rooms.size());
         model.addAttribute("rooms", rooms);
         return "room-list";
     }

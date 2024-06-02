@@ -20,7 +20,6 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
 
-    @Autowired
     public BookingService(BookingRepository bookingRepository, RoomRepository roomRepository) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;

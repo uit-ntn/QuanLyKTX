@@ -56,9 +56,15 @@ public class RoomService {
         statusCount.put("Reserved", rooms.stream().filter(room -> "Reserved".equals(room.getStatus())).count());
         return statusCount;
     }
+
     public Room getRoomById(Long id) {
         Optional<Room> room = roomRepository.findById(id);
         return room.orElse(null);
+    }
+
+    public List<Room> getRoomsByCriteria(Long buildingID, int capacity, String buildingType) {
+        return roomRepository.findByBuildingBuildingIDAndCapacityAndBuildingBuildingType(buildingID, capacity,
+                buildingType);
     }
 
 }
