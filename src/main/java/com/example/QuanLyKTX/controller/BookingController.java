@@ -13,25 +13,36 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.model.Building;
 import com.example.QuanLyKTX.model.MonthlyBookingCount;
 import com.example.QuanLyKTX.model.Room;
+import com.example.QuanLyKTX.model.Student;
+import com.example.QuanLyKTX.model.User;
 import com.example.QuanLyKTX.service.BookingService;
 import com.example.QuanLyKTX.service.RoomService;
+import com.example.QuanLyKTX.service.StudentService;
 import com.example.QuanLyKTX.service.BuildingService;
+import com.example.QuanLyKTX.service.UserService;
 
 @Controller
 public class BookingController {
     private BookingService bookingService;
     private RoomService roomService;
     private BuildingService buildingService;
+    private StudentService studentService;
+    private UserService userService;
 
-    public BookingController(BookingService bookingService, RoomService roomService, BuildingService buildingService) {
+    public BookingController(BookingService bookingService, RoomService roomService, BuildingService buildingService,
+            UserService userService, StudentService studentService) {
         this.bookingService = bookingService;
         this.roomService = roomService;
         this.buildingService = buildingService;
+        this.userService = userService;
+        this.studentService = studentService;
     }
 
     @GetMapping("/booking/index")
@@ -46,25 +57,9 @@ public class BookingController {
         }
         return "booking";
     }
+
     @GetMapping("/booking/rooms")
-    public String getRooms(
-            @RequestParam String buildingtype,
-            @RequestParam int capacity,
-            @RequestParam Long building,
-            Model model) {
-        List<Room> rooms = roomService.findRoomsByCriteria(buildingtype, capacity, building);
-        model.addAttribute("rooms", rooms);
-        model.addAttribute("buildingtype", buildingtype);
-        model.addAttribute("capacity", capacity);
-        model.addAttribute("building", building);
-    
-        List<Building> buildings = buildingService.getAllBuildings();
-        model.addAttribute("buildings", buildings);
-    
-        if (rooms.isEmpty()) {
-            model.addAttribute("message", "Không có phòng phù hợp.");
-        }
-    
+    public String getRooms() {
         return "roomList";
     }
 
@@ -108,5 +103,55 @@ public class BookingController {
     public ResponseEntity<List<MonthlyBookingCount>> getMonthlyBookings() {
         List<MonthlyBookingCount> monthlyBookings = bookingService.getMonthlyBookingCounts();
         return ResponseEntity.ok(monthlyBookings);
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestParam("roomID") Long roomID,
+            @RequestParam("fullName") String fullName,
+            @RequestParam("gender") String gender,
+            @RequestParam("dateOfBirth") Date dateOfBirth,
+            @RequestParam("address") String address,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("school") String school,
+            @RequestParam("mssv") String mssv,
+            @RequestParam("email") String email,
+            @RequestParam("checkInDate") Date checkInDate,
+            @RequestParam("checkOutDate") Date checkOutDate,
+            Model model) {
+
+        Room room = roomService.findById(roomID);
+
+        if (room == null) {
+            model.addAttribute("error", "Room not found");
+            return "register";
+        }
+
+        Student student = new Student(fullName, gender, dateOfBirth, address, phoneNumber, room, school, mssv);
+        studentService.save(student);
+
+        Booking booking = new Booking();
+        booking.setStudent(student);
+        booking.setRoom(room);
+        booking.setCheckInDate(checkInDate);
+        booking.setCheckOutDate(checkOutDate);
+        bookingService.save(booking);
+
+        User user = new User();
+        user.setUsername(mssv);
+        user.setEmail(email);
+        user.setPassword("defaultpassword");
+        user.setRole("ROLE_STUDENT");
+        user.setStudentID(student.getStudentID().intValue());
+        userService.save(user);
+
+        model.addAttribute("success", "Registration successful");
+        return "register";
+    }
+
+
+    @GetMapping("/register/{roomID}")
+    public String showRegistrationForm(@PathVariable Long roomID, Model model) {
+        model.addAttribute("roomID", roomID);
+        return "register";
     }
 }

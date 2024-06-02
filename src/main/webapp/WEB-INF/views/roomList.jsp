@@ -145,48 +145,7 @@ pageEncoding="UTF-8"%>
             </form>
 
             
-            <div class="container">
-                <h1>Danh sách các phòng</h1>
-                <p>Building Type: ${buildingtype}</p>
-                <p>Capacity: ${capacity}</p>
-                <p>Building: ${building}</p>
-
-                <c:choose>
-                    <c:when test="${empty rooms}">
-                        <p>Không có phòng phù hợp.</p>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="row">
-                            <c:forEach var="room" items="${rooms}">
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            P ${room.roomNumber}
-                                            <span class="badge bg-primary">${room.capacity} sinh viên</span>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="room-status">
-                                                <c:forEach var="i" begin="1" end="${room.capacity}">
-                                                    <span class="seat 
-                                                        <c:choose>
-                                                            <c:when test="${i <= room.occupied}">
-                                                                seat-occupied
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                seat-available
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    ">&#x1F464;</span>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </div>
+           
 
         </div>
 

@@ -18,10 +18,7 @@ public class RoomService {
     private RoomRepository roomRepository;
 
     public List<Room> getAllRooms() {
-        return (List<Room>) roomRepository.findAll();
-        // Câu lệnh findAll() trả về một đối tượng của kiểu Iterable<Room> ko phải
-        // (List<Room>)
-        // ép kiểu từ Iterable<Room> sang List<Room>.
+        return roomRepository.findAll();
     }
 
     public Room saveRoom(Room room) {
@@ -59,9 +56,9 @@ public class RoomService {
         statusCount.put("Reserved", rooms.stream().filter(room -> "Reserved".equals(room.getStatus())).count());
         return statusCount;
     }
-
-    public List<Room> findRoomsByCriteria(String buildingType, int capacity, Long buildingId) {
-        return roomRepository.findByBuildingTypeAndCapacityAndBuildingId(buildingType, capacity, buildingId);
+    public Room getRoomById(Long id) {
+        Optional<Room> room = roomRepository.findById(id);
+        return room.orElse(null);
     }
 
 }

@@ -2,18 +2,35 @@ package com.example.QuanLyKTX.service;
 
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.model.MonthlyBookingCount;
+import com.example.QuanLyKTX.model.Room;
+import com.example.QuanLyKTX.model.Student;
+import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.repository.BookingRepository;
+import com.example.QuanLyKTX.repository.RoomRepository;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class BookingService {
 
+    private final BookingRepository bookingRepository;
+    private final RoomRepository roomRepository;
+
     @Autowired
-    private BookingRepository bookingRepository;
+    public BookingService(BookingRepository bookingRepository, RoomRepository roomRepository) {
+        this.bookingRepository = bookingRepository;
+        this.roomRepository = roomRepository;
+    }
+
+
+    public Booking save(Booking boking) {
+        return bookingRepository.save(boking);
+    }
+
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
@@ -36,7 +53,7 @@ public class BookingService {
             return bookingRepository.save(booking);
         }).orElse(null);
     }
-    
+
     public boolean deleteBooking(Long bookingId) {
         if (bookingRepository.existsById(bookingId)) {
             bookingRepository.deleteById(bookingId);
@@ -52,4 +69,16 @@ public class BookingService {
     public List<MonthlyBookingCount> getMonthlyBookingCounts() {
         return bookingRepository.findMonthlyBookingCounts();
     }
+
+    public void createBooking(Long roomId, Student student, LocalDate checkinDate, LocalDate checkoutDate) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId));
+
+        Booking booking = new Booking();
+        booking.setRoom(room);
+        booking.setStudent(student);
+        booking.setCheckInDate(java.sql.Date.valueOf(checkinDate));
+        booking.setCheckOutDate(java.sql.Date.valueOf(checkoutDate));
+        bookingRepository.save(booking);
+    }
+
 }

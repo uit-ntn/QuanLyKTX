@@ -1,6 +1,7 @@
 package com.example.QuanLyKTX.service;
 
 import com.example.QuanLyKTX.model.Student;
+import com.example.QuanLyKTX.model.User;
 import com.example.QuanLyKTX.repository.StudentRepository;
 
 import org.apache.el.stream.Optional;
@@ -14,6 +15,17 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
+
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
@@ -40,7 +52,7 @@ public class StudentService {
             return studentRepository.save(student);
         }).orElse(null);
     }
-    
+
     public boolean deleteStudent(Long studentId) {
         if (studentRepository.existsById(studentId)) {
             studentRepository.deleteById(studentId);
@@ -48,7 +60,7 @@ public class StudentService {
         }
         return false;
     }
-    
+
     public List<Student> getStudentsNotInBooking() {
         return studentRepository.findStudentsNotInBooking();
     }
@@ -56,4 +68,7 @@ public class StudentService {
     public long countStudents() {
         return studentRepository.count();
     }
+
+ 
+
 }

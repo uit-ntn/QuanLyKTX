@@ -1,20 +1,28 @@
 package com.example.QuanLyKTX.controller;
 
+import java.time.LocalDate;
 import java.util.*;
 
+import com.example.QuanLyKTX.model.Building;
+import com.example.QuanLyKTX.model.Room;
+import com.example.QuanLyKTX.service.StudentService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.example.QuanLyKTX.service.BuildingService;
 
-import com.example.QuanLyKTX.model.Room;
 import com.example.QuanLyKTX.service.RoomService;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,21 +30,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RoomController {
     private RoomService roomService = new RoomService();
 
-    // contructor
+    @Autowired
+    private BuildingService buildingService;
+
+    private StudentService studentService;
+
+    @Autowired
+    public RoomController(RoomService roomService, BuildingService buildingService, StudentService studentService) {
+        this.roomService = roomService;
+        this.buildingService = buildingService;
+        this.studentService = studentService;
+    }
+
+    // contructor mặc định
     public RoomController() {
     }
 
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
+    // hiển thị trang tìm kiếm phòng
+    @GetMapping("/rooms")
+    public String showRoomSearchForm(Model model) {
+        model.addAttribute("buildings", buildingService.getAllBuildings());
+        model.addAttribute("room", new Room());
+        return "room-search";
     }
 
-    // @GetMapping("/booking/rooms")
-    // public String RoomList() {
-    //     return "roomList";
-    // }
+    @PostMapping("/rooms/search")
+    public String searchRooms(@ModelAttribute Room room, Model model) {
+        List<Room> rooms = roomService.getRoomsByCriteria(room.getBuilding().getBuildingID(),
+                room.getCapacity(), room.getBuilding().getBuildingType());
+        model.addAttribute("rooms", rooms);
+        return "room-list";
+    }
 
- 
+    // hiển thị chi tiết phòng
+    @GetMapping("/rooms/{id}")
+    public String viewRoomDetails(@PathVariable Long id, Model model) {
+        Room room = roomService.getRoomById(id);
+        model.addAttribute("room", room);
+        return "room-details";
+    }
 
+    // kỹ thuật ajax :v
     @PostMapping("api/rooms")
     public ResponseEntity<Room> addRoom(@RequestBody Room room) {
         System.out.println(room);
