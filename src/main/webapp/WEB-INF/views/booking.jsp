@@ -61,50 +61,50 @@ pageEncoding="UTF-8"%>
       <hr>
 
       <div class="container custom-container mt-3">
-        <form>
+        <form class="mb-2" action="/booking/rooms" method="get">
           <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="school" class="form-label">Chọn Trường</label>
-              <select class="form-select" id="school">
-                <option>Chọn trường</option>
-                <option>Trường Đại học Công nghệ Thông tin</option>
-                <option>Trường Đại học Bách Khoa</option>
-                <option>Trường Đại học Quốc tế</option>
-                <option>Trường Đại học Nhân văn</option>
-                <option>Trường Đại học Kinh tế - Luật</option>
-              </select>
-            </div>
-            <!-- Chọn giới tính -->
-            <div class="col-md-3 mb-3">
-              <label for="gender" class="form-label">Chọn Giới Tính</label>
-              <select class="form-select" id="buildingtype" name="buildingtype">
-                <option value="male">Nam</option>
-                <option value="female">Nữ</option>
-              </select>
-            </div>
-            <!-- Chọn loại phòng -->
-            <div class="col-md-3 mb-3">
-              <label for="capacity" class="form-label">Chọn Loại Phòng</label>
-              <select class="form-select" id="capacity" name="capacity">
-                <option value="4">Phòng 4 sinh viên</option>
-                <option value="6">Phòng 6 sinh viên</option>
-                <option value="8">Phòng 8 sinh viên</option>
-              </select>
-            </div>
-
-            <div class="col-md-3 mb-3">
-              <label for="building" class="form-label">Chọn Tòa</label>
-              <select class="form-select" id="building" name="building">
-                <c:forEach var="building" items="${buildings}">
-                  <option
-                    value="${building.buildingID}">${building.buildingName}</option>
-                </c:forEach>
-              </select>
-            </div>
-
+              <div class="col-md-3 mb-3">
+                  <label for="school" class="form-label">Chọn Trường</label>
+                  <select class="form-select" id="school">
+                      <option>Chọn trường</option>
+                      <option>Trường Đại học Công nghệ Thông tin</option>
+                      <option>Trường Đại học Bách Khoa</option>
+                      <option>Trường Đại học Quốc tế</option>
+                      <option>Trường Đại học Nhân văn</option>
+                      <option>Trường Đại học Kinh tế - Luật</option>
+                  </select>
+              </div>
+              <div class="col-md-3 mb-3">
+                  <label for="buildingtype" class="form-label">Chọn Giới Tính</label>
+                  <select class="form-select" id="buildingtype" name="buildingtype">
+                      <option value="male">Nam</option>
+                      <option value="female">Nữ</option>
+                      <option value="KTX">KTX</option>
+                  </select>
+              </div>
+              <div class="col-md-3 mb-3">
+                  <label for="capacity" class="form-label">Chọn Loại Phòng</label>
+                  <select class="form-select" id="capacity" name="capacity">
+                      <option value="4">Phòng 4 sinh viên</option>
+                      <option value="6">Phòng 6 sinh viên</option>
+                      <option value="8">Phòng 8 sinh viên</option>
+                  </select>
+              </div>
+              <div class="col-md-3 mb-3">
+                  <label for="building" class="form-label">Chọn Tòa</label>
+                  <select class="form-select" id="building" name="building">
+                      <c:forEach var="building" items="${buildings}">
+                          <option value="${building.buildingID}">${building.buildingName}</option>
+                      </c:forEach>
+                  </select>
+              </div>
           </div>
-          <button class="btn btn-primary" submit="">Tìm phòng</button>
-        </form>
+          <div class="col-12">
+              <div class="text-center">
+                  <button class="btn btn-primary" type="submit">Tìm phòng</button>
+              </div>
+          </div>
+      </form>
       </div>
 
       <div class="container custom-container mt-5 mb-3">
@@ -122,7 +122,8 @@ pageEncoding="UTF-8"%>
                   <p>Để đảm bảo thời gian đăng ký ở Ký túc xá trực tuyến, sinh
                     viên chuẩn bị đầy đủ file hình sau:</p>
                   <ul>
-                    <li>Chứng minh nhân dân/thẻ căn cước công dân (mặt trước và
+                    <li>Chứng minh nhân dân/thẻ căn cước công dân (mặt trước
+                      và
                       mặt sau), mã số định danh cá nhân, trường hợp chưa có mã
                       số
                       định danh. Sinh viên truy cập link: <a
@@ -130,10 +131,12 @@ pageEncoding="UTF-8"%>
                         target="_blank">https://ktx.vnuhcm.edu.vn/tin-tuc/huong-dan-tra-cuu-ma-so-dinh-danh-cong-dan-271.html</a>
                       để tra cứu;</li>
                     <li>Thẻ Bảo hiểm Y tế.</li>
-                    <li>Đối với tân sinh viên: Giấy tờ minh chứng đã làm thủ tục
+                    <li>Đối với tân sinh viên: Giấy tờ minh chứng đã làm thủ
+                      tục
                       nhập học tại CSDT (theo phụ lục VII của Thông báo số
                       479/TB-TTQLKTX)(*).</li>
-                    <li>Đối với sinh viên năm 2 trở lên: Thẻ sinh viên/Giấy xác
+                    <li>Đối với sinh viên năm 2 trở lên: Thẻ sinh viên/Giấy
+                      xác
                       nhận sinh viên/thời khóa biểu học tập(*).</li>
                     <li>Hình thẻ kích thước 4 x 6 (áo sơ mi, chụp rõ khuôn
                       mặt).</li>
@@ -143,7 +146,8 @@ pageEncoding="UTF-8"%>
                     sau:</p>
                   <ul>
                     <li>Thời gian đăng ký tối đa 20 phút;</li>
-                    <li>Thời gian trả kết quả: trong 36 giờ tính từ khi hệ thống
+                    <li>Thời gian trả kết quả: trong 36 giờ tính từ khi hệ
+                      thống
                       xác nhận đăng ký thành công.</li>
                   </ul>
 
@@ -153,7 +157,8 @@ pageEncoding="UTF-8"%>
                       <ul>
                         <li>Thời gian bắt đầu: từ ngày sinh viên đăng ký ở
                           KTX;</li>
-                        <li>Thời gian kết thúc: Sinh viên lựa chọn một trong ba
+                        <li>Thời gian kết thúc: Sinh viên lựa chọn một trong
+                          ba
                           mốc thời gian sau theo kế hoạch học tập của cá nhân:
                           <ul>
                             <li>Ngày 30/6/2024;</li>
@@ -165,10 +170,12 @@ pageEncoding="UTF-8"%>
                         </li>
                       </ul>
                     </li>
-                    <li>Sinh viên đã ở KTX năm học 2022-2023 trở về trước, chưa
+                    <li>Sinh viên đã ở KTX năm học 2022-2023 trở về trước,
+                      chưa
                       thực hiện thủ tục thanh quyết toán tiền thuê chỗ năm tài
                       sản
-                      (TCTS) trước khi chuyển ra theo quy định: Liên hệ Ban Quản
+                      (TCTS) trước khi chuyển ra theo quy định: Liên hệ Ban
+                      Quản
                       lý cụm nhà để hoàn tất thủ tục.</li>
                   </ul>
                 </div>
@@ -181,7 +188,8 @@ pageEncoding="UTF-8"%>
               <div class="container mt-5">
                 <h1 class="text-center">CÁC KHOẢN THU VÀ MỨC THU</h1>
                 <p class="text-center">(Ban hành kèm theo Thông báo số
-                  479/TB-TTQLKTX ngày 15 tháng 08 năm 2023 của Trung tâm Quản lý
+                  479/TB-TTQLKTX ngày 15 tháng 08 năm 2023 của Trung tâm Quản
+                  lý
                   Ký túc xá)</p>
 
                 <div class="mt-4">
@@ -189,9 +197,11 @@ pageEncoding="UTF-8"%>
                     <li>1. Tiền hồ sơ: 60.000 đồng/sinh viên.</li>
                     <li>2. Tiền thuê chỗ ở tạm thời tài sản-cơ sở vật chất
                       (TCTS-CSVC): 100.000 đồng/sinh viên.</li>
-                    <li>3. Bảo hiểm y tế: 850.500 đồng/sinh viên/15 tháng (dành
+                    <li>3. Bảo hiểm y tế: 850.500 đồng/sinh viên/15 tháng
+                      (dành
                       cho tân sinh viên đóng BHYT tại KTX); 680.400 đồng/sinh
-                      viên/12 tháng (dành cho tân sinh viên trường Đại học ngoại
+                      viên/12 tháng (dành cho tân sinh viên trường Đại học
+                      ngoại
                       hệ Thông tin).</li>
                     <li>4. Bảo hiểm tai nạn: 30.000 đồng/sinh viên/12
                       tháng.</li>
@@ -199,8 +209,10 @@ pageEncoding="UTF-8"%>
                       1593/ĐHQG-KHTC ngày 09/8/2022 của ĐHQG-HCM về “Quy định
                       mức
                       giá lệ phí phòng ở KTX tại năm học 2022-2023 đến năm học
-                      2025-2026 và đơn giá dịch vụ”, Trung tâm thông báo mức giá
-                      lệ phí phòng ở và đơn giá dịch vụ tăng thêm như sau:</li>
+                      2025-2026 và đơn giá dịch vụ”, Trung tâm thông báo mức
+                      giá
+                      lệ phí phòng ở và đơn giá dịch vụ tăng thêm như
+                      sau:</li>
                   </ul>
 
                   <p class="section-title">+ Đơn giá từ 01/8/2023-31/8/2023 và
@@ -279,7 +291,8 @@ pageEncoding="UTF-8"%>
 
                   <p class="note"><strong>Ghi chú:</strong></p>
                   <ul class="note">
-                    <li>- Mức đóng các loại phòng trên chưa bao gồm tiền sử dụng
+                    <li>- Mức đóng các loại phòng trên chưa bao gồm tiền sử
+                      dụng
                       điện, nước và các dịch vụ khác.</li>
                     <li>- Sinh viên đang thực hiện tài sản-cơ sở vật chất
                       (TCTS-CSVC) sẽ được khởi hồi KTX.</li>
@@ -288,10 +301,13 @@ pageEncoding="UTF-8"%>
                       chi tiết phụ lục IV</li>
                     <li>* Phòng dịch vụ chỉ cho lập đặc trang thiết bị tự tăng
                       thêm:</li>
-                    <li>Phòng dịch vụ 4 sinh viên (gồm 02 nhà bếp, máy giặt, máy
-                      nước nóng, kệ để, tủ lạnh, bàn, ghế (tủ bàn, ghế thiết bị
+                    <li>Phòng dịch vụ 4 sinh viên (gồm 02 nhà bếp, máy giặt,
+                      máy
+                      nước nóng, kệ để, tủ lạnh, bàn, ghế (tủ bàn, ghế thiết
+                      bị
                       riêng))</li>
-                    <li>Phòng dịch vụ 2 sinh viên (gồm 02 thiết bị tự tăng thêm:
+                    <li>Phòng dịch vụ 2 sinh viên (gồm 02 thiết bị tự tăng
+                      thêm:
                       máy lạnh, rèm)</li>
                   </ul>
                 </div>

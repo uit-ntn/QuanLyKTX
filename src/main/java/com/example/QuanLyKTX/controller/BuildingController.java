@@ -15,24 +15,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.*;
 
 import com.example.QuanLyKTX.model.Building;
+import com.example.QuanLyKTX.model.MonthlyBookingCount;
+import com.example.QuanLyKTX.service.BookingService;
 import com.example.QuanLyKTX.service.BuildingService;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 @Controller
 public class BuildingController {
     private BuildingService buildingService = null;
+    private BookingService bookingService = null;
 
-    public BuildingController(BuildingService buildingService) {
+    public BuildingController(BuildingService buildingService,BookingService bookingService) {
         this.buildingService = buildingService;
+        this.bookingService = bookingService;
     }
 
     @GetMapping("/building/getAllBuiding")
     public List<Building> getAllBuilding() {
         return buildingService.getAllBuildings();
     }
-    
 
     @GetMapping(value = "/api/buildings", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -53,7 +54,8 @@ public class BuildingController {
     }
 
     @PutMapping("/api/buildings/{buidlingId}")
-    public ResponseEntity<Building> updateBuilding(@PathVariable Long buidlingId, @RequestBody Building updatedBuilding) {
+    public ResponseEntity<Building> updateBuilding(@PathVariable Long buidlingId,
+            @RequestBody Building updatedBuilding) {
         Building building = buildingService.updateBuilding(buidlingId, updatedBuilding);
         if (building == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -61,7 +63,7 @@ public class BuildingController {
         return ResponseEntity.ok(building);
     }
 
-     @DeleteMapping("/api/buildings/{buidlingId}")
+    @DeleteMapping("/api/buildings/{buidlingId}")
     public ResponseEntity<Void> deleteBuilding(@PathVariable Long buidlingId) {
         boolean isDeleted = buildingService.deleteBuilding(buidlingId);
         if (!isDeleted) {

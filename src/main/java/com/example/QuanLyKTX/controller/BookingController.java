@@ -11,65 +11,105 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.model.Building;
 import com.example.QuanLyKTX.model.MonthlyBookingCount;
 import com.example.QuanLyKTX.model.Room;
+import com.example.QuanLyKTX.model.Student;
+import com.example.QuanLyKTX.model.User;
 import com.example.QuanLyKTX.service.BookingService;
 import com.example.QuanLyKTX.service.RoomService;
+import com.example.QuanLyKTX.service.StudentService;
 import com.example.QuanLyKTX.service.BuildingService;
+import com.example.QuanLyKTX.service.UserService;
 
 @Controller
 public class BookingController {
     private BookingService bookingService;
     private RoomService roomService;
     private BuildingService buildingService;
+    private StudentService studentService;
+    private UserService userService;
 
-    public BookingController(BookingService bookingService, RoomService roomService, BuildingService buildingService) {
+    public BookingController(BookingService bookingService, RoomService roomService, BuildingService buildingService,
+            UserService userService, StudentService studentService) {
         this.bookingService = bookingService;
         this.roomService = roomService;
         this.buildingService = buildingService;
+        this.userService = userService;
+        this.studentService = studentService;
     }
 
-    @GetMapping("/booking/index")
-    public String Booking(Model model) {
-
-        List<Room> rooms = roomService.getAllRooms();
-    
-        List <Building> buildings = buildingService.getAllBuildings();
-
-
-         // Kiểm tra và in ra console
-    if (rooms == null || rooms.isEmpty()) {
-        System.out.println("Rooms list is null or empty.");
-    } else {
-        System.out.println("Rooms list size: " + rooms.size());
+    // phải có get mapping không có tham số trước rồi mới có get mapping có tham số
+    // :v
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        return "registration-form";
     }
 
-    if (buildings == null || buildings.isEmpty()) {
-        System.out.println("Buildings list is null or empty.");
-    } else {
-        System.out.println("Buildings list size: " + buildings.size());
-    }
-
-        model.addAttribute("rooms", rooms);
-        model.addAttribute("buildings", buildings);
-        return "booking";
-    }
-
-    // Thay đổi đường dẫn này để tránh xung đột
-    @GetMapping("/booking/room-list")
-    public String RoomList(Model model) {
-        try {
-            List<Room> rooms = roomService.getAllRooms();
-            model.addAttribute("rooms", rooms);
-            System.out.println(rooms);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            model.addAttribute("errorMessage", "An error occurred while fetching rooms");
+    @GetMapping("/register/{roomID}")
+    public String showRegistrationForm(@PathVariable Long roomID, Model model) {
+        Room room = roomService.findById(roomID); // Tìm phòng bằng roomID
+        if (room == null) {
+            // Xử lý trường hợp không tìm thấy phòng
+            return "error";
+        } else {
+            model.addAttribute("room", room); // Truyền thông tin phòng vào view
+            System.out.println("đã truyền data vào view");
         }
+        return "registration-form";
+    }
+
+    @PostMapping("booking/register")
+    public String register(@RequestParam("roomID") Long roomID,
+            @RequestParam("fullName") String fullName,
+            @RequestParam("gender") String gender,
+            @RequestParam("dateOfBirth") Date dateOfBirth,
+            @RequestParam("address") String address,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("school") String school,
+            @RequestParam("mssv") String mssv,
+            @RequestParam("email") String email,
+            @RequestParam("checkInDate") Date checkInDate,
+            @RequestParam("checkOutDate") Date checkOutDate,
+            Model model) {
+
+        Room room = roomService.findById(roomID);
+
+        if (room == null) {
+            model.addAttribute("error", "Room not found");
+            return "";
+        }
+
+        Student student = new Student(fullName, gender, dateOfBirth, address, phoneNumber, room, school, mssv);
+        studentService.save(student);
+
+        Booking booking = new Booking();
+        booking.setStudent(student);
+        booking.setRoom(room);
+        booking.setCheckInDate(checkInDate);
+        booking.setCheckOutDate(checkOutDate);
+        bookingService.save(booking);
+
+        User user = new User();
+        user.setUsername(mssv);
+        user.setEmail(email);
+        user.setPassword("defaultpassword");
+        user.setRole("ROLE_STUDENT");
+        user.setStudentID(student.getStudentID().intValue());
+        userService.save(user);
+
+        model.addAttribute("success", "Registration successful");
+        return "register";
+    }
+
+    @GetMapping("/booking/rooms")
+    public String getRooms() {
         return "roomList";
     }
 
@@ -114,4 +154,5 @@ public class BookingController {
         List<MonthlyBookingCount> monthlyBookings = bookingService.getMonthlyBookingCounts();
         return ResponseEntity.ok(monthlyBookings);
     }
+
 }

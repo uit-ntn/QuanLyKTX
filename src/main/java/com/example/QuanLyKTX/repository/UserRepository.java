@@ -9,9 +9,6 @@ import com.example.QuanLyKTX.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    // Optional<User> findByLoginAndPassword(String login, String password);
-    // User save(User user);
-    // User save(User user);
 
     User findByUsername(String username); // Tìm user bằng username
 

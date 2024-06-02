@@ -1,6 +1,5 @@
 package com.example.QuanLyKTX.service;
 
-
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import com.example.QuanLyKTX.repository.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class RoomService {
@@ -20,11 +18,9 @@ public class RoomService {
     private RoomRepository roomRepository;
 
     public List<Room> getAllRooms() {
-        return (List<Room>) roomRepository.findAll(); 
-        // Câu lệnh findAll() trả về một đối tượng của kiểu Iterable<Room> ko phải (List<Room>)
-        // ép kiểu từ Iterable<Room> sang List<Room>.
+        return roomRepository.findAll();
     }
-  
+
     public Room saveRoom(Room room) {
         return roomRepository.save(room);
     }
@@ -43,7 +39,7 @@ public class RoomService {
             return roomRepository.save(room);
         }).orElse(null);
     }
-    
+
     public boolean deleteRoom(Long roomId) {
         if (roomRepository.existsById(roomId)) {
             roomRepository.deleteById(roomId);
@@ -60,4 +56,15 @@ public class RoomService {
         statusCount.put("Reserved", rooms.stream().filter(room -> "Reserved".equals(room.getStatus())).count());
         return statusCount;
     }
+
+    public Room getRoomById(Long id) {
+        Optional<Room> room = roomRepository.findById(id);
+        return room.orElse(null);
+    }
+
+    public List<Room> getRoomsByCriteria(Long buildingID, int capacity, String buildingType) {
+        return roomRepository.findByBuildingBuildingIDAndCapacityAndBuildingBuildingType(buildingID, capacity,
+                buildingType);
+    }
+
 }
