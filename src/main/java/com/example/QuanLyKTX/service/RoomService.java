@@ -3,6 +3,8 @@ package com.example.QuanLyKTX.service;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.QuanLyKTX.model.Room;
 import com.example.QuanLyKTX.repository.RoomRepository;
@@ -29,6 +31,7 @@ public class RoomService {
         return roomRepository.findById(roomId).orElse(null);
     }
 
+
     public Room updateRoom(Long roomId, Room updatedRoom) {
         return roomRepository.findById(roomId).map(room -> {
             room.setRoomNumber(updatedRoom.getRoomNumber());
@@ -39,6 +42,16 @@ public class RoomService {
             return roomRepository.save(room);
         }).orElse(null);
     }
+
+
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public Room updateRoomStatus(Long roomId, String status) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
+        room.setStatus(status);
+        return roomRepository.save(room);
+    }
+
 
     public boolean deleteRoom(Long roomId) {
         if (roomRepository.existsById(roomId)) {

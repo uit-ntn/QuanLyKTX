@@ -22,10 +22,9 @@ pageEncoding="UTF-8"%>
             integrity="sha384-CzjTAg2E7PTxFUl0zHj2MF5P5fJvCc7bb/4JZg/ry1bY2fVMbk0XRRKfoNwh4M+A"
             crossorigin="anonymous">
 
-
-            <link rel="stylesheet" href="../../../resources/static/css/room-detail.css">
+        <link rel="stylesheet"
+            href="../../../resources/static/css/room-detail.css">
         <style>
-
         /* Custom styles */
         body {
             padding-top: 20px;
@@ -57,26 +56,28 @@ pageEncoding="UTF-8"%>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-5">
-                <img class="navbar-brand" href="/"
-                    src="../../../resources/static/img/logo.png">
+                <a class="navbar-brand" href="/">
+                    <img src="../../../resources/static/img/logo.png"
+                        alt="Logo">
+                </a>
                 <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation"><span
-                        class="navbar-toggler-icon"></span></button>
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse"
                     id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active"
-                                aria-current="page"
-                                href="/">Home</a></li>
+                                aria-current="page" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link"
                                 href="/about">About</a></li>
                         <li class="nav-item"><a class="nav-link"
                                 href="/contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link"
-                                href="/Services">Services</a></li>
+                                href="/services">Services</a></li>
                     </ul>
                 </div>
             </div>
@@ -135,37 +136,20 @@ pageEncoding="UTF-8"%>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:forEach var="i" begin="0"
+                                        end="${room.capacity - 2}">
+                                        <tr>
+                                            <td>Chỗ ${i + 1}</td>
+                                            <td>Đã được đăng ký</td>
+                                        </tr>
+                                    </c:forEach>
                                     <tr>
-                                        <td>Chỗ 1</td>
-                                        <td>Đã được đăng ký</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 2</td>
-                                        <td>Đã được đăng ký</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 3</td>
-                                        <td>Trống</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 4</td>
-                                        <td>Đã được đăng ký</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 5</td>
-                                        <td>Đã được đăng ký</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 6</td>
-                                        <td>Đã được đăng ký</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 7</td>
-                                        <td>Đã được đăng ký</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chỗ 8</td>
-                                        <td>Đã được đăng ký</td>
+                                        <td>
+                                            Chỗ ${room.capacity }
+                                        </td>
+                                        <td>
+                                            Còn trống
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

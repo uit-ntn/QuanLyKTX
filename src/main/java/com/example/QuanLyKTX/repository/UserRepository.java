@@ -1,18 +1,19 @@
 package com.example.QuanLyKTX.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.QuanLyKTX.model.User;
 
-
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUsername(String username); // Tìm user bằng username
+    Optional<User> findByUsername(String username);
 
-    User findByEmail(String email); // Tìm user bằng email
+    Optional<User> findByEmail(String email);
 
-    User findById(int id);
+    User findByUsernameAndPassword(String username, String password);
+
 }

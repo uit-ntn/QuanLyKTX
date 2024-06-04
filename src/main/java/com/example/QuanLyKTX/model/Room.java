@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ROOMS")
 public class Room {
-      
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rooms_seq")
     @SequenceGenerator(name = "rooms_seq", sequenceName = "ROOMS_SEQ", allocationSize = 1)
@@ -26,26 +26,30 @@ public class Room {
 
     @Column(name = "ROOMNUMBER")
     private String roomNumber;
-    
+
     @Column(name = "CAPACITY")
     private int capacity;
-    
+
     @Column(name = "FLOOR")
     private int floor;
-    
+
     @Column(name = "STATUS")
     private String status;
+
+    @Column(name = "remain")
+    private Long remain;
 
     public Room() {
         // Default constructor
     }
 
-    public Room(Building building, String roomNumber, int capacity, int floor, String status) {
+    public Room(Building building, String roomNumber, int capacity, int floor, String status, Long remain) {
         this.building = building;
         this.roomNumber = roomNumber;
         this.capacity = capacity;
         this.floor = floor;
         this.status = status;
+        this.remain = remain;
     }
 
     // Getters and setters
@@ -96,4 +100,13 @@ public class Room {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Long getRemain() {
+        return remain;
+    }
+
+    public void setRemain(Long remain) {
+        this.remain = remain;
+    }
+
 }

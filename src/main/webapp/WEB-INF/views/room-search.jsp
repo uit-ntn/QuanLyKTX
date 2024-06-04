@@ -79,7 +79,6 @@ pageEncoding="UTF-8"%>
                                 name="building.buildingType">
                                 <option value="male">Nam</option>
                                 <option value="female">Nữ</option>
-                                <option value="KTX">KTX</option>
                             </select>
                         </div>
                         <div class="col-md-3 mb-3">

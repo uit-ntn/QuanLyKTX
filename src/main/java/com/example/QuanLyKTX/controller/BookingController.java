@@ -1,5 +1,6 @@
 package com.example.QuanLyKTX.controller;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +28,7 @@ import com.example.QuanLyKTX.service.BookingService;
 import com.example.QuanLyKTX.service.RoomService;
 import com.example.QuanLyKTX.service.StudentService;
 import com.example.QuanLyKTX.service.BuildingService;
+import com.example.QuanLyKTX.service.EmailService;
 import com.example.QuanLyKTX.service.UserService;
 
 @Controller
@@ -35,60 +38,84 @@ public class BookingController {
     private BuildingService buildingService;
     private StudentService studentService;
     private UserService userService;
+    private EmailService emailService;
 
     public BookingController(BookingService bookingService, RoomService roomService, BuildingService buildingService,
-            UserService userService, StudentService studentService) {
+            UserService userService, StudentService studentService, EmailService emailService) {
         this.bookingService = bookingService;
         this.roomService = roomService;
         this.buildingService = buildingService;
         this.userService = userService;
         this.studentService = studentService;
+        this.emailService = emailService;
     }
 
-    // phải có get mapping không có tham số trước rồi mới có get mapping có tham số
-    // :v
     @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        return "registration-form";
-    }
-
-    @GetMapping("/register/{roomID}")
-    public String showRegistrationForm(@PathVariable Long roomID, Model model) {
-        Room room = roomService.findById(roomID); // Tìm phòng bằng roomID
-        if (room == null) {
-            // Xử lý trường hợp không tìm thấy phòng
-            return "error";
+    public String showRegistrationForm(@RequestParam(required = false) Long roomId, Model model) {
+        if (roomId != null) {
+            Room room = roomService.findById(roomId);
+            if (room == null) {
+                return "error"; // Xử lý khi không tìm thấy phòng
+            } else {
+                model.addAttribute("room", room);
+                model.addAttribute("roomID", roomId); // Thêm roomId vào model
+            }
         } else {
-            model.addAttribute("room", room); // Truyền thông tin phòng vào view
-            System.out.println("đã truyền data vào view");
+            System.out.println("Lỗi lấy data");
         }
         return "registration-form";
     }
 
     @PostMapping("booking/register")
-    public String register(@RequestParam("roomID") Long roomID,
+    public ResponseEntity<String> register(
+            @RequestParam("roomID") Long roomID,
             @RequestParam("fullName") String fullName,
             @RequestParam("gender") String gender,
-            @RequestParam("dateOfBirth") Date dateOfBirth,
+            @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
             @RequestParam("address") String address,
             @RequestParam("phoneNumber") String phoneNumber,
             @RequestParam("school") String school,
             @RequestParam("mssv") String mssv,
             @RequestParam("email") String email,
-            @RequestParam("checkInDate") Date checkInDate,
-            @RequestParam("checkOutDate") Date checkOutDate,
+            @RequestParam("CCCD") String cccd,
+            @RequestParam("CCCD-font") MultipartFile cccdFont,
+            @RequestParam("CCCD-back") MultipartFile cccdBack,
+            @RequestParam("checkInDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkInDate,
+            @RequestParam("checkOutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOutDate,
             Model model) {
+
+        // Logging các giá trị để kiểm tra
+        System.out.println("Room ID: " + roomID);
+        System.out.println("Full Name: " + fullName);
+        System.out.println("Gender: " + gender);
+        System.out.println("Date of Birth: " + dateOfBirth);
+        System.out.println("Address: " + address);
+        System.out.println("Phone Number: " + phoneNumber);
+        System.out.println("School: " + school);
+        System.out.println("MSSV: " + mssv);
+        System.out.println("Email: " + email);
+        System.out.println("CCCD: " + cccd);
+        System.out.println("Check In Date: " + checkInDate);
+        System.out.println("Check Out Date: " + checkOutDate);
 
         Room room = roomService.findById(roomID);
 
         if (room == null) {
-            model.addAttribute("error", "Room not found");
-            return "";
+            return ResponseEntity.status(404).body("Room not found");
         }
 
-        Student student = new Student(fullName, gender, dateOfBirth, address, phoneNumber, room, school, mssv);
+
+        // Kiểm tra trạng thái phòng
+        if (!room.getStatus().equalsIgnoreCase("available")) {
+            model.addAttribute("error", "Room is not available");
+            return ResponseEntity.status(404).body("Phòng đã đầy");
+        }
+
+        // Tạo Student mới
+        Student student = new Student(fullName, gender, dateOfBirth, address, phoneNumber, roomID, school, mssv);
         studentService.save(student);
 
+        // Tạo Booking mới
         Booking booking = new Booking();
         booking.setStudent(student);
         booking.setRoom(room);
@@ -96,22 +123,62 @@ public class BookingController {
         booking.setCheckOutDate(checkOutDate);
         bookingService.save(booking);
 
-        User user = new User();
-        user.setUsername(mssv);
-        user.setEmail(email);
-        user.setPassword("defaultpassword");
-        user.setRole("ROLE_STUDENT");
-        user.setStudentID(student.getStudentID().intValue());
-        userService.save(user);
+        // Tạo User mới
+        try {
 
-        model.addAttribute("success", "Registration successful");
-        return "register";
-    }
+            User user = new User();
+            user.setUsername(cccd);
+            user.setEmail(email);
+            user.setPassword(cccd); // Password là CCCD
+            user.setRole("student");
+            user.setStudentID(student.getStudentID());
+       
+            
+            // Logging các giá trị của user để kiểm tra
+            System.out.println("User - Username: " + user.getUsername());
+            System.out.println("User - Email: " + user.getEmail());
+            System.out.println("User - Password: " + user.getPassword());
+            System.out.println("User - Role: " + user.getRole());
+            System.out.println("User - Student ID: " + user.getStudentID());
+    
+            userService.save(user);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
-    @GetMapping("/booking/rooms")
-    public String getRooms() {
-        return "roomList";
+
+
+        
+
+
+        // Gửi email thông tin tài khoản
+        emailService.sendAccountDetails(email, cccd, cccd);
+        model.addAttribute("success", "Registration successful. Check your email for account details.");
+        return ResponseEntity.ok("Đăng ký thành công!");
+
     }
+    
+
+
+    
+    // @PostMapping("booking/register")
+    // public ResponseEntity<String> registerStudent(@RequestParam Long roomID,
+    //                                               @RequestParam String fullName,
+    //                                               @RequestParam String gender,
+    //                                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
+    //                                               @RequestParam String address,
+    //                                               @RequestParam String phoneNumber,
+    //                                               @RequestParam String school,
+    //                                               @RequestParam String mssv,
+    //                                               @RequestParam String email,
+    //                                               @RequestParam String cccd,
+    //                                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkInDate,
+    //                                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOutDate,
+    //                                               Model model) {
+    //     String status = bookingService.registerStudent(roomID, fullName, gender, dateOfBirth,
+    //             address, phoneNumber, school, mssv, email, cccd, checkInDate, checkOutDate);
+    //     return ResponseEntity.ok(status);
+    // }
 
     @PostMapping("/api/bookings")
     public ResponseEntity<Booking> addBooking(@RequestBody Booking booking) {
