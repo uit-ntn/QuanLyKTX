@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.example.QuanLyKTX.model.Room; // Thêm import cho Room
+import com.example.QuanLyKTX.service.RoomService; // Thêm import cho RoomService
 
 import java.util.*;
 
@@ -16,8 +18,6 @@ import com.example.QuanLyKTX.service.StudentService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @Controller
 public class StudentController {
@@ -45,16 +45,39 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    // @PutMapping("/api/students/{studentId}")
+    // public ResponseEntity<Student> updateStudent(@PathVariable Long studentId,
+    // @RequestBody Student updatedStudent) {
+    // Student student = studentService.updateStudent(studentId, updatedStudent);
+    // if (student == null) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    // }
+    // return ResponseEntity.ok(student);
+
+    // }
+
     @PutMapping("/api/students/{studentId}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long studentId, @RequestBody Student updatedStudent) {
-        Student student = studentService.updateStudent(studentId, updatedStudent);
-        if (student == null) {
+        Student existingStudent = studentService.findById(studentId);
+        if (existingStudent == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(student);
+
+        // Cập nhật các thuộc tính của existingStudent từ updatedStudent
+        existingStudent.setFullName(updatedStudent.getFullName());
+        existingStudent.setGender(updatedStudent.getGender());
+        existingStudent.setDateOfBirth(updatedStudent.getDateOfBirth());
+        existingStudent.setAddress(updatedStudent.getAddress());
+        existingStudent.setPhoneNumber(updatedStudent.getPhoneNumber());
+        existingStudent.setSchool(updatedStudent.getSchool());
+        existingStudent.setMssv(updatedStudent.getMssv());
+        existingStudent.setRoomId(updatedStudent.getRoomId());
+
+        Student savedStudent = studentService.saveStudent(existingStudent);
+        return ResponseEntity.ok(savedStudent);
     }
 
-     @DeleteMapping("/api/students/{studentId}")
+    @DeleteMapping("/api/students/{studentId}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long studentId) {
         boolean isDeleted = studentService.deleteStudent(studentId);
         if (!isDeleted) {

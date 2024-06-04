@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="vi">
   <head>
     <link rel="icon" href="../../../resources/static/img/logo.png"
       type="image/x-icon">
-    <link
-      rel="stylesheet"
-      type="text/css"
+    <link rel="stylesheet" type="text/css"
       href="../../../resources/static/css/home.css?version=5.1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Trang chủ</title>
@@ -21,8 +20,9 @@ pageEncoding="UTF-8"%>
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container px-5">
-        <img class="navbar-brand" href="/"
-          src="../../../resources/static/img/logo.png">
+        <a class="navbar-brand" href="/">
+          <img src="../../../resources/static/img/logo.png" alt="Logo">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -37,7 +37,23 @@ pageEncoding="UTF-8"%>
             <li class="nav-item"><a class="nav-link"
                 href="/contact">Contact</a></li>
             <li class="nav-item"><a class="nav-link"
-                href="/Services">Services</a></li>
+                href="/services">Services</a></li>
+            <c:choose>
+              <c:when test="${loggedUser != null}">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle"
+                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Hello ${loggedUser.username}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item"
+                        href="/user/profile">Account</a></li>
+                    <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                  </ul>
+                </li>
+              </c:when>
+            </c:choose>
           </ul>
         </div>
       </div>
@@ -52,12 +68,24 @@ pageEncoding="UTF-8"%>
                 QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH</h1>
               <p class="lead text-white-50 mb-4">Không chỉ là nơi ở, mà là một
                 cộng đồng sống đầy đủ, năng động và sáng tạo</p>
-              <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/auth">Đăng
-                  nhập</a>
-                <a class="btn btn-outline-light btn-lg px-4" href="/rooms">Đăng
-                  ký</a>
-              </div>
+              <c:choose>
+                <c:when test="${loggedUser != null}">
+                  <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a class="btn btn-primary btn-lg px-4 me-sm-3"
+                      href="/user/profile">Account</a>
+                    <a class="btn btn-outline-light btn-lg px-4"
+                      href="/logout">Log out</a>
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a class="btn btn-primary btn-lg px-4 me-sm-3"
+                      href="/login">Đăng nhập</a>
+                    <a class="btn btn-outline-light btn-lg px-4"
+                      href="/rooms">Đăng ký</a>
+                  </div>
+                </c:otherwise>
+              </c:choose>
             </div>
           </div>
         </div>
@@ -81,13 +109,13 @@ pageEncoding="UTF-8"%>
               ĐHQG-HCM hay Làng Đại học Thủ Đức). Ký túc xá ĐHQG-TPHCM gồm có 02
               khu: A và B[1]. Địa chỉ: Đường Tạ Quang Bửu, Khu phố 6, phường
               Linh Trung, thành phố Thủ Đức, Thành phố Hồ Chí Minh. Về mặt hành
-              chính hiện nay, các khu của Ký
-              túc xá đều tọa lạc tại phường Đông Hòa, thành phố Dĩ An, tỉnh Bình
-              Dương, giáp ranh với thành phố Thủ Đức.[2] Xung quanh Ký túc xá là
-              hệ thống các trường đại học thành viên, trực thuộc Đại học Quốc
-              gia Thành phố Hồ Chí Minh, Trường Đại học Thể dục Thể thao Thành
-              phố Hồ Chí Minh, Trường Đại học An ninh Nhân dân, Trung tâm Giáo
-              dục Quốc phòng và An ninh ĐHQG-TPHCM.</p>
+              chính hiện nay, các khu của Ký túc xá đều tọa lạc tại phường Đông
+              Hòa, thành phố Dĩ An, tỉnh Bình Dương, giáp ranh với thành phố Thủ
+              Đức.[2] Xung quanh Ký túc xá là hệ thống các trường đại học thành
+              viên, trực thuộc Đại học Quốc gia Thành phố Hồ Chí Minh, Trường
+              Đại học Thể dục Thể thao Thành phố Hồ Chí Minh, Trường Đại học An
+              ninh Nhân dân, Trung tâm Giáo dục Quốc phòng và An ninh
+              ĐHQG-TPHCM.</p>
           </div>
         </div>
       </div>
@@ -161,7 +189,6 @@ pageEncoding="UTF-8"%>
                   </li>
                   <li class="mb-2">
                     <i class="bi bi-check text-primary"></i>
-
                   </li>
                   <li class="mb-2">
                     <i class="bi bi-check text-primary"></i>
@@ -191,8 +218,7 @@ pageEncoding="UTF-8"%>
           <div class="col-lg-6 col-xl-4">
             <div class="card">
               <div class="card-body p-5">
-                <div
-                  class="small text-uppercase fw-bold text-muted">Phòng 8
+                <div class="small text-uppercase fw-bold text-muted">Phòng 8
                   người</div>
                 <div class="mb-3">
                   <span class="display-4 fw-bold">200k</span>
@@ -205,7 +231,6 @@ pageEncoding="UTF-8"%>
                   </li>
                   <li class="mb-2">
                     <i class="bi bi-check text-primary"></i>
-
                   </li>
                   <li class="mb-2">
                     <i class="bi bi-check text-primary"></i>
@@ -265,12 +290,12 @@ pageEncoding="UTF-8"%>
                   <div class="flex-shrink-0"><i
                       class="bi bi-chat-right-quote-fill text-primary fs-1"></i></div>
                   <div class="ms-4">
-                    <p class="mb-1">Ký túc xá đại học quốc gia có vẻ
-                      như là một môi trường sống thú vị và đa dạng. Tôi thích
-                      cách mà nó tạo ra một cộng đồng sinh viên sôi động, nơi mà
-                      các sinh viên có thể gặp gỡ, trao đổi ý kiến và học hỏi từ
-                      nhau. Ngoài ra, việc sống tại ký túc xá còn giúp sinh viên
-                      tiết kiệm thời gian và tiền bạc khi di chuyển từ nhà đến
+                    <p class="mb-1">Ký túc xá đại học quốc gia có vẻ như là một
+                      môi trường sống thú vị và đa dạng. Tôi thích cách mà nó
+                      tạo ra một cộng đồng sinh viên sôi động, nơi mà các sinh
+                      viên có thể gặp gỡ, trao đổi ý kiến và học hỏi từ nhau.
+                      Ngoài ra, việc sống tại ký túc xá còn giúp sinh viên tiết
+                      kiệm thời gian và tiền bạc khi di chuyển từ nhà đến
                       trường. Tuy nhiên, có lẽ cũng có những thách thức như việc
                       chia sẻ không gian sống và thích ứng với cuộc sống cộng
                       đồng. Có ai đã có trải nghiệm sống tại ký túc xá của
@@ -291,8 +316,9 @@ pageEncoding="UTF-8"%>
     <footer class="py-5 bg-dark">
       <div class="container px-5">
         <h2 class="m-0 text-center text-white">DORM DEV TEAM</h2>
-        <h6 class="m-0 text-center text-white">Đội ngũ phát triển web với <strong>200</strong> năm kinh nghiệm</h6>
-        </div>
+        <h6 class="m-0 text-center text-white">Đội ngũ phát triển web với
+          <strong>200</strong> năm kinh nghiệm</h6>
+      </div>
     </footer>
   </body>
 </html>

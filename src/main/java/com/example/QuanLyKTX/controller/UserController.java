@@ -16,71 +16,40 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // Trả về trang thông tin user
-    @GetMapping("/{user_id}/profile")
-    public String userProfile(
-            @PathVariable("user_id") int userId,
-            Model model) {
-        // User user = userService.findUserById(userId);
-        // System.out.println(user);
-        // model.addAttribute("user", user);
+
+    @GetMapping("/user/profile")
+    public String UserAccount() {
         return "user";
     }
+    
 
-    @GetMapping("/{user_id}/invoices")
-    public String userInvoices(@PathVariable("user_id") String userId) {
-        return "invoices";
-    }
+    // @PostMapping("/login")
+    // public String loginUser(@RequestParam("userName") String userName,
+    //         @RequestParam("password") String password,
+    //         Model model) {
+    //     User user = userService.findByUsername(userName);
 
-    @GetMapping("/{user_id}/invoice/{invoice_id}")
-    public String userInvoiceDetail(@PathVariable("user_id") Long userId, @PathVariable("invoice_id") Long invoiceId) {
-        return "invoiceDetail";
-    }
+    //     if (user != null && user.getPassword().equals(password)) {
+    //         SessionManager.login(user);
+    //         return "redirect:/";
+    //     } else {
+    //         model.addAttribute("loginError", "Invalid username or password");
+    //         return "auth"; // Return to the login page with an error message
+    //     }
+    // }
 
-    @GetMapping("/{user_id}/payment")
-    public String userPayment(@PathVariable("user_id") String userId) {
-        return "payment";
-    }
+    // @RequestMapping("/logout")
+    // public String logout() {
+    //     SessionManager.logout();
+    //     return "redirect:/auth"; // Redirect to the login page after logout
+    // }
 
-    @GetMapping("/{user_id}/repairs")
-    public String userRepairs(@PathVariable("user_id") String userId, @RequestParam String param) {
-        return "repairs";
-    }
-
-    // Create a new user
-    @PostMapping
-    public String createUser(@RequestBody String userInfo) {
-        // Handle creating a new user with the given userInfo
-        return "userCreated";
-    }
-
-    // Update user information
-    @PutMapping("/{user_id}")
-    public String updateUser(@PathVariable("user_id") String userId, @RequestBody String userInfo) {
-        // Handle updating user information for the given userId with the given userInfo
-        return "userUpdated";
-    }
-
-    // Delete a user
-    @DeleteMapping("/{user_id}")
-    public String deleteUser(@PathVariable("user_id") String userId) {
-        // Handle deleting the user with the given userId
-        return "userDeleted";
-    }
-
-    // List all users
-    @GetMapping("/list")
-    public String listUsers() {
-        // Handle listing all users
-        return "userList";
-    }
 }

@@ -4,13 +4,22 @@ import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.model.MonthlyBookingCount;
 import com.example.QuanLyKTX.model.Room;
 import com.example.QuanLyKTX.model.Student;
+import com.example.QuanLyKTX.model.User;
 import com.example.QuanLyKTX.model.Booking;
 import com.example.QuanLyKTX.repository.BookingRepository;
 import com.example.QuanLyKTX.repository.RoomRepository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureQuery;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,19 +34,17 @@ public class BookingService {
         this.roomRepository = roomRepository;
     }
 
-
     public Booking save(Booking boking) {
         return bookingRepository.save(boking);
     }
-
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 
-    public Booking saveBooking(Booking booking) {
-        return bookingRepository.save(booking);
-    }
+    // public Booking saveBooking(Booking booking) {
+    //     return bookingRepository.save(booking);
+    // }
 
     public Booking findById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElse(null);
@@ -70,7 +77,8 @@ public class BookingService {
     }
 
     public void createBooking(Long roomId, Student student, LocalDate checkinDate, LocalDate checkoutDate) {
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId));
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId));
 
         Booking booking = new Booking();
         booking.setRoom(room);
@@ -79,5 +87,20 @@ public class BookingService {
         booking.setCheckOutDate(java.sql.Date.valueOf(checkoutDate));
         bookingRepository.save(booking);
     }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public Booking saveBooking(Booking booking) {
+        // Save booking logic here
+        return bookingRepository.save(booking);
+    }
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public Room updateRoomStatus(Long roomId, String status) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
+        room.setStatus(status);
+        return roomRepository.save(room);
+    }
+
+    
+  
 
 }

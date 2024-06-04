@@ -56,12 +56,27 @@ public class RoomController {
 
     @PostMapping("/rooms/search")
     public String searchRooms(@ModelAttribute Room room, Model model) {
-        System.out.println("Building ID: " + room.getBuilding().getBuildingID());
-        System.out.println("Capacity: " + room.getCapacity());
-        System.out.println("Building Type: " + room.getBuilding().getBuildingType());
+        if (room.getBuilding() == null) {
+            System.out.println("Building is null");
+            model.addAttribute("error", "Building is required");
+            return "room-search";
+        }
 
-        List<Room> rooms = roomService.getRoomsByCriteria(room.getBuilding().getBuildingID(),
-                room.getCapacity(), room.getBuilding().getBuildingType());
+        Long buildingID = room.getBuilding().getBuildingID();
+        int capacity = room.getCapacity();
+        String buildingType = room.getBuilding().getBuildingType();
+
+        System.out.println("Building ID: " + buildingID);
+        System.out.println("Capacity: " + capacity);
+        System.out.println("Building Type: " + buildingType);
+
+        if (buildingID == null || buildingType == null) {
+            System.out.println("Building ID or Building Type is null");
+            model.addAttribute("error", "Building ID and Building Type are required");
+            return "room-search";
+        }
+
+        List<Room> rooms = roomService.getRoomsByCriteria(buildingID, capacity, buildingType);
 
         System.out.println("Found rooms: " + rooms.size());
         model.addAttribute("rooms", rooms);

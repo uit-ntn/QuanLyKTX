@@ -15,4 +15,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Optional<Student> findByMssv(String mssv);
 
+    Student findByStudentID(Long studentID);
+    
+
 }

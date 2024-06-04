@@ -74,7 +74,8 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-->Lib JSTL jakatar<-->
+		<!-->Lib
+		JSTL jakatar<-->
 		<dependency>
 			<groupId>jakarta.servlet.jsp.jstl</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -86,7 +87,7 @@
 			<version>3.0.1</version>
 		</dependency>
 
-		
+
 		<!-- <dependency>
 			<groupId>javax.servlet.jsp.jstl</groupId>
 			<artifactId>jstl-api</artifactId>
@@ -104,6 +105,17 @@
 			<version>2.2</version>
 			<scope>provided</scope>
 		</dependency> -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>jakarta.mail</artifactId>
+			<version>1.6.7</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>

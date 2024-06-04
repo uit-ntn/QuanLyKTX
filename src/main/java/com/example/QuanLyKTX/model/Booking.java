@@ -7,11 +7,32 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedStoredProcedureQuery;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureParameter;
 import jakarta.persistence.Table;
 
 import java.util.Date;
 
 @Entity
+@NamedStoredProcedureQuery(
+    name = "register_room",
+    procedureName = "register_room",
+    parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_roomID", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_fullName", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_gender", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_dateOfBirth", type = java.sql.Date.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_address", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_phoneNumber", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_school", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_mssv", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_email", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_cccd", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_checkInDate", type = java.sql.Date.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_checkOutDate", type = java.sql.Date.class)
+    }
+)
 @Table(name = "BOOKING")
 public class Booking {
 

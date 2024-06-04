@@ -14,48 +14,46 @@ import java.util.Date;
 @Entity
 @Table(name = "STUDENTS")
 public class Student {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentID;
-    
-    
+
     @Column(name = "FULLNAME")
     private String fullName;
-    
+
     @Column(name = "GENDER")
     private String gender;
-    
+
     @Column(name = "DATEOFBIRTH")
     private Date dateOfBirth;
-    
+
     @Column(name = "ADDRESS")
     private String address;
-    
+
     @Column(name = "PHONENUMBER")
     private String phoneNumber;
 
-    
-    
-    @ManyToOne
-    @JoinColumn(name = "RoomID")
-    private Room room;
-    
+    @Column(name = "ROOMID")
+    private Long roomId;
+
+    @Column(name = "SCHOOL")
     private String school;
-    
+
+    @Column(name = "MSSV")
     private String mssv;
 
     public Student() {
         // Default constructor
     }
 
-    public Student(String fullName, String gender, Date dateOfBirth, String address, String phoneNumber, Room room, String school, String mssv) {
+    public Student(String fullName, String gender, Date dateOfBirth, String address, String phoneNumber, Long roomId, String school, String mssv) {
         this.fullName = fullName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.room = room;
+        this.roomId = roomId;
         this.school = school;
         this.mssv = mssv;
     }
@@ -109,12 +107,12 @@ public class Student {
         this.phoneNumber = phoneNumber;
     }
 
-    public Room getRoom() {
-        return room;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public String getSchool() {

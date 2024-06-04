@@ -8,31 +8,41 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "USERID")
+    private Long userId;
 
+    @Column(name = "USERNAME")
     private String username;
+
+    @Column(name = "EMAIL")
     private String email;
+
+    @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "ROLE")
     private String role;
-    private int studentID;
+
+    @Column(name = "STUDENTID")
+    private Long studentID;
 
     public User() {
     }
 
-    public User(Integer id, String username, String email, String password, String role) {
-        this.id = id;
+    public User(Long userId, String username, String email, String password, String role) {
+        this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public Integer getId() {
-        return this.id;
+    public Long getId() {
+        return this.userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -67,8 +77,8 @@ public class User {
         this.role = role;
     }
 
-    public User id(Integer id) {
-        setId(id);
+    public User userId(Long userId) {
+        setUserId(userId);
         return this;
     }
 
@@ -100,12 +110,12 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
+        return Objects.equals(userId, user.userId) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, role);
+        return Objects.hash(userId, username, email, password, role);
     }
 
     @Override
@@ -116,12 +126,13 @@ public class User {
             ", email='" + getEmail() + "'" +
             ", password='" + getPassword() + "'" +
             ", role='" + getRole() + "'" +
+            ", studentId"+ getStudentID()+
             "}";
     }
 
 
-    public User(Integer id, String username, String email, String password, String role, int studentID) {
-        this.id = id;
+    public User(Long userId, String username, String email, String password, String role, Long studentID) {
+        this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -129,18 +140,12 @@ public class User {
         this.studentID = studentID;
     }
 
-    public int getStudentID() {
+    public Long getStudentID() {
         return this.studentID;
     }
 
-    public void setStudentID(int studentID) {
+    public void setStudentID(Long studentID) {
         this.studentID = studentID;
     }
-
-    public User studentID(int studentID) {
-        setStudentID(studentID);
-        return this;
-    }
-    
 
 }

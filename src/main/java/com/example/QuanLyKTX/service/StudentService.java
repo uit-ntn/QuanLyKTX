@@ -17,15 +17,17 @@ public class StudentService {
     private StudentRepository studentRepository;
 
 
-    public Student save(Student student) {
-        return studentRepository.save(student);
-    }
-
-
     @Autowired
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
+
+    
+
+    public Student save(Student student) {
+        return studentRepository.save(student);
+    }
+
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
@@ -47,7 +49,7 @@ public class StudentService {
             student.setPhoneNumber(updatedStudent.getPhoneNumber());
             student.setSchool(updatedStudent.getSchool());
             student.setMssv(updatedStudent.getMssv());
-            student.setRoom(updatedStudent.getRoom());
+            student.setRoomId(updatedStudent.getRoomId());
             student.setAddress(updatedStudent.getAddress());
             return studentRepository.save(student);
         }).orElse(null);
