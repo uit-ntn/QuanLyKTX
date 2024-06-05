@@ -15,11 +15,11 @@ public class LoginController {
     @Autowired
     private AuthenticationService authenticationService;
 
-
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
     }
+
     @PostMapping("/login")
     public String login(String username, String password, Model model) {
         User user = authenticationService.authenticate(username, password);
@@ -27,10 +27,12 @@ public class LoginController {
             SessionManager.login(user); // Lưu thông tin người dùng vào SessionManager
             System.out.println("User Information : ");
             System.out.println(user);
+            if (user.getRole() == "admin")
+                return "redict:/admin";
+
             return "redirect:/"; // Nếu xác thực thành công, chuyển hướng đến trang chính
         } else {
-            model.addAttribute("error", "Invalid username or password");
-            return "login"; // Nếu xác thực không thành công, hiển thị lại trang đăng nhập với thông báo lỗi
+            return "rediect:/login"; // Nếu xác thực không thành công, hiển thị lại trang đăng nhập với thông báo lỗi
         }
     }
 
@@ -39,6 +41,5 @@ public class LoginController {
         SessionManager.logout(); // Xóa thông tin người dùng khi đăng xuất
         return "redirect:/login";
     }
-
 
 }
