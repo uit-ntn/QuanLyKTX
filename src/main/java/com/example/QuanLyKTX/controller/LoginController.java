@@ -27,8 +27,8 @@ public class LoginController {
             SessionManager.login(user); // Lưu thông tin người dùng vào SessionManager
             System.out.println("User Information : ");
             System.out.println(user);
-            if (user.getRole() == "admin")
-                return "redict:/admin";
+            if ("admin".equals(user.getRole())) // Corrected role comparison
+            return "redirect:/admin";
 
             return "redirect:/"; // Nếu xác thực thành công, chuyển hướng đến trang chính
         } else {

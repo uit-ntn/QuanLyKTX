@@ -152,8 +152,7 @@ pageEncoding="UTF-8"%>
                                 alt="ID Back" class="img-thumbnail">
                         </div>
                         <div class="col-md-9">
-                            <p><span class="card-title">Nguyễn Thanh
-                                    Nhân</span></p>
+                            <p><span class="card-title"></span></p>
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
