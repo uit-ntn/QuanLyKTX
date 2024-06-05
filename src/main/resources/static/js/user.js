@@ -8,4 +8,16 @@ function showSection(sectionId) {
     if (targetSection) {
         targetSection.classList.remove('d-none');
     }
+
+    // Xóa lớp 'active' từ tất cả các liên kết trong thanh bên
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+
+    // Thêm lớp 'active' cho liên kết được nhấn
+    const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+    if (activeLink) {
+        activeLink.classList.add('active');
+    }
 }
