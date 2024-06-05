@@ -24,32 +24,17 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping("/user/profile")
-    public String UserAccount() {
+    public String profile(Model model) {
+        User user = userService.getLoggedInUser();
+        if (user != null && !"admin".equals(user.getRole())) {
+            Student student = userService.getStudentByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("student", student);
+           System.out.println(user);
+           System.out.println(student);
+        }
         return "user";
     }
-    
-
-    // @PostMapping("/login")
-    // public String loginUser(@RequestParam("userName") String userName,
-    //         @RequestParam("password") String password,
-    //         Model model) {
-    //     User user = userService.findByUsername(userName);
-
-    //     if (user != null && user.getPassword().equals(password)) {
-    //         SessionManager.login(user);
-    //         return "redirect:/";
-    //     } else {
-    //         model.addAttribute("loginError", "Invalid username or password");
-    //         return "auth"; // Return to the login page with an error message
-    //     }
-    // }
-
-    // @RequestMapping("/logout")
-    // public String logout() {
-    //     SessionManager.logout();
-    //     return "redirect:/auth"; // Redirect to the login page after logout
-    // }
 
 }

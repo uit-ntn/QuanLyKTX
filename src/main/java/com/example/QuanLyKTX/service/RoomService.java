@@ -65,8 +65,7 @@ public class RoomService {
         List<Room> rooms = roomRepository.findAll();
         Map<String, Long> statusCount = new HashMap<>();
         statusCount.put("Available", rooms.stream().filter(room -> "Available".equals(room.getStatus())).count());
-        statusCount.put("Booked", rooms.stream().filter(room -> "Booked".equals(room.getStatus())).count());
-        statusCount.put("Reserved", rooms.stream().filter(room -> "Reserved".equals(room.getStatus())).count());
+        statusCount.put("Full", rooms.stream().filter(room -> "Full".equals(room.getStatus())).count());
         return statusCount;
     }
 

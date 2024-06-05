@@ -118,6 +118,7 @@ pageEncoding="UTF-8"%>
                             onclick="showSection('form-info')">Biểu mẫu</a>
                         <a class="nav-link"
                             onclick="showSection('notify-info')">Thông báo</a>
+                            <a class="nav-link" href="/logout">Đăng xuất</a>
                     </nav>
                 </div>
             </div>
@@ -152,8 +153,7 @@ pageEncoding="UTF-8"%>
                                 alt="ID Back" class="img-thumbnail">
                         </div>
                         <div class="col-md-9">
-                            <p><span class="card-title">Nguyễn Thanh
-                                    Nhân</span></p>
+                            <p><span class="card-title"></span></p>
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>

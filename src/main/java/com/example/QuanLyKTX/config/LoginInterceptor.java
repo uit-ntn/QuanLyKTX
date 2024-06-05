@@ -10,9 +10,10 @@ import com.example.QuanLyKTX.model.User;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
-    //Phân quyền
+    // Phân quyền
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
         User loggedInUser = SessionManager.getLoggedInUser();
         if (loggedInUser != null) {
             String role = loggedInUser.getRole();

@@ -10,10 +10,11 @@ import com.example.QuanLyKTX.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username);
-
     Optional<User> findByEmail(String email);
 
     User findByUsernameAndPassword(String username, String password);
+
+    User findByUsername(String username);
+
 
 }

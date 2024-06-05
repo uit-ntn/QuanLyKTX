@@ -125,7 +125,7 @@ pageEncoding="ISO-8859-1"%>
 				</a>
 			</li>
 			<li>
-				<a href="../../controllers/LogoutController.php" class="logout">
+				<a href="/logout" class="logout">
 					<i class='bx bxs-log-out-circle'></i>
 					<span class="text">Logout</span>
 				</a>
@@ -671,8 +671,7 @@ pageEncoding="ISO-8859-1"%>
 							<label>Room Status</label>
 							<select id="roomstatus_input" class="form-control" required>
 								<option>Avaliable</option>
-								<option>Booked</option>
-								<option>Reserved</option>
+								<option>Full</option>
 							</select>
 							<span class="error" id="roomStatusError"></span>
 						</div>
@@ -947,8 +946,7 @@ pageEncoding="ISO-8859-1"%>
 							<label>Room Status</label>
 							<select id="roomstatus_input" class="form-control" required>
 								<option>Available</option>
-								<option>Booked</option>
-								<option>Reserved</option>
+								<option>Full</option>
 							</select>
 						</div>
 						<input type="hidden" id="room_id">
@@ -1202,35 +1200,35 @@ pageEncoding="ISO-8859-1"%>
 		
 		// READ
 		function loadStudentData() {
-			$.ajax({
-                type: "GET",
-                url: "/api/students",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var tbody = $("#student_data");
-                    tbody.empty();
-                    $.each(data, function (index, student) {
-                        var row = "<tr data-id='" + student.studentID + "'>";
-                        row += "<td>" + student.studentID + "</td>";
-                        row += "<td>" + student.fullName + "</td>";
-                        row += "<td>" + new Date(student.dateOfBirth).toLocaleDateString() + "</td>";
-                        row += "<td>" + student.phoneNumber + "</td>";
-                        row += "<td>" + student.gender + "</td>";
-                        row += "<td>" + student.school + "</td>";
-                        row += "<td>" + student.mssv + "</td>";
-                        row += "<td>" + student.room.roomNumber + "</td>";
-						row += "<td>" + student.room.building.buildingName + "</td>";
-						row += "<td>" + student.address + "</td>";
-                        row += "</tr>";
-                        tbody.append(row);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-		}
+        $.ajax({
+            type: "GET",
+            url: "/api/students",
+            dataType: "json",
+            success: function (data) {
+                console.log(data); // Kiểm tra dữ liệu trong console
+                var tbody = $("#student_data");
+                tbody.empty();
+                $.each(data, function (index, student) {
+                    var row = "<tr data-id='" + student.studentID + "'>";
+                    row += "<td>" + student.studentID + "</td>";
+                    row += "<td>" + student.fullName + "</td>";
+                    row += "<td>" + new Date(student.dateOfBirth).toLocaleDateString() + "</td>";
+                    row += "<td>" + student.phoneNumber + "</td>";
+                    row += "<td>" + student.gender + "</td>";
+                    row += "<td>" + student.school + "</td>";
+                    row += "<td>" + student.mssv + "</td>";
+                    row += "<td>" + (student.room ? student.room.roomNumber : "N/A") + "</td>";
+                    row += "<td>" + (student.room && student.room.building ? student.room.building.buildingName : "N/A") + "</td>";
+                    row += "<td>" + student.address + "</td>";
+                    row += "</tr>";
+                    tbody.append(row);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching student data:", xhr.responseText); // Kiểm tra lỗi trong console
+            }
+        });
+    }
 		
 		function loadBookingData() {
 			$.ajax({
@@ -1452,11 +1450,11 @@ pageEncoding="ISO-8859-1"%>
                     const roomStatusChart = new Chart(ctx, {
                         type: 'pie',
                         data: {
-                            labels: ['Available', 'Booked', 'Reserved'],
+                            labels: ['Available', 'Full'],
                             datasets: [{
                                 label: 'Tình trạng phòng',
-                                data: [data['Available'], data['Booked'], data['Reserved']],
-                                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+                                data: [data['Available'], data['Full']],
+                                backgroundColor: ['#36A2EB', '#FF6384'],
                             }]
                         },
                         options: {

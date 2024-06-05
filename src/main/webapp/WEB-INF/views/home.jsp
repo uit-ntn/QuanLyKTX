@@ -8,6 +8,8 @@ pageEncoding="UTF-8"%>
       type="image/x-icon">
     <link rel="stylesheet" type="text/css"
       href="../../../resources/static/css/home.css?version=5.1" />
+      <link rel="stylesheet" href="/resources/static/css/home.css">
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Trang chủ</title>
     <link

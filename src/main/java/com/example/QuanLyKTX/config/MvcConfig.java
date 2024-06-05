@@ -24,15 +24,17 @@ public class MvcConfig implements WebMvcConfigurer {
                                 .addResourceLocations("classpath:/static/img/");
         }
 
-
         // Phân quyền
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(loginInterceptor)
                                 .addPathPatterns("/**") // Kiểm tra tất cả các request
-                                
+
                                 // Những trang không cần đăng nhập
                                 .excludePathPatterns("/login", "/register", "/error", "/access-denied", "/", "/about",
-                                                "/service", "/rooms", "/register", "/rooms/search", "/rooms/{id}");
+                                                "/service", "/rooms", "/register", "/rooms/search", "/rooms/{id}")
+                                .excludePathPatterns("/css/**", "/js/**", "/img/**"); // Loại trừ tài nguyên tĩnh
+
         }
+
 }
