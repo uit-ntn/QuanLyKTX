@@ -23,13 +23,16 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping("/user/profile")
     public String profile(Model model) {
         User user = userService.getLoggedInUser();
-        if (user != null) {
+        if (user != null && !"admin".equals(user.getRole())) {
             Student student = userService.getStudentByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("student", student);
+           System.out.println(user);
+           System.out.println(student);
         }
         return "user";
     }

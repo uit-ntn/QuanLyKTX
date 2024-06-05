@@ -118,6 +118,7 @@ pageEncoding="UTF-8"%>
                             onclick="showSection('form-info')">Biểu mẫu</a>
                         <a class="nav-link"
                             onclick="showSection('notify-info')">Thông báo</a>
+                            <a class="nav-link" href="/logout">Đăng xuất</a>
                     </nav>
                 </div>
             </div>

@@ -32,10 +32,23 @@ pageEncoding="UTF-8"%>
                         </div>
                         <button name="login" type="submit"
                             class="login__button">Sign
-                            In</button>
+                            In
+                        </button>
+                        <%
+                        String errorMessage = (String)
+                        request.getAttribute("error");
+                        if (errorMessage != null && !errorMessage.isEmpty()) {
+                        %>
+                        <div class="alert alert-danger">
+                            <%= errorMessage %>
+                        </div>
+                        <%
+                        }
+                        %>
                     </form>
                 </div>
             </div>
         </div>
+
     </body>
 </html>

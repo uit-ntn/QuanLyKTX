@@ -671,8 +671,7 @@ pageEncoding="ISO-8859-1"%>
 							<label>Room Status</label>
 							<select id="roomstatus_input" class="form-control" required>
 								<option>Avaliable</option>
-								<option>Booked</option>
-								<option>Reserved</option>
+								<option>Full</option>
 							</select>
 							<span class="error" id="roomStatusError"></span>
 						</div>
@@ -947,8 +946,7 @@ pageEncoding="ISO-8859-1"%>
 							<label>Room Status</label>
 							<select id="roomstatus_input" class="form-control" required>
 								<option>Available</option>
-								<option>Booked</option>
-								<option>Reserved</option>
+								<option>Full</option>
 							</select>
 						</div>
 						<input type="hidden" id="room_id">
@@ -1452,11 +1450,11 @@ pageEncoding="ISO-8859-1"%>
                     const roomStatusChart = new Chart(ctx, {
                         type: 'pie',
                         data: {
-                            labels: ['Available', 'Booked', 'Reserved'],
+                            labels: ['Available', 'Full'],
                             datasets: [{
                                 label: 'Tình trạng phòng',
-                                data: [data['Available'], data['Booked'], data['Reserved']],
-                                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+                                data: [data['Available'], data['Full']],
+                                backgroundColor: ['#36A2EB', '#FF6384'],
                             }]
                         },
                         options: {

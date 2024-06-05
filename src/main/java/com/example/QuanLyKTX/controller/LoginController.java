@@ -16,23 +16,25 @@ public class LoginController {
     private AuthenticationService authenticationService;
 
     @GetMapping("/login")
-    public String showLoginForm() {
+    public String showLoginForm(Model model) {
+        model.addAttribute("error", null);
         return "login";
     }
 
     @PostMapping("/login")
     public String login(String username, String password, Model model) {
         User user = authenticationService.authenticate(username, password);
-        if (user != null) {
+        if (user == null) {
+            model.addAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
+            return "login"; // Trả về trang đăng nhập
+        } else {
             SessionManager.login(user); // Lưu thông tin người dùng vào SessionManager
             System.out.println("User Information : ");
             System.out.println(user);
-            if ("admin".equals(user.getRole())) // Corrected role comparison
-            return "redirect:/admin";
-
+            if ("admin".equals(user.getRole())) { // Corrected role comparison
+                return "redirect:/admin";
+            }
             return "redirect:/"; // Nếu xác thực thành công, chuyển hướng đến trang chính
-        } else {
-            return "rediect:/login"; // Nếu xác thực không thành công, hiển thị lại trang đăng nhập với thông báo lỗi
         }
     }
 
