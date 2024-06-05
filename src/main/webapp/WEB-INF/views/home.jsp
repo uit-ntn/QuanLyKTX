@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
       type="image/x-icon">
     <link rel="stylesheet" type="text/css"
       href="../../../resources/static/css/home.css?version=5.1" />
-      <link rel="stylesheet" href="/resources/static/css/home.css">
+    <link rel="stylesheet" href="/resources/static/css/home.css">
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Trang chủ</title>
@@ -75,7 +75,9 @@ pageEncoding="UTF-8"%>
                   <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                     <a class="btn btn-primary btn-lg px-4 me-sm-3"
                       href="/user/profile">Account</a>
-                    <a class="btn btn-outline-light btn-lg px-4"
+                    <a
+                      class="btn btn-outline-light btn-lg px-4 me-sm-3">Comment</a>
+                    <a class="btn btn-danger btn-lg px-4 me-sm-3"
                       href="/logout">Log out</a>
                   </div>
                 </c:when>
@@ -263,15 +265,15 @@ pageEncoding="UTF-8"%>
       </div>
     </section>
 
+    <!-- Comment section-->
     <section class="py-5 border-bottom">
-      <div class="container px-5 my-5 px-5">
+      <div class="container px-5 my-5">
         <div class="text-center mb-5">
           <h2 class="fw-bolder">Đánh giá hàng đầu</h2>
           <p class="lead mb-0">Bởi những sinh viên đã đăng ký ký túc xá</p>
         </div>
-        <div class="row gx-5 justify-content-center">
+        <div class="row gx-5 justify-content-center align-items-center">
           <div class="col-lg-6">
-            <!-- Testimonial 1-->
             <div class="card mb-4">
               <div class="card-body p-4">
                 <div class="d-flex">
@@ -280,12 +282,12 @@ pageEncoding="UTF-8"%>
                   <div class="ms-4">
                     <p class="mb-1">Có thể nói ký túc xá Đại học Quốc gia là ký
                       túc xá hiện đại nhất Đông Nam Á</p>
-                    <div class="small text-muted">Nguyễn Thanh Nhân - UIT</div>
+                    <div class="small text-muted commented-user">Nguyễn Thanh
+                      Nhân - UIT</div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- Testimonial 2-->
             <div class="card">
               <div class="card-body p-4">
                 <div class="d-flex">
@@ -302,8 +304,8 @@ pageEncoding="UTF-8"%>
                       chia sẻ không gian sống và thích ứng với cuộc sống cộng
                       đồng. Có ai đã có trải nghiệm sống tại ký túc xá của
                       trường đại học quốc gia muốn chia sẻ không?</p>
-                    <div class="small text-muted">vẫn là Nhân nhưng ở dòng
-                      khác</div>
+                    <div class="small text-muted commented-user">vẫn là Nhân
+                      nhưng ở dòng khác</div>
                   </div>
                 </div>
               </div>
@@ -312,7 +314,49 @@ pageEncoding="UTF-8"%>
         </div>
       </div>
     </section>
+
     <!-- Contact section-->
+
+    <c:choose>
+      <c:when test="${loggedUser != null}">
+        <section style="background-color: #eee;">
+          <div class="container my-5 py-5">
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-12 col-lg-10 col-xl-8">
+                <div class="card">
+                  <div class="card-footer py-3 border-0"
+                    style="background-color: #f8f9fa;">
+                    <div class="d-flex flex-start w-100">
+                      <div>
+                        <img class="rounded-circle shadow-1-strong me-3"
+                          src="../../../resources/static/img/avt.jpg"
+                          alt="avatar" width="40"
+                          height="40" />
+                        <p class="user-name">Nhân</p>
+                      </div>
+                      <div data-mdb-input-init class="form-outline w-100">
+                        <textarea class="form-control" id="commentText" rows="4"
+                          style="background: #fff;"></textarea>
+                        <label class="form-label"
+                          for="textAreaExample">Message</label>
+                      </div>
+                    </div>
+                    <div class="float-end mt-2 pt-1">
+                      <button id="postCommentBtn" type="button"
+                        data-mdb-button-init data-mdb-ripple-init
+                        class="btn btn-primary btn-sm">Post comment</button>
+                      <button type="button" data-mdb-button-init
+                        data-mdb-ripple-init
+                        class="btn btn-outline-primary btn-sm">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </c:when>
+    </c:choose>
 
     <!-- Footer-->
     <footer class="py-5 bg-dark">
@@ -323,4 +367,5 @@ pageEncoding="UTF-8"%>
       </div>
     </footer>
   </body>
+  <script src="../../../resources/static/js/home.js"></script>
 </html>
