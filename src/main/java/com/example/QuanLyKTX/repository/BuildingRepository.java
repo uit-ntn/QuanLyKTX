@@ -11,4 +11,6 @@ import com.example.QuanLyKTX.model.Building;
 @Repository
 public interface BuildingRepository extends JpaRepository<Building, Long> {
     // JpaRepository đã cung cấp phương thức findAll(), không cần thêm gì ở đây
+
+    // Thêm xoá sửa
 }

@@ -42,20 +42,26 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
-    // public Booking saveBooking(Booking booking) {
-    //     return bookingRepository.save(booking);
-    // }
+  
 
     public Booking findById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElse(null);
     }
 
+
+    // Service đặt phòng
+
+   
+
     public Booking updateBooking(Long bookingId, Booking updatedBooking) {
-        return bookingRepository.findById(bookingId).map(booking -> {
+        return 
+        bookingRepository.findById(bookingId).map(booking -> {
             booking.setCheckInDate(updatedBooking.getCheckInDate());
             booking.setCheckOutDate(updatedBooking.getCheckOutDate());
             booking.setRoom(updatedBooking.getRoom());
             booking.setStudent(updatedBooking.getStudent());
+
+
             return bookingRepository.save(booking);
         }).orElse(null);
     }
@@ -88,12 +94,9 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Booking saveBooking(Booking booking) {
-        // Save booking logic here
         return bookingRepository.save(booking);
     }
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Room updateRoomStatus(Long roomId, String status) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
         room.setStatus(status);

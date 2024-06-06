@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ServiceController {
-    @GetMapping("Services")
+    @GetMapping("/services")
     public String Service() {
-        return "service";
-    }   
+        return "service"; // trả về file jsp tương ứng
+     }   
 }

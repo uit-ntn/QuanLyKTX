@@ -24,7 +24,7 @@ public class MvcConfig implements WebMvcConfigurer {
                                 .addResourceLocations("classpath:/static/img/");
         }
 
-        // Phân quyền
+        // cấu hình phân quyền
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(loginInterceptor)
@@ -32,9 +32,10 @@ public class MvcConfig implements WebMvcConfigurer {
 
                                 // Những trang không cần đăng nhập
                                 .excludePathPatterns("/login", "/register", "/error", "/access-denied", "/", "/about",
-                                                "/service", "/rooms", "/register", "/rooms/search", "/rooms/{id}")
-                                .excludePathPatterns("/css/**", "/js/**", "/img/**"); // Loại trừ tài nguyên tĩnh
-
+                                                "/service", "/rooms", "/register", "/rooms/search", "/rooms/{id}",
+                                                "/contact", "/services",
+                                                "/resources/static/css/**", "/resources/static/js/**",
+                                                "/resources/static/img/**");
         }
 
 }
