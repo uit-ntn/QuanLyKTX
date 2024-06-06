@@ -30,8 +30,8 @@ pageEncoding="UTF-8"%>
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container px-5">
-                    <!-- <img class="navbar-brand"
-                        src="../../../resources/static/img/logo.png"> -->
+                    <img class="navbar-brand"
+                        src="../../../resources/static/img/logo.png">
                     <button class="navbar-toggler" type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent"

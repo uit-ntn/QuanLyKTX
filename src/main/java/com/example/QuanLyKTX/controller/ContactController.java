@@ -9,7 +9,7 @@ public class ContactController {
 
     @GetMapping("/contact")
     public String getMethodName() {
-        return "contact";
+        return "contact"; // trả về file jsp
     }
     
 }

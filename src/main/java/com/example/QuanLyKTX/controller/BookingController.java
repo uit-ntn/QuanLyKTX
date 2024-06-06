@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
+
 public class BookingController {
     private BookingService bookingService;
     private RoomService roomService;
@@ -74,90 +75,87 @@ public class BookingController {
 
     @PostMapping("booking/register")
     public ResponseEntity<String> register(
-    @RequestParam("roomID") Long roomID,
-    @RequestParam("fullName") String fullName,
-    @RequestParam("gender") String gender,
-    @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") Date
-    dateOfBirth,
-    @RequestParam("address") String address,
-    @RequestParam("phoneNumber") String phoneNumber,
-    @RequestParam("school") String school,
-    @RequestParam("mssv") String mssv,
-    @RequestParam("email") String email,
-    @RequestParam("CCCD") String cccd,
-    @RequestParam("CCCD-font") MultipartFile cccdFont,
-    @RequestParam("CCCD-back") MultipartFile cccdBack,
-    @RequestParam("checkInDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date
-    checkInDate,
-    @RequestParam("checkOutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date
-    checkOutDate,
-    Model model) {
+            @RequestParam("roomID") Long roomID,
+            @RequestParam("fullName") String fullName,
+            @RequestParam("gender") String gender,
+            @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
+            @RequestParam("address") String address,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("school") String school,
+            @RequestParam("mssv") String mssv,
+            @RequestParam("email") String email,
+            @RequestParam("CCCD") String cccd,
+            @RequestParam("CCCD-font") MultipartFile cccdFont,
+            @RequestParam("CCCD-back") MultipartFile cccdBack,
+            @RequestParam("checkInDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkInDate,
+            @RequestParam("checkOutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOutDate,
+            Model model) {
 
-    // Logging các giá trị để kiểm tra
-    System.out.println("Room ID: " + roomID);
-    System.out.println("Full Name: " + fullName);
-    System.out.println("Gender: " + gender);
-    System.out.println("Date of Birth: " + dateOfBirth);
-    System.out.println("Address: " + address);
-    System.out.println("Phone Number: " + phoneNumber);
-    System.out.println("School: " + school);
-    System.out.println("MSSV: " + mssv);
-    System.out.println("Email: " + email);
-    System.out.println("CCCD: " + cccd);
-    System.out.println("Check In Date: " + checkInDate);
-    System.out.println("Check Out Date: " + checkOutDate);
+        // Logging các giá trị để kiểm tra
+        System.out.println("Room ID: " + roomID);
+        System.out.println("Full Name: " + fullName);
+        System.out.println("Gender: " + gender);
+        System.out.println("Date of Birth: " + dateOfBirth);
+        System.out.println("Address: " + address);
+        System.out.println("Phone Number: " + phoneNumber);
+        System.out.println("School: " + school);
+        System.out.println("MSSV: " + mssv);
+        System.out.println("Email: " + email);
+        System.out.println("CCCD: " + cccd);
+        System.out.println("Check In Date: " + checkInDate);
+        System.out.println("Check Out Date: " + checkOutDate);
 
-    Room room = roomService.findById(roomID);
+        Room room = roomService.findById(roomID);
 
-    if (room == null) {
-    return ResponseEntity.status(404).body("Room not found");
-    }
+        if (room == null) {
+            return ResponseEntity.status(404).body("Room not found");
+        }
 
-    // Kiểm tra trạng thái phòng
-    if (!room.getStatus().equalsIgnoreCase("available")) {
-    model.addAttribute("error", "Room is not available");
-    return ResponseEntity.status(404).body("Phòng đã đầy");
-    }
+        // Kiểm tra trạng thái phòng
+        if (!room.getStatus().equalsIgnoreCase("available")) {
+            model.addAttribute("error", "Room is not available");
+            return ResponseEntity.status(404).body("Phòng đã đầy");
+        }
 
-    // Tạo Student mới
-    Student student = new Student(fullName, gender, dateOfBirth, address,
-    phoneNumber, roomID, school, mssv);
-    studentService.save(student);
+        // Tạo Student mới
+        Student student = new Student(fullName, gender, dateOfBirth, address,
+                phoneNumber, roomID, school, mssv);
+        studentService.save(student);
 
-    // Tạo Booking mới
-    Booking booking = new Booking();
-    booking.setStudent(student);
-    booking.setRoom(room);
-    booking.setCheckInDate(checkInDate);
-    booking.setCheckOutDate(checkOutDate);
-    bookingService.save(booking);
+        // Tạo Booking mới
+        Booking booking = new Booking();
+        booking.setStudent(student);
+        booking.setRoom(room);
+        booking.setCheckInDate(checkInDate);
+        booking.setCheckOutDate(checkOutDate);
+        bookingService.save(booking);
 
-    // Tạo User mới
-    try {
+        // Tạo User mới
+        try {
 
-    User user = new User();
-    user.setUsername(cccd);
-    user.setEmail(email);
-    user.setPassword(cccd); // Password là CCCD
-    user.setRole("student");
-    user.setStudentID(student.getStudentID());
+            User user = new User();
+            user.setUsername(cccd);
+            user.setEmail(email);
+            user.setPassword(cccd); // Password là CCCD
+            user.setRole("student");
+            user.setStudentID(student.getStudentID());
 
-    // Logging các giá trị của user để kiểm tra
-    System.out.println("User - Username: " + user.getUsername());
-    System.out.println("User - Email: " + user.getEmail());
-    System.out.println("User - Password: " + user.getPassword());
-    System.out.println("User - Role: " + user.getRole());
-    System.out.println("User - Student ID: " + user.getStudentID());
+            // Logging các giá trị của user để kiểm tra
+            System.out.println("User - Username: " + user.getUsername());
+            System.out.println("User - Email: " + user.getEmail());
+            System.out.println("User - Password: " + user.getPassword());
+            System.out.println("User - Role: " + user.getRole());
+            System.out.println("User - Student ID: " + user.getStudentID());
 
-    userService.save(user);
-    } catch (Exception e) {
-    System.err.println(e.getMessage());
-    }
+            userService.save(user);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
-    // Gửi email thông tin tài khoản
-    emailService.sendAccountDetails(email, cccd, cccd);
-    model.addAttribute("success", "Registration successful. Check your email for account details.");
-    return ResponseEntity.ok("Đăng ký thành công!");
+        // Gửi email thông tin tài khoản
+        emailService.sendAccountDetails(email, cccd, cccd);
+        model.addAttribute("success", "Registration successful. Check your email for account details.");
+        return ResponseEntity.ok("Đăng ký thành công!");
 
     }
 
@@ -209,87 +207,5 @@ public class BookingController {
         List<MonthlyBookingCount> monthlyBookings = bookingService.getMonthlyBookingCounts();
         return ResponseEntity.ok(monthlyBookings);
     }
-
-    // @PostMapping("booking/register")
-    // public ResponseEntity<String> register(
-    //         @RequestParam("roomID") Long roomID,
-    //         @RequestParam("fullName") String fullName,
-    //         @RequestParam("gender") String gender,
-    //         @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
-    //         @RequestParam("address") String address,
-    //         @RequestParam("phoneNumber") String phoneNumber,
-    //         @RequestParam("school") String school,
-    //         @RequestParam("mssv") String mssv,
-    //         @RequestParam("email") String email,
-    //         @RequestParam("CCCD") String cccd,
-    //         @RequestParam("CCCD-font") MultipartFile cccdFont,
-    //         @RequestParam("CCCD-back") MultipartFile cccdBack,
-    //         @RequestParam("checkInDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkInDate,
-    //         @RequestParam("checkOutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOutDate,
-    //         Model model) {
-
-    //     logger.info("Bắt đầu quá trình đăng ký phòng.");
-    //     logger.debug(
-    //             "Thông tin nhận được - Room ID: {}, Full Name: {}, Gender: {}, Date of Birth: {}, Address: {}, Phone Number: {}, School: {}, MSSV: {}, Email: {}, CCCD: {}, Check In Date: {}, Check Out Date: {}",
-    //             roomID, fullName, gender, dateOfBirth, address, phoneNumber, school, mssv, email, cccd, checkInDate,
-    //             checkOutDate);
-
-    //     try {
-    //         // Bước 1: Cập nhật trạng thái phòng
-    //         Room room = roomService.findById(roomID);
-    //         if (room == null) {
-    //             logger.error("Không tìm thấy phòng với ID: {}", roomID);
-    //             return ResponseEntity.status(404).body("Không tìm thấy phòng");
-    //         }
-
-    //         // Kiểm tra trạng thái phòng
-    //         if (!room.getStatus().equalsIgnoreCase("available")) {
-    //             logger.warn("Phòng với ID: {} không có sẵn", roomID);
-    //             return ResponseEntity.status(409).body("Phòng đã đầy");
-    //         }
-
-    //         // Cập nhật trạng thái phòng với mức độ cô lập SERIALIZABLE
-    //         roomService.updateRoomStatus(roomID, "unavailable");
-
-    //         // Bước 2: Tạo và lưu thông tin sinh viên
-    //         Student student = new Student(fullName, gender, dateOfBirth, address, phoneNumber, roomID, school, mssv);
-    //         studentService.saveStudent(student);
-    //         logger.info("Đã tạo sinh viên mới: {}", student);
-
-    //         // Bước 3: Tạo và lưu thông tin booking
-    //         Booking booking = new Booking();
-    //         booking.setStudent(student);
-    //         booking.setRoom(room);
-    //         booking.setCheckInDate(checkInDate);
-    //         booking.setCheckOutDate(checkOutDate);
-    //         bookingService.saveBooking(booking);
-    //         logger.info("Đã tạo booking mới: {}", booking);
-
-    //         // Bước 4: Tạo và lưu thông tin tài khoản người dùng
-    //         User user = new User();
-    //         user.setUsername(cccd);
-    //         user.setEmail(email);
-    //         user.setPassword(cccd); // Password là CCCD
-    //         user.setRole("student");
-    //         user.setStudentID(student.getStudentID());
-    //         userService.saveUser(user);
-    //         logger.info("Đã tạo tài khoản người dùng mới: {}", user);
-
-    //         // Gửi email thông tin tài khoản
-    //         emailService.sendAccountDetails(email, cccd, cccd);
-    //         logger.info("Đã gửi email thông tin tài khoản tới: {}", email);
-
-    //         return ResponseEntity.ok("Đăng ký thành công!");
-    //     } catch (TransactionSystemException e) {
-    //         logger.error("Lỗi xảy ra trong quá trình giao dịch: {}", e.getMessage());
-    //         return ResponseEntity.status(409).body("Có lỗi xảy ra, vui lòng thử lại.");
-    //     } catch (IllegalStateException e) {
-    //         logger.error("Lỗi trạng thái phòng: {}", e.getMessage());
-    //         return ResponseEntity.status(409).body("Phòng đã đầy");
-    //     } catch (Exception e) {
-    //         logger.error("Lỗi hệ thống: {}", e.getMessage());
-    //         return ResponseEntity.status(500).body("Lỗi hệ thống.");
-    //     }
-    // }
 
 }
