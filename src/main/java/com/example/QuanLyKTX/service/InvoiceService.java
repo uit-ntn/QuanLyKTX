@@ -10,15 +10,18 @@ import com.example.QuanLyKTX.repository.InvoiceRepository;
 
 @Service
 public class InvoiceService {
-    
+
     @Autowired
     private InvoiceRepository invoiceRepository;
+
+    public List<Invoice> getInvoicesByStudentID(Long studentID) {
+        return invoiceRepository.findByStudent_StudentID(studentID);
+    }
 
     public List<Invoice> getAlInvoices() {
         return invoiceRepository.findAll();
     }
 
-    
     public Invoice saveInvoice(Invoice invoice) {
         return invoiceRepository.save(invoice);
     }

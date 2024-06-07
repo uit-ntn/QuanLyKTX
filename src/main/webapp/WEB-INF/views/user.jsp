@@ -16,143 +16,143 @@ pageEncoding="UTF-8" %>
             href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
 
         <style>
-                body {
-                    font-family: Arial, sans-serif;
-                }
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-                .sidebar {
-                    width: 250px;
-                    position: fixed;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    background-color: #f8f9fa;
-                    padding: 20px;
-                    border-right: 1px solid #dee2e6;
-                    overflow-y: auto;
-                }
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #dee2e6;
+            overflow-y: auto;
+        }
 
-                .sidebar .nav-link {
-                    color: #000;
-                    font-weight: 500;
-                }
+        .sidebar .nav-link {
+            color: #000;
+            font-weight: 500;
+        }
 
-                .sidebar .nav-link:hover {
-                    background-color: #e9ecef;
-                    border-radius: 5px;
-                }
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
 
-                .student-photo {
-                    width: 150px;
-                    height: 200px;
-                }
+        .student-photo {
+            width: 150px;
+            height: 200px;
+        }
 
-                .info-card {
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    padding: 15px;
-                    margin: 20px 0;
-                    background-color: #f8f9fa;
-                }
+        .info-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f8f9fa;
+        }
 
-                .info-card h5 {
-                    margin-bottom: 20px;
-                }
+        .info-card h5 {
+            margin-bottom: 20px;
+        }
 
-                .card-title {
-                    font-size: 18px;
-                    font-weight: bold;
-                }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-                .header {
-                    padding: 10px 20px;
-                    border-bottom: 1px solid #dee2e6;
-                    background-color: #fff;
-                    position: fixed;
-                    top: 0;
-                    left: 250px;
-                    right: 0;
-                    z-index: 1030;
-                }
+        .header {
+            padding: 10px 20px;
+            border-bottom: 1px solid #dee2e6;
+            background-color: #fff;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            z-index: 1030;
+        }
 
-                .header .welcome {
-                    float: right;
-                }
+        .header .welcome {
+            float: right;
+        }
 
-                .sidebar {
-                    width: 250px;
-                    height: 100vh;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    background-color: #f8f9fa;
-                    padding-top: 20px;
-                }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
 
-                .sidebar a {
-                    padding: 10px 15px;
-                    text-decoration: none;
-                    display: block;
-                    color: #000;
-                }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            color: #000;
+        }
 
-                .sidebar a:hover {
-                    background-color: #007bff;
-                    color: #fff;
-                }
+        .sidebar a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
 
-                .content {
-                    margin-left: 250px;
-                    padding: 20px;
-                }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
 
-                .table thead th {
-                    background-color: #f8f9fa;
-                }
+        .table thead th {
+            background-color: #f8f9fa;
+        }
 
-                body {
-                    font-family: Arial, sans-serif;
-                }
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-                .sidebar {
-                    width: 250px;
-                    position: fixed;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    background-color: #f8f9fa;
-                    padding: 20px;
-                    border-right: 1px solid #dee2e6;
-                    overflow-y: auto;
-                }
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #dee2e6;
+            overflow-y: auto;
+        }
 
-                .sidebar .nav-link {
-                    color: #000;
-                    font-weight: 500;
-                    display: flex;
-                    align-items: center;
-                }
+        .sidebar .nav-link {
+            color: #000;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
 
-                .sidebar .nav-link:hover,
-                .sidebar .nav-link.active {
-                    background-color: #007bff;
-                    color: #fff;
-                    border-radius: 5px;
-                }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+        }
 
-                .sidebar .nav-link i {
-                    margin-right: 10px;
-                }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
 
-                .content {
-                    margin-left: 250px;
-                    padding: 20px;
-                }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
 
-                .table thead th {
-                    background-color: #f8f9fa;
-                }
-            </style>
+        .table thead th {
+            background-color: #f8f9fa;
+        }
+    </style>
     </head>
 
     <body>
@@ -196,9 +196,43 @@ pageEncoding="UTF-8" %>
                             THÔNG TIN SINH VIÊN Ở KÝ TÚC XÁ ĐẠI HỌC QUỐC
                             GIA</span>
                     </div>
-                    <div class="welcome">
-                        Chào mừng trở lại, ${student.fullName}
+                    <div class="dropdown">
+                        <a href="#" style="text-decoration: none;">
+                            <button class="btn btn-primary">
+                                <i class="bi bi-cart-fill">Giỏ hàng</i>
+                            </button>
+                        </a>
+                        <a
+                            class="btn btn-secondary dropdown-toggle bi bi-person"
+                            href="#"
+                            role="button" id="dropdownMenuLink"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            ${student.fullName}
+                        </a>
+
+                        <ul class="dropdown-menu"
+                            aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="/"><i
+                                        class="bi bi-house-door"></i> Trang
+                                    chủ</a></li>
+                            <li><a class="dropdown-item" href="/contact"><i
+                                        class="bi bi-envelope"></i> Liên
+                                    hệ</a></li>
+                            <li><a class="dropdown-item" href="/services"><i
+                                        class="bi bi-gear"></i> Dịch vụ</a></li>
+                            <li><a class="dropdown-item" href="/user/profile"><i
+                                        class="bi bi-person"></i> Thông tin cá
+                                    nhân</a></li>
+                            <li><a class="dropdown-item"
+                                    href="/shop/${student.studentID}/cart"><i
+                                        class="bi bi-cart"></i> Giỏ
+                                    hàng</a></li>
+                            <li><a class="dropdown-item" href="/logout"><i
+                                        class="bi bi-box-arrow-right"></i>
+                                    Logout</a></li>
+                        </ul>
                     </div>
+
                 </div>
             </div>
 
@@ -211,8 +245,7 @@ pageEncoding="UTF-8" %>
                         <div class="col-md-3">
                             <h6>Mặt trước CCCD</h6>
                             <img src="../../../resources/static/img/cccd.jpg"
-                                alt="ID Front"
-                                class="img-thumbnail mb-3">
+                                alt="ID Front" class="img-thumbnail mb-3">
                             <h6>Mặt sau CCCD</h6>
                             <img src="../../../resources/static/img/cccd.jpg"
                                 alt="ID Back" class="img-thumbnail">
@@ -244,8 +277,7 @@ pageEncoding="UTF-8" %>
                                     </tr>
                                     <tr>
                                         <th scope="row">Sinh viên trường</th>
-                                        <td>${student.school}, ĐHQG
-                                            TP.HCM</td>
+                                        <td>${student.school}, ĐHQG TP.HCM</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Khoa</th>
@@ -278,61 +310,102 @@ pageEncoding="UTF-8" %>
                     <div class="text-end">
                         <img
                             src="../../../resources/static/img/qrcode-default.png"
-                            alt="QR Code"
-                            class="img-thumbnail"
+                            alt="QR Code" class="img-thumbnail"
                             style="width: 100px; height: 100px;">
                     </div>
                 </div>
 
-                <div class="info-card d-none" id="invoice-details">
+                <div class="info-card" id="invoice-details">
                     <h3 class="mb-4">Hóa đơn, biên lai</h3>
                     <ul class="nav nav-tabs mb-3">
                         <li class="nav-item">
-                            <a class="nav-link active">Hóa đơn lệ
-                                phí</a>
+                            <a class="nav-link active">Hóa đơn phòng</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">Biên lai điện nước</a>
+                            <a class="nav-link">Hoá đơn dịch vụ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">DS hóa đơn đang nợ</a>
+                            <a class="nav-link">Hoá đơn mua sắm</a>
                         </li>
                     </ul>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Tháng/Năm</th>
-                                <th>Ngày chốt chỉ số</th>
                                 <th>Chỉ số điện</th>
                                 <th>Chỉ số nước</th>
+                                <th>Tiền rác</th>
                                 <th>Tổng cộng</th>
-                                <th>Thông tin thanh toán</th>
+                                <th>Trạng thái</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>4/2024</td>
-                                <td>29/04/2024</td>
-                                <td>
-                                    <p>Sử dụng: 198 Kwh</p>
-                                    <p>Số tiền: 409.769 đ</p>
-                                </td>
-                                <td>
-                                    <p>Sử dụng: 10 m³</p>
-                                    <p>Số tiền: 54.850 đ</p>
-                                </td>
-                                <td>464.619 đ (6 sinh viên)</td>
-                                <td>Đã thanh toán</td>
-                                <td>
-                                    <button class="btn btn-primary mb-3">Xem</button>
-                                    <button class="btn btn-danger mb-3">Thanh toán</button>
-                                </td>
-                            </tr>
+                            <c:forEach var="invoice" items="${invoices}">
+                                <tr>
+                                    <td>${invoice.issueDate}</td>
+                                    <td>
+                                        <p>Sử dụng: ${invoice.electricityUsage}
+                                            Kwh</p>
+                                        <p>Số tiền: ${invoice.electricityCost}
+                                            đ</p>
+                                    </td>
+                                    <td>
+                                        <p>Sử dụng: ${invoice.waterUsage} m³</p>
+                                        <p>Số tiền: ${invoice.waterCost} đ</p>
+                                    </td>
+                                    <td>${invoice.junkCost}</td>
+                                    <td>${invoice.totalAmount} đ</td>
+                                    <td>${invoice.paymentStatus}</td>
+                                    <td>
+                                        <button
+                                            class="btn btn-danger mb-3">Thanh
+                                            toán</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
-                <!-- Thêm các phần nội dung khác ở đây -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="invoiceModal" tabindex="-1"
+                    aria-labelledby="invoiceModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"
+                                    id="invoiceModalLabel">Chi tiết hóa đơn</h5>
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Tháng/Năm:</strong> <span
+                                        id="modal-month-year"></span></p>
+                                <p><strong>Ngày chốt chỉ số:</strong> <span
+                                        id="modal-closing-date"></span></p>
+                                <p><strong>Chỉ số điện:</strong> <span
+                                        id="modal-electricity-usage"></span></p>
+                                <p><strong>Số tiền điện:</strong> <span
+                                        id="modal-electricity-amount"></span></p>
+                                <p><strong>Chỉ số nước:</strong> <span
+                                        id="modal-water-usage"></span></p>
+                                <p><strong>Số tiền nước:</strong> <span
+                                        id="modal-water-amount"></span></p>
+                                <p><strong>Tổng cộng:</strong> <span
+                                        id="modal-total-amount"></span></p>
+                                <p><strong>Thông tin thanh toán:</strong> <span
+                                        id="modal-payment-info"></span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="info-card" id="repair-info">
                     <h3>Yêu cầu sửa chữa</h3>
                     <ul class="nav nav-tabs mb-3">
@@ -418,7 +491,7 @@ pageEncoding="UTF-8" %>
                     </div>
                 </div>
             </div>
-        </script>
+        </div>
 
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -426,6 +499,15 @@ pageEncoding="UTF-8" %>
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
         <script src="../../../resources/static/js/user.js"></script>
 
+        <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.info-card');
+            sections.forEach(section => {
+                section.classList.add('d-none');
+            });
+            document.getElementById(sectionId).classList.remove('d-none');
+        }
+    </script>
     </body>
 
 </html>
