@@ -75,6 +75,8 @@ pageEncoding="UTF-8"%>
                   <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                     <a class="btn btn-primary btn-lg px-4 me-sm-3"
                       href="/user/profile">Account</a>
+                    <a class="btn btn-light btn-lg px-4 me-sm-3"
+                      href="/user/profile">Shop</a>
                     <a
                       class="btn btn-outline-light btn-lg px-4 me-sm-3">Comment</a>
                     <a class="btn btn-danger btn-lg px-4 me-sm-3"
