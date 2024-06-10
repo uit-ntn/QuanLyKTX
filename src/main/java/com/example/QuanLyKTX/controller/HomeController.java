@@ -3,14 +3,16 @@ package com.example.QuanLyKTX.controller;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.QuanLyKTX.model.SessionManager;
@@ -20,6 +22,8 @@ import com.example.QuanLyKTX.model.Comment;
 
 @Controller
 public class HomeController {
+
+    @Autowired
     private CommentService commentService;
 
     public HomeController(CommentService commentService) {
@@ -34,26 +38,18 @@ public class HomeController {
     }
 
     @PostMapping("/comment")
-    public ResponseEntity AddComment(@RequestParam Long StudentID, @RequestParam String message) {
-        LocalDate createdDate = LocalDate.now();
-        // Định dạng ngày tháng năm
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        System.out.println("studentID :" + StudentID);
-        System.out.println("message :" + message);
-        System.out.println("createdDate : " + createdDate);
+    public ResponseEntity<String> saveComment(@RequestBody Comment comment) {
+        System.out.println("comment da duoc tao : ");
+        System.out.println("studentID : " + comment.getStudentID());
+        System.out.println("message" + comment.getMessage());
+        commentService.saveComment(comment.getMessage(), comment.getStudentID());
+        return new ResponseEntity<>("Comment saved successfully", HttpStatus.OK);
 
-        try {
-            Comment comment = new Comment(createdDate, message, StudentID);
-            commentService.AddComment(comment);
+    }
 
-            return ResponseEntity.ok("");
-
-        } catch (Exception e) {
-            // Trả về mã lỗi và thông điệp lỗi cho người dùng
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while adding the comment.");
-        }
-
+    @GetMapping("/comments")
+    public List<Comment> getAllComments() {
+        return commentService.getAllComments();
     }
 
 }
