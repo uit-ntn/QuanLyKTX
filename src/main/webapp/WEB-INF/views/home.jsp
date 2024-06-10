@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                     <a class="btn btn-primary btn-lg px-4 me-sm-3"
                       href="/user/profile">Account</a>
                     <a class="btn btn-light btn-lg px-4 me-sm-3"
-                      href="/user/profile">Shop</a>
+                      href="/shop">Shop</a>
                     <a
                       class="btn btn-outline-light btn-lg px-4 me-sm-3">Comment</a>
                     <a class="btn btn-danger btn-lg px-4 me-sm-3"
@@ -262,7 +262,7 @@ pageEncoding="UTF-8" %>
         </div>
         <div class="row gx-5 justify-content-center align-items-center">
           <div class="col-lg-6">
-            <div class="card mb-4">
+            <div class="card mb-3">
               <div class="card-body p-4">
                 <div class="d-flex">
                   <div class="flex-shrink-0"><i
@@ -276,6 +276,8 @@ pageEncoding="UTF-8" %>
                 </div>
               </div>
             </div>
+
+
             <div class="card">
               <div class="card-body p-4">
                 <div class="d-flex">
@@ -298,56 +300,91 @@ pageEncoding="UTF-8" %>
                 </div>
               </div>
             </div>
+
+            <c:choose>
+              <c:when test="${loggedUser != null}">
+                <section>
+                  <h2 class="fw-bolder text-center mt-5">Một số bình luận khác</h2>
+                      <c:forEach var="comment" items="${commentPage.content}"> 
+                    <div class="card comment mt-4" id="comment-list">
+                      <div class="card-body p-4">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0"><i
+                          class="bi bi-chat-right-quote-fill text-primary fs-1"></i></div>
+                        <div class="ms-4">
+                          <p class="mb-1">${comment.message}</p>
+                        <div class="small text-muted commented-user">
+                          Posted on ${comment.createdDate}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </c:forEach>
+                <div class="pagination mt-2" style="justify-content: space-between;">
+                  <c:if test="${!commentPage.isFirst()}">
+                    <a class="btn btn-primary" href="?page=${commentPage.number - 1}">Previous</a>
+                  </c:if>
+                <c:if test="${!commentPage.isLast()}">
+                  <a class="btn btn-primary" href="?page=${commentPage.number + 1}">Next</a>
+                </c:if>
+              </div> 
+              </section>
+              </c:when>
+              <c:otherwise>
+              </c:otherwise>
+          </c:choose>    
+
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- Contact section-->
-
-    <c:choose>
-      <c:when test="${loggedUser != null}">
-        <section style="background-color: #eee;">
-          <form id="comment-form">
-            <div class="container my-5 py-5">
-              <div class="row d-flex justify-content-center">
-                <div class="col-md-12 col-lg-10 col-xl-8">
-                  <div class="card">
-                    <div class="card-footer py-3 border-0"
-                      style="background-color: #f8f9fa;">
-                      <div class="d-flex flex-start w-100">
-                        <div>
-                          <img class="rounded-circle shadow-1-strong me-3"
-                            src="../../../resources/static/img/avt.jpg"
-                            alt="avatar" width="40" height="40" />
-                          <input type="hidden" id="studentID" name="studentID"
-                            value="${loggedUser.studentID}">
-                          <p>${loggedUser.username}</p>
+      <c:choose>
+        <c:when test="${loggedUser != null}">
+          <section class="">
+            <form id="comment-form">
+              <div class="container my-3 py-5">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-md-12 col-lg-10 col-xl-8">
+                    <div class="card">
+                      <div class="card-footer py-3 border-0">
+                        <div class="d-flex flex-start w-100">
+                          <div>
+                            <img class="rounded-circle shadow-1-strong me-3"
+                              src="../../../resources/static/img/avt.jpg"
+                              alt="avatar" width="40" height="40" />
+                            <input type="hidden" id="username"
+                              value="${loggedUser.username}">
+                            <input type="hidden" id="studentID" name="studentID"
+                              value="${loggedUser.studentID}">
+                            <p
+                              value="${loggedUser.username}">${loggedUser.username}</p>
+                          </div>
+                          <div data-mdb-input-init class="form-outline w-100">
+                            <textarea class="form-control" id="commentText"
+                              rows="4" name="message"
+                              style="background: #fff;"></textarea>
+                            <label class="form-label"
+                              for="commentText">Message</label>
+                          </div>
                         </div>
-                        <div data-mdb-input-init class="form-outline w-100">
-                          <textarea class="form-control" id="commentText"
-                            rows="4" name="message"
-                            style="background: #fff;"></textarea>
-                          <label class="form-label"
-                            for="commentText">Message</label>
+                        <div class="float-end mt-2 pt-1">
+                          <button id="postCommentBtn"
+                            class="btn btn-primary btn-sm">Post comment</button>
+                          <button type="button"
+                            class="btn btn-outline-primary btn-sm">Cancel</button>
                         </div>
-                      </div>
-                      <div class="float-end mt-2 pt-1">
-                        <button id="postCommentBtn"
-                          class="btn btn-primary btn-sm">Post comment</button>
-                        <button type="button"
-                          class="btn btn-outline-primary btn-sm">Cancel</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </section>
+        </c:when>
+      </c:choose>
 
-        </section>
-      </c:when>
-    </c:choose>
+
+      
+    </section>
 
     <!-- Footer-->
     <footer class="py-5 bg-dark">
@@ -362,31 +399,43 @@ pageEncoding="UTF-8" %>
   <script src="../../../resources/static/js/home.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
   <script>
      $(document).ready(function () {
-     $('#postCommentBtn').click(function (e) {
-       e.preventDefault();
+    $('#postCommentBtn').click(function (e) {
+        e.preventDefault();
+        var username = $('#username').val();
+        console.log(username)
 
-       var commentData = {
-         message: $('#commentText').val(),
-         studentID: $('#studentID').val()
-       };
+        var commentData = {
+            message: $('#commentText').val(),
+            studentID: $('#studentID').val(),
+        };
 
-       $.ajax({
-         type: 'POST',
-         url: '/comment',
-         contentType: 'application/json',
-         data: JSON.stringify(commentData),
-         success: function (response) {
-           alert('Comment posted successfully!');
-           $('#commentText').val('');  // Clear the comment text area
-         },
-         error: function (error) {
-           alert('Error posting comment!');
-         }
-       });
-     });
-   });
+        $.ajax({
+            type: 'POST',
+            url: '/comment',
+            contentType: 'application/json',
+            data: JSON.stringify(commentData),
+            success: function (response) {
+                alert('Comment bạn đã được tạo thành công ^^');
+                $('#commentText').val('');  // Clear the comment text area
+                // Append the new comment to the comment list
+                var newComment = '<div class="card mb-4 mt-3">' +
+                    '<div class="card-body p-4">' +
+                    '<div class="d-flex">' +
+                    '<div class="flex-shrink-0"><i class="bi bi-chat-right-quote-fill text-primary fs-1"></i></div>' +
+                    '<div class="ms-4">' +
+                    '<p class="mb-1">' + commentData.message + '</p>' +
+                    '<div class="small text-muted commented-user">' + username + '</div>' +
+                    '</div></div></div></div>';
+                $('#comment-list').prepend(newComment);
+            },
+            error: function (error) {
+                alert('Error posting comment!');
+            }
+        });
+    });
+});
+
   </script>
 </html>

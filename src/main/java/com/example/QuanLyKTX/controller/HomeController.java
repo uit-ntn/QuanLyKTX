@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,10 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String Home(Model model) {
+    public String Home(Model model,@RequestParam(defaultValue = "0") int page) {
         User loggedUser = SessionManager.getLoggedInUser();
+        Page<Comment> commentPage = commentService.getCommentsPaged(page, 2); // 2 comments per page
+        model.addAttribute("commentPage", commentPage);
         model.addAttribute("loggedUser", loggedUser);
         return "home"; // Trả về tên của file JSP (không cần phần mở rộng .jsp)
     }
