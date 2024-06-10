@@ -233,8 +233,7 @@ pageEncoding="UTF-8"%>
                         contentType: false,
                         success: function (response) {
                             alert('Đăng ký thành công!');
-                            alert("Hãy kiểm tra email của bạn nhá ^^")
-                            window.location.href = '/login';
+                            alert("hãy kiểm tra email của bạn nhá");
                         },
                         error: function (error) {
                             alert(`Đã xảy ra lỗi : ${error.status()} `);

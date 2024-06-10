@@ -1,87 +1,48 @@
-package com.example.QuanLyKTX.config;
+// package com.example.QuanLyKTX.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import java.util.Objects;
+// import org.springframework.boot.context.properties.ConfigurationProperties;
+// import org.springframework.context.annotation.Primary;
+// import org.springframework.stereotype.Component;
 
-@Configuration
-@ConfigurationProperties(prefix = "vnpay")
-public class VNPayConfig {
-    private String tmnCode;
-    private String hashSecret;
-    private String url;
+// @Component
+// @Primary
+// @ConfigurationProperties(prefix = "vnpay")
+// public class VNPayConfig {
+//     private String tmnCode;
+//     private String hashSecret;
+//     private String url;
+//     private String returnUrl;
 
+//     // Getters and Setters
+//     public String getTmnCode() {
+//         return tmnCode;
+//     }
 
-    public VNPayConfig() {
-    }
+//     public void setTmnCode(String tmnCode) {
+//         this.tmnCode = tmnCode;
+//     }
 
-    public VNPayConfig(String tmnCode, String hashSecret, String url) {
-        this.tmnCode = tmnCode;
-        this.hashSecret = hashSecret;
-        this.url = url;
-    }
+//     public String getHashSecret() {
+//         return hashSecret;
+//     }
 
-    public String getTmnCode() {
-        return this.tmnCode;
-    }
+//     public void setHashSecret(String hashSecret) {
+//         this.hashSecret = hashSecret;
+//     }
 
-    public void setTmnCode(String tmnCode) {
-        this.tmnCode = tmnCode;
-    }
+//     public String getUrl() {
+//         return url;
+//     }
 
-    public String getHashSecret() {
-        return this.hashSecret;
-    }
+//     public void setUrl(String url) {
+//         this.url = url;
+//     }
 
-    public void setHashSecret(String hashSecret) {
-        this.hashSecret = hashSecret;
-    }
+//     public String getReturnUrl() {
+//         return returnUrl;
+//     }
 
-    public String getUrl() {
-        return this.url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public VNPayConfig tmnCode(String tmnCode) {
-        setTmnCode(tmnCode);
-        return this;
-    }
-
-    public VNPayConfig hashSecret(String hashSecret) {
-        setHashSecret(hashSecret);
-        return this;
-    }
-
-    public VNPayConfig url(String url) {
-        setUrl(url);
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof VNPayConfig)) {
-            return false;
-        }
-        VNPayConfig vNPayConfig = (VNPayConfig) o;
-        return Objects.equals(tmnCode, vNPayConfig.tmnCode) && Objects.equals(hashSecret, vNPayConfig.hashSecret) && Objects.equals(url, vNPayConfig.url);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tmnCode, hashSecret, url);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " tmnCode='" + getTmnCode() + "'" +
-            ", hashSecret='" + getHashSecret() + "'" +
-            ", url='" + getUrl() + "'" +
-            "}";
-    }
-}
+//     public void setReturnUrl(String returnUrl) {
+//         this.returnUrl = returnUrl;
+//     }
+// }
