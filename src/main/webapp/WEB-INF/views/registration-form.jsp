@@ -234,6 +234,7 @@ pageEncoding="UTF-8"%>
                         success: function (response) {
                             alert('Đăng ký thành công!');
                             alert("hãy kiểm tra email của bạn nhá");
+                            window.location.href = '/login';
                         },
                         error: function (error) {
                             alert(`Đã xảy ra lỗi : ${error.status()} `);
