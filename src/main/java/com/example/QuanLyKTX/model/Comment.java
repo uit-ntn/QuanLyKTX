@@ -10,6 +10,8 @@ import java.util.Date;
 @Table(name = "COMMENTS")
 public class Comment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "comment_seq", sequenceName = "COMMENT_SEQ", allocationSize = 1)
     @Column(name = "COMMENTID")
     private Long commentID;
 
@@ -22,6 +24,9 @@ public class Comment {
 
     @Column(name = "STUDENTID")
     private Long studentID;
+
+    public Comment() {
+    }
 
     public Comment(LocalDate createDate, String message, Long studentID){
         this.createdDate = createDate;
