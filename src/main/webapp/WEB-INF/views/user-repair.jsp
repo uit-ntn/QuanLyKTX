@@ -10,7 +10,7 @@ pageEncoding="UTF-8" %>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang Thông Tin Sinh Viên</title>
         <link rel="icon" href="../../../resources/static/img/logo.png"
-        type="image/x-icon">
+            type="image/x-icon">
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
             rel="stylesheet">
@@ -56,9 +56,9 @@ pageEncoding="UTF-8" %>
                             GIA</span>
                     </div>
                     <div class="dropdown">
-                        <a href="#" style="text-decoration: none;">
+                        <a href="/shop" style="text-decoration: none;">
                             <button class="btn btn-primary">
-                                <i class="bi bi-cart-fill"></i> Giỏ hàng
+                                <i class="bi bi-cart-fill"></i> Ký túc xá Shop
                             </button>
                         </a>
                         <a
@@ -111,7 +111,7 @@ pageEncoding="UTF-8" %>
                         <div class="tab-content">
                             <div class="tab-pane fade show active"
                                 id="room-repair">
-                                <form id="repair-request-form">
+                                <form id="repair-request-form" action="/user/repair-request" method="post">
                                     <div class="mb-3">
                                         <input type="hidden" name="studentID"
                                             value="${student.studentID}">
@@ -124,29 +124,12 @@ pageEncoding="UTF-8" %>
                                             name="description">
                                         <button class="btn btn-primary mt-2"
                                             type="submit">Gửi</button>
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ngày gửi yêu cầu</th>
-                                                    <th>Khu/Nhà/Phòng KTX</th>
-                                                    <th>Nội dung sửa chữa</th>
-                                                    <th>Ghi chú</th>
-                                                    <th>Tình trạng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td colspan="5">There are no
-                                                        items to display</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </form>
-                                <div id="repair-requests-table">
-                                    <!-- Bảng hiển thị yêu cầu sửa chữa sẽ được thêm vào đây -->
-                                </div>
                             </div>
+
+
+                            <!--hiển thị yêu cầu đã duyệt-->
                             <div class="tab-pane fade" id="item-repair">
                                 <h2></h2>
                                 <table class="table table-striped">
@@ -154,20 +137,26 @@ pageEncoding="UTF-8" %>
                                         <tr>
                                             <th>Ngày yêu cầu</th>
                                             <th>Nội dung yêu cầu sửa chữa</th>
-                                            <th>Ghi chú</th>
-                                            <th>Ngày sửa chữa hoàn thành</th>
+                                            <th>ID Phòng yêu cầu</th>
                                             <th>Trạng thái</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>04/04/2017 8:13</td>
-                                            <td>điện các ổ cắm không có
-                                                điện</td>
-                                            <td></td>
-                                            <td>04/04/2017 8:13</td>
-                                            <td>Đang sửa chữa</td>
-                                        </tr>
+                                        <c:forEach var="request"
+                                            items="${repairRequests}">
+                                            <tr>
+                                                <td><fmt:formatDate value="${request.requestDate}" pattern="dd/MM/yyyy"/></td>
+                                                <td>${request.description}</td>
+                                                <td>${request.roomID}</td>
+                                                <td>${request.status}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty repairRequests}">
+                                            <tr>
+                                                <td colspan="5">Không có yêu cầu
+                                                    sửa chữa nào</td>
+                                            </tr>
+                                        </c:if>
                                     </tbody>
                                 </table>
                             </div>
@@ -178,7 +167,45 @@ pageEncoding="UTF-8" %>
         </div>
 
         <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="../../../resources/static/js/user.js"></script>
+        <script>$(document).ready(function () {
+            $('#repair-request-form').submit(function (event) {
+                event.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (data) {
+                        alert("Yêu cầu của bạn đã được gửi đi");
+                        alert("Kiểm tra thông tin sửa chữa vật tư nhá ^^")
+                        var currentDate = new Date().toLocaleDateString('en-GB');
+                        var description = form.find('input[name="description"]').val();
+                        var tableBody = $('#req-repair tbody');
+                        tableBody.empty();
+                        if (data.length > 0) {
+                            data.forEach(function (request) {
+                                var newRow = '<tr>' +
+                                    '<td>' + currentDate + '</td>' +
+                                    '<td>' + request.roomID + '</td>' +
+                                    '<td>' + description + '</td>' +
+                                    '<td>pending</td>' +
+                                    '</tr>';
+                                tableBody.append(newRow);
+                            });
+                        } else {
+                            tableBody.html('<tr><td colspan="4">Không có yêu cầu sửa chữa nào</td></tr>');
+                        }
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi gửi yêu cầu sửa chữa!');
+                    }
+                });
+            });
+        });
+        </script>
+
     </body>
 </html>

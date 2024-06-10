@@ -96,32 +96,28 @@ public class UserController {
     }
 
     @PostMapping("/user/repair-request")
-    public ResponseEntity<String> submitRepairRequest(
+    @ResponseBody
+    public String submitRepairRequest(
             @RequestParam String description,
             @RequestParam Long studentID,
-            // @RequestParam Long roomID,
             Model model) {
-
-        System.out.println("studentID: " + studentID + ", description: " + description);
 
         RepairRequest repairRequest = new RepairRequest();
         repairRequest.setStudentID(studentID);
-        // repairRequest.setRoomID(roomID);
         repairRequest.setDescription(description);
-
-        // Đặt ngày hiện tại với định dạng tùy chỉnh
+        repairRequest.setRoomID(studentID);
+    
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date currentDate = new Date();
         try {
-            Date currentDate = dateFormat.parse(dateFormat.format(new Date()));
-            repairRequest.setRequestDate(currentDate);
-        } catch (ParseException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ nếu có
+            currentDate = dateFormat.parse(dateFormat.format(new Date()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        repairRequest.setRequestDate(currentDate);
         repairRequest.setStatus("pending");
         repairService.saveRepairRequest(repairRequest);
 
-        model.addAttribute("message", "Gửi yêu cầu thành công!");
-        return ResponseEntity.ok("Đăng ký thành công!");
+        return "success";
     }
 }
