@@ -32,16 +32,16 @@
               <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
               <c:choose>
                 <c:when test="${loggedUser != null}">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                      aria-expanded="false">
-                      Hello ${loggedUser.username}
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="/user/profile">Account</a></li>
-                      <li><a class="dropdown-item" href="/logout">Log out</a></li>
-                    </ul>
-                  </li>
+                  <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a class="btn btn-primary btn-lg px-4 me-sm-3"
+                      href="/user/profile">Account</a>
+                    <a class="btn btn-light btn-lg px-4 me-sm-3"
+                      href="/shop">Shop</a>
+                    <a
+                      class="btn btn-outline-light btn-lg px-4 me-sm-3">Comment</a>
+                    <a class="btn btn-danger btn-lg px-4 me-sm-3"
+                      href="/logout">Log out</a>
+                  </div>
                 </c:when>
               </c:choose>
             </ul>

@@ -73,6 +73,96 @@ public class BookingController {
         return "registration-form";
     }
 
+    // @PostMapping("booking/register")
+    // public ResponseEntity<String> register(
+    // @RequestParam("roomID") Long roomID,
+    // @RequestParam("fullName") String fullName,
+    // @RequestParam("gender") String gender,
+    // @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") Date
+    // dateOfBirth,
+    // @RequestParam("address") String address,
+    // @RequestParam("phoneNumber") String phoneNumber,
+    // @RequestParam("school") String school,
+    // @RequestParam("mssv") String mssv,
+    // @RequestParam("email") String email,
+    // @RequestParam("CCCD") String cccd,
+    // @RequestParam("CCCD-font") MultipartFile cccdFont,
+    // @RequestParam("CCCD-back") MultipartFile cccdBack,
+    // @RequestParam("checkInDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date
+    // checkInDate,
+    // @RequestParam("checkOutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date
+    // checkOutDate,
+    // Model model) {
+
+    // // Logging các giá trị để kiểm tra
+    // System.out.println("Room ID: " + roomID);
+    // System.out.println("Full Name: " + fullName);
+    // System.out.println("Gender: " + gender);
+    // System.out.println("Date of Birth: " + dateOfBirth);
+    // System.out.println("Address: " + address);
+    // System.out.println("Phone Number: " + phoneNumber);
+    // System.out.println("School: " + school);
+    // System.out.println("MSSV: " + mssv);
+    // System.out.println("Email: " + email);
+    // System.out.println("CCCD: " + cccd);
+    // System.out.println("Check In Date: " + checkInDate);
+    // System.out.println("Check Out Date: " + checkOutDate);
+
+    // Room room = roomService.findById(roomID);
+
+    // if (room == null) {
+    // return ResponseEntity.status(404).body("Room not found");
+    // }
+
+    // // Kiểm tra trạng thái phòng
+    // if (!room.getStatus().equalsIgnoreCase("available")) {
+    // model.addAttribute("error", "Room is not available");
+    // return ResponseEntity.status(404).body("Phòng đã đầy");
+    // }
+
+    // // Tạo Student mới
+    // Student student = new Student(fullName, gender, dateOfBirth, address,
+    // phoneNumber, roomID, school, mssv);
+    // studentService.save(student);
+
+    // // Tạo Booking mới
+    // Booking booking = new Booking();
+    // booking.setStudent(student);
+    // booking.setRoom(room);
+    // booking.setCheckInDate(checkInDate);
+    // booking.setCheckOutDate(checkOutDate);
+    // bookingService.save(booking);
+
+    // // Tạo User mới
+    // try {
+
+    // User user = new User();
+    // user.setUsername(cccd);
+    // user.setEmail(email);
+    // user.setPassword(cccd); // Password là CCCD
+    // user.setRole("student");
+    // user.setStudentID(student.getStudentID());
+
+    // // Logging các giá trị của user để kiểm tra
+    // System.out.println("User - Username: " + user.getUsername());
+    // System.out.println("User - Email: " + user.getEmail());
+    // System.out.println("User - Password: " + user.getPassword());
+    // System.out.println("User - Role: " + user.getRole());
+    // System.out.println("User - Student ID: " + user.getStudentID());
+
+    // userService.save(user);
+    // } catch (Exception e) {
+    // System.err.println(e.getMessage());
+    // }
+
+    // // Gửi email thông tin tài khoản
+    // emailService.sendAccountDetails(email, cccd, cccd);
+    // model.addAttribute("success", "Registration successful. Check your email for
+    // account details.");
+    // return ResponseEntity.ok("Đăng ký thành công!");
+
+    // }
+
     @PostMapping("booking/register")
     public ResponseEntity<String> register(
             @RequestParam("roomID") Long roomID,

@@ -19,4 +19,9 @@ public class ShopController {
     public String showCart() {
         return "cart";
     }
+
+    @GetMapping("/shop/product/{product_id}")
+    public String showProductDetail() {
+        return "product-detail";
+    }
 }
