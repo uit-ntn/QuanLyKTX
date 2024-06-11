@@ -26,7 +26,7 @@ public class InvoiceController {
     @GetMapping(value = "/api/invoices", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Invoice> getAllInvoices() {
-        return invoiceService.getAlInvoices();
+        return invoiceService.getAllInvoices();
     }
 
     @PostMapping("/api/invoices")

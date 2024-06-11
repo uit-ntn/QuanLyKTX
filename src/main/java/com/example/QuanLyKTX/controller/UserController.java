@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Optional;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -120,4 +123,20 @@ public class UserController {
 
         return "success";
     }
+
+
+    @PostMapping("/user/invoices/pay")
+@ResponseBody
+public ResponseEntity<String> payInvoice(@RequestParam("invoiceID") Long invoiceID) {
+    Optional<Invoice> invoiceOpt = invoiceService.getInvoiceById(invoiceID);
+    System.out.println("Hoá đơn thanh toán có ID là : " + invoiceID);
+    if (invoiceOpt.isPresent()) {
+        Invoice invoice = invoiceOpt.get();
+        invoice.setPaymentStatus("paid");
+        invoiceService.saveInvoice(invoice);
+        return ResponseEntity.ok("Invoice paid successfully");
+    } else {
+        return ResponseEntity.status(404).body("Invoice not found");
+    }
+}
 }

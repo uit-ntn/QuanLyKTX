@@ -1,6 +1,7 @@
 package com.example.QuanLyKTX.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class InvoiceService {
         return invoiceRepository.findByStudent_StudentID(studentID);
     }
 
-    public List<Invoice> getAlInvoices() {
+    public List<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();
     }
 
@@ -32,5 +33,9 @@ public class InvoiceService {
 
     public Long getUnpaidInvoiceCount() {
         return invoiceRepository.countByPaymentStatus("Unpaid");
+    }
+
+    public Optional<Invoice> getInvoiceById(Long invoiceID) {
+        return invoiceRepository.findById(invoiceID);
     }
 }
