@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="PRODUCT")
+@Table(name="PRODUCTS")
 public class Product {
 
     @Id
@@ -14,23 +14,37 @@ public class Product {
 
     @Column(name = "PRODUCTNAME")
     private String productName;
+
     @Column(name = "DESCRIPTION")
     private String description;
+
     @Column(name = "PRICE")
     private Double price;
 
-    public Product() {
-    }
+    @Column(name="STOCKQUANTITY")
+    private Integer stockQuantity;
 
-    public Product(Long productId, String productName, String description, Double price, Integer stockQuantity, String image) {
+    @Column(name="IMAGE")
+    private String image;
+
+    @Column(name = "RATING")
+    private Integer rating;
+
+    // Default constructor
+    public Product() {}
+
+    // Parameterized constructor
+    public Product(Long productId, String productName, String description, Double price, Integer stockQuantity, String image , Integer rating) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.image = image;
+        this.rating = rating;
     }
 
+    // Getters and Setters
     public Long getProductId() {
         return this.productId;
     }
@@ -79,6 +93,15 @@ public class Product {
         this.image = image;
     }
 
+    public Integer getRating() {
+        return this.rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    // Fluent API methods
     public Product productId(Long productId) {
         setProductId(productId);
         return this;
@@ -109,20 +132,30 @@ public class Product {
         return this;
     }
 
+    public Product rating(Integer rating) {
+        setRating(rating);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
+        if (o == this) return true;
         if (!(o instanceof Product)) {
             return false;
         }
         Product product = (Product) o;
-        return Objects.equals(productId, product.productId) && Objects.equals(productName, product.productName) && Objects.equals(description, product.description) && Objects.equals(price, product.price) && Objects.equals(stockQuantity, product.stockQuantity) && Objects.equals(image, product.image);
+        return Objects.equals(productId, product.productId) && 
+               Objects.equals(productName, product.productName) && 
+               Objects.equals(description, product.description) && 
+               Objects.equals(price, product.price) && 
+               Objects.equals(stockQuantity, product.stockQuantity) && 
+               Objects.equals(image, product.image) && 
+               Objects.equals(rating, product.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productName, description, price, stockQuantity, image);
+        return Objects.hash(productId, productName, description, price, stockQuantity, image, rating);
     }
 
     @Override
@@ -134,10 +167,7 @@ public class Product {
             ", price='" + getPrice() + "'" +
             ", stockQuantity='" + getStockQuantity() + "'" +
             ", image='" + getImage() + "'" +
+            ", rating='" + getRating() + "'" +
             "}";
     }
-    private Integer stockQuantity;
-    private String image;
-
-    // Getters and Setters
 }
