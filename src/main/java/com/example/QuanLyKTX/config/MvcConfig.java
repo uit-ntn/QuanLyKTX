@@ -32,7 +32,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
                                 // Những trang không cần đăng nhập
                                 .excludePathPatterns("/login", "/register", "/error", "/access-denied", "/", "/about",
-                                                "/service", "/rooms", "/register", "/rooms/search", "/rooms/{id}","/booking/register",
+                                                "/service", "/rooms", "/register", "/rooms/search", "/rooms/{id}","/booking/register","/shop/order",
                                                 "/contact", "/services","/shop","/shop/product","shop/{studentId}/cart,/comment","/comments",
                                                 "/resources/static/css/**", "/resources/static/js/**","/user/repair-request","/shop/product/{product_id}",
                                                 "/resources/static/img/**");

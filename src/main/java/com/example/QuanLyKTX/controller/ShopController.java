@@ -24,4 +24,16 @@ public class ShopController {
     public String showProductDetail() {
         return "product-detail";
     }
+
+    @GetMapping("/shop/order")
+    public String getMethodName() {
+        return "order";
+    }
+
+
+    @GetMapping("/shop/search")
+    public String getMethodName2() {
+        return "product-search";
+    }
+
 }
