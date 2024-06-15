@@ -11,13 +11,11 @@ public class OrderDetail {
     @Column(name="ORDERDETAILID")
     private Long orderDetailId;
 
-    @ManyToOne
-    @JoinColumn(name = "ORDERID")
-    private Order order;
+    @Column(name = "ORDERID")
+    private Long orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "PRODUCTID")
-    private Product product;
+    @Column(name = "PRODUCTID")
+    private Long productId;
 
     @Column(name = "QUANTITY")
     private Integer quantity;
@@ -28,10 +26,11 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(Long orderDetailId, Order order, Product product, Integer quantity, Double price) {
+
+    public OrderDetail(Long orderDetailId, Long orderId, Long productId, Integer quantity, Double price) {
         this.orderDetailId = orderDetailId;
-        this.order = order;
-        this.product = product;
+        this.orderId = orderId;
+        this.productId = productId;
         this.quantity = quantity;
         this.price = price;
     }
@@ -44,20 +43,20 @@ public class OrderDetail {
         this.orderDetailId = orderDetailId;
     }
 
-    public Order getOrder() {
-        return this.order;
+    public Long getOrderId() {
+        return this.orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public Product getProduct() {
-        return this.product;
+    public Long getProductId() {
+        return this.productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Integer getQuantity() {
@@ -81,13 +80,13 @@ public class OrderDetail {
         return this;
     }
 
-    public OrderDetail order(Order order) {
-        setOrder(order);
+    public OrderDetail orderId(Long orderId) {
+        setOrderId(orderId);
         return this;
     }
 
-    public OrderDetail product(Product product) {
-        setProduct(product);
+    public OrderDetail productId(Long productId) {
+        setProductId(productId);
         return this;
     }
 
@@ -109,23 +108,24 @@ public class OrderDetail {
             return false;
         }
         OrderDetail orderDetail = (OrderDetail) o;
-        return Objects.equals(orderDetailId, orderDetail.orderDetailId) && Objects.equals(order, orderDetail.order) && Objects.equals(product, orderDetail.product) && Objects.equals(quantity, orderDetail.quantity) && Objects.equals(price, orderDetail.price);
+        return Objects.equals(orderDetailId, orderDetail.orderDetailId) && Objects.equals(orderId, orderDetail.orderId) && Objects.equals(productId, orderDetail.productId) && Objects.equals(quantity, orderDetail.quantity) && Objects.equals(price, orderDetail.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderDetailId, order, product, quantity, price);
+        return Objects.hash(orderDetailId, orderId, productId, quantity, price);
     }
 
     @Override
     public String toString() {
         return "{" +
             " orderDetailId='" + getOrderDetailId() + "'" +
-            ", order='" + getOrder() + "'" +
-            ", product='" + getProduct() + "'" +
+            ", orderId='" + getOrderId() + "'" +
+            ", productId='" + getProductId() + "'" +
             ", quantity='" + getQuantity() + "'" +
             ", price='" + getPrice() + "'" +
             "}";
     }
+  
 
 }

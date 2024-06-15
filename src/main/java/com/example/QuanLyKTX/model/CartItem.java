@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="CARTITEM")
+@Table(name="CARTITEMS")
 public class CartItem {
 
     @Id
@@ -12,23 +12,22 @@ public class CartItem {
     @Column(name="CARTITEMID")
     private Long cartItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "CARTID")
-    private Cart cart;
+    @Column(name = "CARTID")
+    private Long cartId;
 
-    @ManyToOne
-    @JoinColumn(name = "PRODUCTID")
-    private Product product;
+    @Column(name = "PRODUCTID")
+    private Long productId;
     @Column(name = "QUANTITY")
     private Integer quantity;
 
     public CartItem() {
     }
 
-    public CartItem(Long cartItemId, Cart cart, Product product, Integer quantity) {
+
+    public CartItem(Long cartItemId, Long cartId, Long productId, Integer quantity) {
         this.cartItemId = cartItemId;
-        this.cart = cart;
-        this.product = product;
+        this.cartId = cartId;
+        this.productId = productId;
         this.quantity = quantity;
     }
 
@@ -40,20 +39,20 @@ public class CartItem {
         this.cartItemId = cartItemId;
     }
 
-    public Cart getCart() {
-        return this.cart;
+    public Long getCartId() {
+        return this.cartId;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
     }
 
-    public Product getProduct() {
-        return this.product;
+    public Long getProductId() {
+        return this.productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public Integer getQuantity() {
@@ -69,13 +68,13 @@ public class CartItem {
         return this;
     }
 
-    public CartItem cart(Cart cart) {
-        setCart(cart);
+    public CartItem cartId(Long cartId) {
+        setCartId(cartId);
         return this;
     }
 
-    public CartItem product(Product product) {
-        setProduct(product);
+    public CartItem productId(Long productId) {
+        setProductId(productId);
         return this;
     }
 
@@ -92,23 +91,22 @@ public class CartItem {
             return false;
         }
         CartItem cartItem = (CartItem) o;
-        return Objects.equals(cartItemId, cartItem.cartItemId) && Objects.equals(cart, cartItem.cart) && Objects.equals(product, cartItem.product) && Objects.equals(quantity, cartItem.quantity);
+        return Objects.equals(cartItemId, cartItem.cartItemId) && Objects.equals(cartId, cartItem.cartId) && Objects.equals(productId, cartItem.productId) && Objects.equals(quantity, cartItem.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartItemId, cart, product, quantity);
+        return Objects.hash(cartItemId, cartId, productId, quantity);
     }
 
     @Override
     public String toString() {
         return "{" +
             " cartItemId='" + getCartItemId() + "'" +
-            ", cart='" + getCart() + "'" +
-            ", product='" + getProduct() + "'" +
+            ", cartId='" + getCartId() + "'" +
+            ", productId='" + getProductId() + "'" +
             ", quantity='" + getQuantity() + "'" +
             "}";
     }
 
-    // Getters and Setters
 }

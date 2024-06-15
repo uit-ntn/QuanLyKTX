@@ -1,197 +1,248 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!DOCTYPE html>
-<html lang="en">
+        <!DOCTYPE html>
+        <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Ký túc xá Shop</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/favicon.ico" />
-    <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+            <meta name="description" content="" />
+            <meta name="author" content="" />
+            <title>Ký túc xá Shop</title>
+            <!-- Favicon-->
+            <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/favicon.ico" />
+            <!-- Bootstrap icons-->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                crossorigin="anonymous">
+            <!-- Core theme CSS (includes Bootstrap)-->
+            <style>
+                @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 
-        * {
-            padding: 0;
-            margin: 0;
-            text-decoration: none;
-            list-style: none;
-        }
+                * {
+                    padding: 0;
+                    margin: 0;
+                    text-decoration: none;
+                    list-style: none;
+                }
 
-        .navbar-brand {
-            width: 80px;
-            height: 60px;
-        }
+                .navbar-brand {
+                    width: 80px;
+                    height: 60px;
+                }
 
-        .navbar-brand img {
-            width: 100%;
-            height: 100%;
-        }
+                .navbar-brand img {
+                    width: 100%;
+                    height: 100%;
+                }
 
-        .fix-banner {
-            width: 100%;
-            height: 100%;
-        }
+                .fix-banner {
+                    width: 100%;
+                    height: 100%;
+                }
 
-        .fix-banner img {
-            width: 100%;
-            height: 90%;
-        }
-    </style>
-    <link rel="stylesheet" href="../../../resources/static/css/styles.css">
-</head>
+                .fix-banner img {
+                    width: 100%;
+                    height: 90%;
+                }
+            </style>
+            <link rel="stylesheet" href="../../../resources/static/css/styles.css">
+        </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container px-5">
-            <a class="navbar-brand" href="/">
-                <img src="../../../resources/static/img/logo.png" alt="Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation"><span
-                    class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mx-3 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form> 
-                <a class="nav-link" href="/shop/cart">
-                    <button class="btn btn-secondary">
-                        <i class="bi bi-cart4"></i>
-                    </button>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <h1 class="text-center my-5">DANH SÁCH SẢN PHẨM</h1>
-
-        <section style="background-color: #eee;" class="border">
-            <div class="container py-5 px-5">
-                <!-- Filter Options -->
-                <div class="row mb-4">
-                    <div class="col-lg-3">
-                        <h5>Filter by Price</h5>
-                        <select class="form-select" aria-label="Price filter">
-                            <option selected>Choose price range</option>
-                            <option value="1">$0 - $500</option>
-                            <option value="2">$500 - $1000</option>
-                            <option value="3">$1000 - $2000</option>
-                            <option value="4">$2000 - $4000</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3">
-                        <h5>Filter by Stars</h5>
-                        <select class="form-select" aria-label="Stars filter">
-                            <option selected>Choose star rating</option>
-                            <option value="1">1 Star & Up</option>
-                            <option value="2">2 Stars & Up</option>
-                            <option value="3">3 Stars & Up</option>
-                            <option value="4">4 Stars & Up</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3">
-                        <h5>Filter by Availability</h5>
-                        <select class="form-select" aria-label="Availability filter">
-                            <option selected>Choose availability</option>
-                            <option value="1">In Stock</option>
-                            <option value="2">Out of Stock</option>
-                        </select>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand" href="/">
+                        <img src="../../../resources/static/img/logo.png" alt="Logo">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                            class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mx-3 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+                        </ul>
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </form>
+                        <a class="nav-link" href="/shop/cart/${loggedUser.studentID}">
+                            <button class="btn btn-secondary">
+                                <i class="bi bi-cart4"></i>
+                            </button>
+                        </a>
                     </div>
                 </div>
+            </nav>
 
-                <div class="row justify-content-center">
-                    <c:forEach var="product" items="${products}">
-                        <div class="col-md-8 col-lg-6 col-xl-4 mb-4">
-                            <div class="card" style="border-radius: 15px;">
-                                <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
-                                    data-mdb-ripple-color="light">
-                                    <img src="${product.image}"
-                                        style="border-top-left-radius: 15px; border-top-right-radius: 15px;"
-                                        class="img-fluid" alt="${product.productName}" />
-                                    <a href="#!">
-                                        <div class="mask"></div>
-                                    </a>
-                                </div>
-                                <div class="card-body pb-0">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p><a href="#!" class="text-dark">${product.productName}</a></p>
-                                            <p class="small text-muted">${product.description}</p>
-                                        </div>
-                                        <div class="d-flex flex-row justify-content-end mt-1 mb-4 text-warning">
-                                            <c:if test="${product.rating != null && product.rating > 0}">
-                                                <c:forEach begin="1" end="${product.rating}" varStatus="status">
-                                                    <i class="bi-star-fill"></i>
-                                                </c:forEach>
-                                            </c:if>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr class="my-0" />
-                                <div class="card-body pb-0">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-dark">$${product.price}</p>
-                                        <p class="text-dark">In Stock: ${product.stockQuantity}</p>
-                                    </div>
-                                </div>
-                                <hr class="my-0" />
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
-                                        <a href="/shop/product/${product.productId}">
-                                            <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                                class="btn btn-danger">Details</button>
-                                        </a>
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                            class="btn btn-dark">Add to Cart</button>
-                                        <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                            class="btn btn-primary">Buy now</button>
-                                    </div>
-                                </div>
+            <div class="container">
+                <h1 class="text-center my-5">DANH SÁCH SẢN PHẨM</h1>
+
+                <section style="background-color: #eee;" class="border">
+                    <div class="container py-5 px-5">
+                        <!-- Filter Options -->
+                        <div class="row mb-4">
+                            <div class="col-lg-3">
+                                <h5>Filter by Price</h5>
+                                <select class="form-select" aria-label="Price filter">
+                                    <option selected>Choose price range</option>
+                                    <option value="1">$0 - $500</option>
+                                    <option value="2">$500 - $1000</option>
+                                    <option value="3">$1000 - $2000</option>
+                                    <option value="4">$2000 - $4000</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <h5>Filter by Stars</h5>
+                                <select class="form-select" aria-label="Stars filter">
+                                    <option selected>Choose star rating</option>
+                                    <option value="1">1 Star & Up</option>
+                                    <option value="2">2 Stars & Up</option>
+                                    <option value="3">3 Stars & Up</option>
+                                    <option value="4">4 Stars & Up</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <h5>Filter by Availability</h5>
+                                <select class="form-select" aria-label="Availability filter">
+                                    <option selected>Choose availability</option>
+                                    <option value="1">In Stock</option>
+                                    <option value="2">Out of Stock</option>
+                                </select>
                             </div>
                         </div>
-                    </c:forEach>
+
+                        <div class="row justify-content-center">
+                            <c:forEach var="product" items="${products}">
+                                <div class="col-md-8 col-lg-6 col-xl-4 mb-4">
+                                    <div class="card h-100" style="border-radius: 15px;" data-price="${product.price}">
+                                        <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
+                                            data-mdb-ripple-color="light">
+                                            <img src="${product.image}"
+                                                style="border-top-left-radius: 15px; border-top-right-radius: 15px;"
+                                                style="height: 200px;" class="img-fluid card-img-top"
+                                                alt="${product.productName}" />
+                                            <a href="#!">
+                                                <div class="mask"></div>
+                                            </a>
+                                        </div>
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <p><a href="#!" class="text-dark">${product.productName}</a></p>
+                                                    <p class="small text-muted">${product.description}</p>
+                                                </div>
+                                                <div class="d-flex flex-row justify-content-end mt-1 mb-4 text-warning">
+                                                    <c:if test="${product.rating != null && product.rating > 0}">
+                                                        <c:forEach begin="1" end="${product.rating}" varStatus="status">
+                                                            <i class="bi-star-fill"></i>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-0" />
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between">
+                                                <p class="text-dark">$${product.price}</p>
+                                                <p class="text-dark">In Stock: ${product.stockQuantity}</p>
+                                            </div>
+                                        </div>
+                                        <hr class="my-0" />
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
+                                                <a href="/shop/product/${product.productId}">
+                                                    <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn btn-danger">Details</button>
+                                                </a>
+                                                <form id="addToCartForm_${product.productId}">
+                                                    <input type="hidden" name="productId" value="${product.productId}">
+                                                    <input type="hidden" name="studentID"
+                                                        value="${loggedUser.studentID}">
+                                                    <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                        class="btn btn-dark btn-add-to-cart"
+                                                        data-product-id="${product.productId}">Add to Cart</button>
+                                                </form>
+                                                <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                                    class="btn btn-primary">Buy now</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Footer-->
+            <footer class="bg-dark py-3">
+                <div class="container px-4 px-lg-5 my-5 d-flex justify-content-center">
+                    <div style="width: 120px;height: 80px;">
+                        <img style="height: 100%;width: 100%;" src="../../../resources/static/img/logo.png"></img>
+                    </div>
+                    <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Ký túc xá Shop</h1>
+                        <p class="lead fw-normal text-white-50 mb-0">Không chỉ là cung cấp chỗ ở</p>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </div>
-    <!-- Footer-->
-    <footer class="bg-dark py-3">
-        <div class="container px-4 px-lg-5 my-5 d-flex justify-content-center">
-            <div style="width: 120px;height: 80px;">
-                <img style="height: 100%;width: 100%;" src="../../../resources/static/img/logo.png"></img>
-            </div>
-            <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Ký túc xá Shop</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Không chỉ là cung cấp chỗ ở</p>
-            </div>
-        </div>
-        <hr class="text-white">
-        <div class="container px-3 px-lg-5 my-3 d-flex justify-content-center">
-            <h2 class="text-center text-white">DORM DEV TEAM</h2>
-        </div>
-    </footer>
+                <hr class="text-white">
+                <div class="container px-3 px-lg-5 my-3 d-flex justify-content-center">
+                    <h2 class="text-center text-white">DORM DEV TEAM</h2>
+                </div>
+            </footer>
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="../../../resources/static/js/scripts.js"></script>
-</body>
+            <!-- Bootstrap core JS-->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Core theme JS-->
+            <script src="../../../resources/static/js/scripts.js"></script>
+            <!-- jQuery -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+                crossorigin="anonymous"></script>
 
-</html>
+            <script src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+
+            <script>
+                $(document).ready(function () {
+                    $('.btn-add-to-cart').click(function (event) {
+                        // Prevent the form from submitting the default way
+                        event.preventDefault();
+
+                        var productId = $(this).data('product-id');
+                        addToCart(productId);
+                    });
+                });
+
+                function addToCart(productId) {
+                    var form = document.getElementById('addToCartForm_' + productId);
+                    var formData = new FormData(form);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/shop/add-to-cart",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+                            // Cập nhật giao diện người dùng hoặc chuyển hướng đến trang giỏ hàng
+                        },
+                        error: function (error) {
+                            console.error('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng:', error);
+                            alert('Thêm sản phẩm vào giỏ hàng thất bại');
+                        }
+                    });
+                }
+            </script>
+
+        </body>
+
+        </html>

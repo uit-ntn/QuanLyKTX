@@ -13,9 +13,8 @@ public class Order {
     @Column(name="ORDERID")
     private Long orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "STUDENTID")
-    private Student student;
+    @Column(name = "STUDENTID")
+    private Long studentID;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "ORDERDATE")
@@ -32,9 +31,10 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long orderId, Student student, Date orderDate, Double totalAmount, String status) {
+
+    public Order(Long orderId, Long studentID, Date orderDate, Double totalAmount, String status) {
         this.orderId = orderId;
-        this.student = student;
+        this.studentID = studentID;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.status = status;
@@ -48,12 +48,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Student getStudent() {
-        return this.student;
+    public Long getStudentID() {
+        return this.studentID;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentID(Long studentID) {
+        this.studentID = studentID;
     }
 
     public Date getOrderDate() {
@@ -85,8 +85,8 @@ public class Order {
         return this;
     }
 
-    public Order student(Student student) {
-        setStudent(student);
+    public Order studentID(Long studentID) {
+        setStudentID(studentID);
         return this;
     }
 
@@ -113,23 +113,24 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        return Objects.equals(orderId, order.orderId) && Objects.equals(student, order.student) && Objects.equals(orderDate, order.orderDate) && Objects.equals(totalAmount, order.totalAmount) && Objects.equals(status, order.status);
+        return Objects.equals(orderId, order.orderId) && Objects.equals(studentID, order.studentID) && Objects.equals(orderDate, order.orderDate) && Objects.equals(totalAmount, order.totalAmount) && Objects.equals(status, order.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, student, orderDate, totalAmount, status);
+        return Objects.hash(orderId, studentID, orderDate, totalAmount, status);
     }
 
     @Override
     public String toString() {
         return "{" +
             " orderId='" + getOrderId() + "'" +
-            ", student='" + getStudent() + "'" +
+            ", studentID='" + getStudentID() + "'" +
             ", orderDate='" + getOrderDate() + "'" +
             ", totalAmount='" + getTotalAmount() + "'" +
             ", status='" + getStatus() + "'" +
             "}";
     }
+   
     
 }

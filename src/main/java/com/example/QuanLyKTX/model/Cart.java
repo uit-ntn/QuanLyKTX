@@ -1,32 +1,31 @@
-package com.example.QuanLyKTX.model;
+    package com.example.QuanLyKTX.model;
 
-import java.util.Date;
+    import java.util.Date;
 
-import jakarta.persistence.*;
-import java.util.List;
-import java.util.Objects;
+    import jakarta.persistence.*;
+    import java.util.List;
+    import java.util.Objects;
 
-@Entity
-@Table(name = "CART")
-public class Cart {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CARTID")
-    private Long cartId;
+    @Entity
+    @Table(name = "CART")
+    public class Cart {
 
-    @ManyToOne
-    @JoinColumn(name = "STUDENTID")
-    private Student student;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "CARTID")
+        private Long cartId;
+
+        @Column(name = "STUDENTID")
+        private Long studentID;
+
 
     public Cart() {
     }
 
-    public Cart(Long cartId, Student student, Date createdDate, List<CartItem> cartItems) {
+    public Cart(Long cartId, Long studentID) {
         this.cartId = cartId;
-        this.student = student;
-        this.createdDate = createdDate;
-        this.cartItems = cartItems;
+        this.studentID = studentID;
     }
 
     public Long getCartId() {
@@ -37,28 +36,12 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public Student getStudent() {
-        return this.student;
+    public Long getStudentID() {
+        return this.studentID;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Date getCreatedDate() {
-        return this.createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public List<CartItem> getCartItems() {
-        return this.cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void setStudentID(Long studentID) {
+        this.studentID = studentID;
     }
 
     public Cart cartId(Long cartId) {
@@ -66,18 +49,8 @@ public class Cart {
         return this;
     }
 
-    public Cart student(Student student) {
-        setStudent(student);
-        return this;
-    }
-
-    public Cart createdDate(Date createdDate) {
-        setCreatedDate(createdDate);
-        return this;
-    }
-
-    public Cart cartItems(List<CartItem> cartItems) {
-        setCartItems(cartItems);
+    public Cart studentID(Long studentID) {
+        setStudentID(studentID);
         return this;
     }
 
@@ -89,29 +62,20 @@ public class Cart {
             return false;
         }
         Cart cart = (Cart) o;
-        return Objects.equals(cartId, cart.cartId) && Objects.equals(student, cart.student) && Objects.equals(createdDate, cart.createdDate) && Objects.equals(cartItems, cart.cartItems);
+        return Objects.equals(cartId, cart.cartId) && Objects.equals(studentID, cart.studentID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, student, createdDate, cartItems);
+        return Objects.hash(cartId, studentID);
     }
 
     @Override
     public String toString() {
         return "{" +
             " cartId='" + getCartId() + "'" +
-            ", student='" + getStudent() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", cartItems='" + getCartItems() + "'" +
+            ", studentID='" + getStudentID() + "'" +
             "}";
     }
-
-    @Temporal(TemporalType.DATE)
-    private Date createdDate = new Date();
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems;
-
-    // Getters and Setters
+   
 }
